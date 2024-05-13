@@ -1,0 +1,3 @@
+echo "✨ Linting and fixing commited files..."
+pnpm lint-staged
+echo "✅ Everything looks good !"

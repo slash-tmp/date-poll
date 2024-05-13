@@ -1,0 +1,19 @@
+{
+  "root": true,
+  "extends": [
+    "@nuxt/eslint-config",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "unused-imports",
+    "simple-import-sort"
+  ],
+  "rules": {
+    "vue/multi-word-component-names": "off",
+    "@typescript-eslint/no-unused-vars": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": "error"
+  }
+}
