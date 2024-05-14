@@ -7,7 +7,17 @@
       "quantity": 1
     }
   },
-  "addons": ["heroku-postgresql"],
+  "addons": ["heroku-postgresql:mini"],
+  "environments": {
+    "review": {
+      "addons": [
+        {
+          "plan": "heroku-postgresql:mini",
+          "as": "DATABASE"
+        }
+      ]
+    }
+  },
   "buildpacks": [
     {
       "url": "heroku/nodejs"
