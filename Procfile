@@ -1,1 +1,1 @@
-web: pnpx pm2 start ecosystem.config.js
+web: pnpm pm2-runtime start ecosystem.config.js

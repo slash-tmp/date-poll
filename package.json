@@ -13,5 +13,8 @@
     "prepare": "husky",
     "cy:run": "cypress run",
     "heroku-postbuild": "pnpm multi run build"
+  },
+  "dependencies": {
+    "pm2": "^5.3.1"
   }
 }
