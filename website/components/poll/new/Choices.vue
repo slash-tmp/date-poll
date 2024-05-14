@@ -1,28 +1,35 @@
 <script setup lang="ts">
+import type { CreatePollFormData, StepPayload } from "~/components/types/poll";
+
+const props = defineProps<{
+  defaultFormData: CreatePollFormData;
+}>();
+
 const emit = defineEmits<{
-  (e: "submit", choices: { date: Date }[]): void;
+  (e: "submit", payload: StepPayload): void;
   (e: "previous"): void;
 }>();
 
-const choices = ref([""]);
+const choices = ref(props.defaultFormData.choices);
 
 function addChoice() {
-  choices.value.push("");
+  choices.value.push({ date: null });
 }
 
 function deleteChoice(index: number) {
-  choices.value = choices.value.filter((c, i) => i !== index);
+  choices.value = choices.value.filter((_, i) => i !== index);
 }
 
+// FIXME: type error
 function submit() {
-  emit(
-    "submit",
-    choices.value.filter(Boolean).map((c) => {
+  const r = choices.value
+    .map((c) => {
       return {
-        date: new Date(c),
+        date: c.date ? new Date(c.date) : null,
       };
-    }),
-  );
+    })
+    .filter((c) => c.date !== null);
+  emit("submit", r);
 }
 
 function previous() {
@@ -34,8 +41,15 @@ function previous() {
   <form @submit.prevent="submit">
     <template v-for="(choice, i) in choices" :key="choice">
       <div>
-        <label :for="`title-${i}`">Choix {{ i + 1 }}</label>
-        <input :id="`title-${i}`" v-model="choices[i]" type="date" required />
+        <label :for="`title-${i}`">{{
+          $t("pages.poll.new.choices.choice.title", { index: i + 1 })
+        }}</label>
+        <input
+          :id="`title-${i}`"
+          v-model="choices[i].date"
+          type="date"
+          :required="choices.length === 1"
+        />
       </div>
 
       <button
@@ -43,19 +57,23 @@ function previous() {
         :disabled="choices.length === 1"
         @click="deleteChoice(i)"
       >
-        Supprimer
+        {{ $t("pages.poll.new.choices.choice.deleteChoice") }}
       </button>
       <br />
       <br />
     </template>
 
-    <button type="button" @click="addChoice">Ajouter une date</button>
+    <button type="button" @click="addChoice">
+      {{ $t("pages.poll.new.choices.addNewChoice") }}
+    </button>
 
     <br />
     <br />
     <div>
-      <button type="button" @click="previous">Étape précédente</button>
-      <button type="submit">Étape suivante</button>
+      <button type="button" @click="previous">
+        {{ $t("pages.poll.new.navigation.previous") }}
+      </button>
+      <button type="submit">{{ $t("pages.poll.new.navigation.next") }}</button>
     </div>
   </form>
 </template>

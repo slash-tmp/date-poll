@@ -1,10 +1,16 @@
 <script setup lang="ts">
-const emit = defineEmits<{
-  (e: "submit", payload: { title: string; description: string | null }): void;
+import type { CreatePollFormData, StepPayload } from "~/components/types/poll";
+
+const props = defineProps<{
+  defaultFormData: CreatePollFormData;
 }>();
 
-const title = ref("");
-const description = ref("");
+const emit = defineEmits<{
+  (e: "submit", payload: StepPayload): void;
+}>();
+
+const title = ref(props.defaultFormData.title);
+const description = ref(props.defaultFormData.description);
 
 function submit() {
   emit("submit", { title: title.value, description: description.value });
@@ -14,19 +20,22 @@ function submit() {
 <template>
   <form @submit.prevent="submit">
     <div>
-      <label for="title">Nom du sondage</label>
+      <label for="title">{{
+        $t("pages.poll.new.titleAndDescription.title.label")
+      }}</label>
+      <br />
       <input id="title" v-model="title" type="text" required />
     </div>
 
     <div>
-      <label for="description">Description du sondage (optionnel)</label>
+      <label for="description">{{
+        $t("pages.poll.new.titleAndDescription.description.label")
+      }}</label>
+      <br />
       <textarea id="description" v-model="description" />
     </div>
-
-    <br />
-    <br />
     <div>
-      <button type="submit">Étape suivante</button>
+      <button type="submit">{{ $t("pages.poll.new.navigation.next") }}</button>
     </div>
   </form>
 </template>

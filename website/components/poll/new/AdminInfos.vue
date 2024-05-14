@@ -1,14 +1,20 @@
 <script setup lang="ts">
+import type { CreatePollFormData, StepPayload } from "~/components/types/poll";
+
+const props = defineProps<{
+  defaultFormData: CreatePollFormData;
+}>();
+
 const emit = defineEmits<{
-  (e: "submit", payload: { name: string | null; email: string }): void;
+  (e: "submit", payload: StepPayload): void;
   (e: "previous"): void;
 }>();
 
-const name = ref("");
-const email = ref("");
+const name = ref(props.defaultFormData.adminName);
+const email = ref(props.defaultFormData.adminEmail);
 
 function submit() {
-  emit("submit", { name: name.value, email: email.value });
+  emit("submit", { adminName: name.value, adminEmail: email.value });
 }
 
 function previous() {
@@ -19,12 +25,10 @@ function previous() {
 <template>
   <form @submit.prevent="submit">
     <div>
-      <label for="name">Nom</label>
+      <label for="name">{{ $t("pages.poll.new.adminInfos.name.label") }}</label>
       <br />
-      <span
-        >Le nom est utilisé pour indiquer aux participants qui est l’auteur·ice
-        du sondage</span
-      >
+      <span>{{ $t("pages.poll.new.adminInfos.name.hint") }}</span>
+      <br />
       <input id="name" v-model="name" type="text" />
     </div>
 
@@ -32,20 +36,24 @@ function previous() {
     <br />
 
     <div>
-      <label for="email">Adresse email</label>
+      <label for="email">{{
+        $t("pages.poll.new.adminInfos.email.label")
+      }}</label>
       <br />
-      <span
-        >L’adresse email est utilisée pour vous envoyer un email avec les
-        informations de votre sondage (dont le lien d’administration)</span
-      >
+      <span>{{ $t("pages.poll.new.adminInfos.email.hint") }}</span>
+      <br />
       <input id="email" v-model="email" type="email" required />
     </div>
 
     <br />
     <br />
     <div>
-      <button type="button" @click="previous">Étape précédente</button>
-      <button type="submit">Étape suivante</button>
+      <button type="button" @click="previous">
+        {{ $t("pages.poll.new.navigation.previous") }}
+      </button>
+      <button type="submit">
+        {{ $t("pages.poll.new.navigation.submit") }}
+      </button>
     </div>
   </form>
 </template>

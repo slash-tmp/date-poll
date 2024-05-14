@@ -1,26 +1,23 @@
 <script setup lang="ts">
+import type { CreatePollFormData, StepPayload } from "~/components/types/poll";
+
+const props = defineProps<{
+  defaultFormData: CreatePollFormData;
+}>();
+
 const emit = defineEmits<{
-  (
-    e: "submit",
-    payload: {
-      hideVotes: boolean;
-      endDate: Date | null;
-      notifyOnResponse: boolean;
-    },
-  ): void;
+  (e: "submit", payload: StepPayload): void;
   (e: "previous"): void;
 }>();
 
-const hideVotes = ref(false);
-const showEndDate = ref(false);
-const endDate = ref("");
-const notifyOnResponse = ref(false);
+const hideVotes = ref(props.defaultFormData.hideVotes);
+const endDate = ref(props.defaultFormData.endDate);
+const notifyOnResponse = ref(props.defaultFormData.notifyOnResponse);
 
 function submit() {
   emit("submit", {
     hideVotes: hideVotes.value,
-    endDate:
-      showEndDate.value && endDate.value ? new Date(endDate.value) : null,
+    endDate: endDate.value ? new Date(endDate.value) : null,
     notifyOnResponse: notifyOnResponse.value,
   });
 }
@@ -33,22 +30,22 @@ function previous() {
 <template>
   <form @submit.prevent="submit">
     <div>
-      <label for="hide-votes">Masquer les votes</label>
+      <label for="hide-votes">{{
+        $t("pages.poll.new.settings.hideVotes.label")
+      }}</label>
       <input id="hide-votes" v-model="hideVotes" type="checkbox" />
     </div>
-    <div>
-      <label for="show-end-date">Ajouter une date de fin</label>
-      <input id="show-end-date" v-model="showEndDate" type="checkbox" />
-    </div>
 
-    <div v-if="showEndDate">
-      <label for="end-date">Date de fin</label>
+    <div>
+      <label for="end-date">{{
+        $t("pages.poll.new.settings.endDate.label")
+      }}</label>
       <input id="end-date" v-model="endDate" type="date" />
     </div>
 
     <div>
       <label for="notify-on-response">
-        Recevoir un email pour chaque participation
+        {{ $t("pages.poll.new.settings.notifyOnResponse.label") }}
       </label>
       <input
         id="notify-on-response"
@@ -60,8 +57,10 @@ function previous() {
     <br />
     <br />
     <div>
-      <button type="button" @click="previous">Étape précédente</button>
-      <button type="submit">Étape suivante</button>
+      <button type="button" @click="previous">
+        {{ $t("pages.poll.new.navigation.previous") }}
+      </button>
+      <button type="submit">{{ $t("pages.poll.new.navigation.next") }}</button>
     </div>
   </form>
 </template>

@@ -5,5 +5,5 @@ const id = route.params.id;
 </script>
 
 <template>
-  <h1>Sondage {{ id }}</h1>
+  <h1>{{ $t("pages.poll.admin.id.title", { id }) }}</h1>
 </template>

@@ -1,5 +1,7 @@
 <template>
-  <h1>date poll</h1>
+  <h1>{{ $t("pages.index.title") }}</h1>
 
-  <RouterLink :to="{ name: 'poll-new' }">Créer un sondage</RouterLink>
+  <RouterLink :to="{ name: 'poll-new' }">{{
+    $t("pages.index.newPoll")
+  }}</RouterLink>
 </template>
