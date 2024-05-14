@@ -3,6 +3,8 @@ const { data, error, status } = useFetch("/api");
 </script>
 
 <template>
+  <h1>{{ $t("hello.world") }}</h1>
+
   <div>
     <p>Data</p>
     <pre>
