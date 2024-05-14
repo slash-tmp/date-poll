@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Poll {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // UIDs used to access the poll
+  adminUid  String @unique
+  publicUid String @unique
+
+  // Poll
+  title       String
+  description String?
+  choices     Choice[]
+
+  // Settings
+  hideVotes        Boolean   @default(false)
+  endDate          DateTime?
+  notifyOnResponse Boolean   @default(false)
+
+  // Admin informations
+  adminName  String?
+  adminEmail String
+
+  respondents Respondent[]
+}
+
+model Choice {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  date DateTime
+
+  poll   Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId Int
+
+  responses Response[]
+}
+
+model Respondent {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  poll   Poll @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollId Int
+
+  name String
+
+  responses Response[]
+}
+
+enum ResponseValue {
+  YES
+  MAYBE
+  NO
+}
+
+model Response {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  value ResponseValue
+
+  choice   Choice @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  choiceId Int
+
+  respondent   Respondent @relation(fields: [respondentId], references: [id], onDelete: Cascade)
+  respondentId Int
+}
