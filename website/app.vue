@@ -1,9 +1,22 @@
 <script setup lang="ts">
-const { data } = useFetch("/api");
+const { data, error, status } = useFetch("/api");
 </script>
 
 <template>
   <div>
-    {{ data }}
+    <p>Data</p>
+    <pre>
+      <code>{{ JSON.stringify(data, null, 2) }}</code>
+    </pre>
+
+    <p>Error</p>
+    <pre>
+      <code>{{ JSON.stringify(error, null, 2) }}</code>
+    </pre>
+
+    <p>Status</p>
+    <pre>
+      <code>{{ JSON.stringify(status, null, 2) }}</code>
+    </pre>
   </div>
 </template>
