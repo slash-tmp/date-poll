@@ -23,3 +23,27 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
+       * Custom command to select DOM element based on label
+       * @example cy.getByLabel('Title')
+       */
+      getByLabel(value: string): Chainable
+    }
+  }
+}
+
+
+Cypress.Commands.add('getByLabel', (label: string) => {
+  cy
+    .contains('label', label)
+    .invoke('attr', 'for')
+    .then((id) => {
+      cy.get('#' + id)
+    })
+})
+
+export {}
