@@ -4,6 +4,9 @@ export default {
   },
 
   pages: {
+    error: {
+      homeLink: "Retourner à la page d’accueil",
+    },
     index: {
       title: "date poll",
       newPoll: "Créer un sondage",
@@ -61,7 +64,31 @@ export default {
       },
       admin: {
         id: {
-          title: "Sondage {id}",
+          meta: {
+            edit: "Modifier le sondage",
+            delete: "Supprimer le sondage",
+            createdBy: "Créé par",
+            createdAt: "Créé le",
+          },
+          share: {
+            title: "Partagez votre sondage",
+            description:
+              "Partagez ce lien avec vos invité·es pour leur permettre de participer au sondage.",
+            label: "Lien de participation",
+            button: "Copier",
+            successAlert:
+              "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",
+          },
+          responses: {
+            title: "Participations (TODO)",
+          },
+          error: {
+            404: {
+              title: "Sondage introuvable",
+              description:
+                "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
+            },
+          },
         },
       },
     },
