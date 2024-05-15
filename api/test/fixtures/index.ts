@@ -1,5 +1,6 @@
+import { AdminPoll } from '../../src/polls/dto/admin-poll.dto';
 import { CreatePollDto } from '../../src/polls/dto/create-poll.dto';
-import { AdminPoll, PublicPoll } from '../../src/polls/polls.service';
+import { PublicPoll } from '../../src/polls/dto/public-poll.dto';
 import { Poll } from '../../src/polls/repositories/poll.repository';
 
 export const createPollDtoFixture: CreatePollDto = {
