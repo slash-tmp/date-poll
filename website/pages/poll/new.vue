@@ -14,7 +14,7 @@ const steps = [
   t("pages.poll.new.adminInfos.stepTitle"),
 ];
 
-const poll = ref<CreatePollFormData>({
+const formData = ref<CreatePollFormData>({
   title: "",
   description: null,
   choices: [],
@@ -25,9 +25,18 @@ const poll = ref<CreatePollFormData>({
   adminEmail: "",
 });
 
+function goToPreviousStep(data: StepPayload) {
+  formData.value = {
+    ...formData.value,
+    ...data,
+  };
+
+  step.value--;
+}
+
 function submitStep(data: StepPayload) {
-  poll.value = {
-    ...poll.value,
+  formData.value = {
+    ...formData.value,
     ...data,
   };
 
@@ -35,16 +44,35 @@ function submitStep(data: StepPayload) {
 }
 
 async function submitLastStep(data: StepPayload) {
-  poll.value = {
-    ...poll.value,
+  formData.value = {
+    ...formData.value,
     ...data,
+  };
+
+  formData.value.choices.map((c) => {
+    // merge time with date
+    const date = new Date(c.date!);
+    const [hours, minutes] = c.time!.split(":").map(Number);
+    date.setHours(hours, minutes);
+  });
+
+  const createPollRequestBody = {
+    ...formData.value,
+    choices: formData.value.choices.map((c) => {
+      // merge time with date
+      const date = new Date(c.date!);
+      const [hours, minutes] = c.time!.split(":").map(Number);
+      date.setHours(hours, minutes);
+      return { date };
+    }),
+    endDate: formData.value.endDate ? new Date(formData.value.endDate) : null,
   };
 
   try {
     // TODO: use generated types from API
     const data = await $fetch<{ adminUid: string }>("/api/polls", {
       method: "POST",
-      body: poll.value,
+      body: createPollRequestBody,
     });
 
     router.push({ name: "poll-admin-id", params: { id: data.adminUid } });
@@ -77,29 +105,29 @@ watch(step, () => {
 
   <TitleAndDescription
     v-if="step === 0"
-    :default-form-data="poll"
+    :default-form-data="formData"
     @submit="submitStep"
   />
   <Choices
     v-if="step === 1"
-    :default-form-data="poll"
+    :default-form-data="formData"
     @submit="submitStep"
-    @previous="step--"
+    @previous="goToPreviousStep"
   />
   <Settings
     v-if="step === 2"
-    :default-form-data="poll"
+    :default-form-data="formData"
     @submit="submitStep"
-    @previous="step--"
+    @previous="goToPreviousStep"
   />
   <AdminInfos
     v-if="step === 3"
-    :default-form-data="poll"
+    :default-form-data="formData"
     @submit="submitLastStep"
-    @previous="step--"
+    @previous="goToPreviousStep"
   />
 
   <hr />
 
-  <pre><code>{{ JSON.stringify(poll, null, 2) }}</code></pre>
+  <pre><code>{{ JSON.stringify(formData, null, 2) }}</code></pre>
 </template>

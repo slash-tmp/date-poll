@@ -7,7 +7,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "submit", payload: StepPayload): void;
-  (e: "previous"): void;
+  (e: "previous", payload: StepPayload): void;
 }>();
 
 const name = ref(props.defaultFormData.adminName);
@@ -18,7 +18,7 @@ function submit() {
 }
 
 function previous() {
-  emit("previous");
+  emit("previous", { adminName: name.value, adminEmail: email.value });
 }
 </script>
 

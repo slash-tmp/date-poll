@@ -2,9 +2,9 @@
 export interface CreatePollFormData {
   title: string;
   description: string | null;
-  choices: { date: Date | null }[];
+  choices: { date: string | null; time: string | null }[];
   hideVotes: boolean;
-  endDate: Date | null;
+  endDate: string | null;
   notifyOnResponse: boolean;
   adminName: string | null;
   adminEmail: string;

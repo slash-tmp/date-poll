@@ -7,7 +7,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   (e: "submit", payload: StepPayload): void;
-  (e: "previous"): void;
+  (e: "previous", payload: StepPayload): void;
 }>();
 
 const hideVotes = ref(props.defaultFormData.hideVotes);
@@ -17,13 +17,17 @@ const notifyOnResponse = ref(props.defaultFormData.notifyOnResponse);
 function submit() {
   emit("submit", {
     hideVotes: hideVotes.value,
-    endDate: endDate.value ? new Date(endDate.value) : null,
+    endDate: endDate.value,
     notifyOnResponse: notifyOnResponse.value,
   });
 }
 
 function previous() {
-  emit("previous");
+  emit("previous", {
+    hideVotes: hideVotes.value,
+    endDate: endDate.value,
+    notifyOnResponse: notifyOnResponse.value,
+  });
 }
 </script>
 
