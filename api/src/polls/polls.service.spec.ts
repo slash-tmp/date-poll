@@ -69,4 +69,20 @@ describe('PollsService', () => {
       );
     });
   });
+
+  describe('deletePoll', () => {
+    it('returns deleted poll', async () => {
+      pollRepository.deleteByAdminUid.mockResolvedValue(databasePollFixture);
+      await expect(
+        pollsService.deletePoll('-WSaWDoushkIFEWJqg_1Q'),
+      ).resolves.toEqual(adminPollFixture);
+    });
+
+    it('returns null when poll is not found', async () => {
+      pollRepository.deleteByAdminUid.mockResolvedValue(null);
+      await expect(pollsService.deletePoll('unknown-uid')).resolves.toEqual(
+        null,
+      );
+    });
+  });
 });
