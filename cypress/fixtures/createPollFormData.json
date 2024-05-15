@@ -1,0 +1,14 @@
+{
+  "title": "Trip to the museum",
+  "description": "We are going to the natural history museum.",
+  "choices": [
+    {
+      "date": "2024-05-15T16:50:14.768Z"
+    }
+  ],
+  "hideVotes": true,
+  "endDate": "2024-05-15T16:50:14.768Z",
+  "notifyOnResponse": true,
+  "adminName": "Bob Bobbington",
+  "adminEmail": "bob@domain.com"
+}
