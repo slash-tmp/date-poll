@@ -29,7 +29,8 @@ export default {
         choices: {
           stepTitle: "Dates et horaires",
           choice: {
-            title: "Date n°{index}",
+            dateLabel: "Date n°{index}",
+            timeLabel: "Horaire n°{index}",
             deleteChoice: "Supprimer",
           },
           addNewChoice: "Ajouter une date",

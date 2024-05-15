@@ -3,9 +3,9 @@ import AdminInfos from "~/components/poll/new/AdminInfos.vue";
 import Choices from "~/components/poll/new/Choices.vue";
 import Settings from "~/components/poll/new/Settings.vue";
 import TitleAndDescription from "~/components/poll/new/TitleAndDescription.vue";
-import type { CreatePollFormData, StepPayload } from "~/components/types/poll";
+import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
-const step = ref(0);
+const step = ref(1);
 const { t } = useI18n();
 const steps = [
   t("pages.poll.new.titleAndDescription.stepTitle"),
@@ -14,17 +14,10 @@ const steps = [
   t("pages.poll.new.adminInfos.stepTitle"),
 ];
 
-/**
- * TODO:
- * - add times to dates
- * - validate date step
- * - i18n strings
- */
-
 const poll = ref<CreatePollFormData>({
   title: "",
   description: null,
-  choices: [{ date: null }],
+  choices: [{ date: new Date("2025-01-15T12:12:34Z") }],
   hideVotes: false,
   endDate: null,
   notifyOnResponse: false,

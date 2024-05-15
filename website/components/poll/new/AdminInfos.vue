@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CreatePollFormData, StepPayload } from "~/components/types/poll";
+import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 const props = defineProps<{
   defaultFormData: CreatePollFormData;
