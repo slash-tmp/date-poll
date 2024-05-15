@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
   IsArray,
   IsBoolean,
   IsDate,
@@ -24,6 +25,7 @@ export class CreatePollDto {
   description?: string;
 
   @IsArray()
+  @ArrayNotEmpty()
   @ValidateNested()
   @Type(() => CreatePollDtoChoice)
   choices: CreatePollDtoChoice[];
