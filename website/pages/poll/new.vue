@@ -3,6 +3,7 @@ import AdminInfos from "~/components/poll/new/AdminInfos.vue";
 import Choices from "~/components/poll/new/Choices.vue";
 import Settings from "~/components/poll/new/Settings.vue";
 import TitleAndDescription from "~/components/poll/new/TitleAndDescription.vue";
+import type { components } from "~/types/date-poll-api";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 const step = ref(0);
@@ -56,21 +57,28 @@ async function submitLastStep(data: StepPayload) {
     date.setHours(hours, minutes);
   });
 
-  const createPollRequestBody = {
-    ...formData.value,
+  const createPollRequestBody: components["schemas"]["CreatePollDto"] = {
+    title: formData.value.title,
+    description: formData.value.description ?? undefined,
+    adminName: formData.value.adminName ?? undefined,
+    adminEmail: formData.value.adminEmail,
+    hideVotes: formData.value.hideVotes,
+    notifyOnResponse: formData.value.notifyOnResponse,
     choices: formData.value.choices.map((c) => {
       // merge time with date
       const date = new Date(c.date!);
       const [hours, minutes] = c.time!.split(":").map(Number);
       date.setHours(hours, minutes);
-      return { date };
+      return { date: date.toISOString() };
     }),
-    endDate: formData.value.endDate ? new Date(formData.value.endDate) : null,
+    endDate: formData.value.endDate
+      ? new Date(formData.value.endDate).toISOString()
+      : undefined,
   };
 
   try {
     // TODO: use generated types from API
-    const data = await $fetch<{ adminUid: string }>("/api/polls", {
+    const data = await $fetch("/api/polls", {
       method: "POST",
       body: createPollRequestBody,
     });
