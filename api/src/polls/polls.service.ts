@@ -1,48 +1,12 @@
 import { Injectable } from '@nestjs/common';
 
+import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
+import { PublicPoll } from './dto/public-poll.dto';
 import {
   Poll as RawPoll,
   PollRepository,
 } from './repositories/poll.repository';
-
-interface Choice {
-  id: number;
-  date: Date;
-}
-
-interface Response {
-  id: number;
-  choiceId: number;
-  value: 'YES' | 'MAYBE' | 'NO';
-}
-
-interface Respondent {
-  id: number;
-  name: string;
-  responses: Response[];
-}
-
-export interface PublicPoll {
-  id: number;
-  publicUid: string;
-  title: string;
-  description: string | null;
-  endDate: Date | null;
-  adminName: string | null;
-
-  choices: Choice[];
-  respondents?: Respondent[];
-}
-
-export interface AdminPoll extends PublicPoll {
-  adminUid: string;
-  notifyOnResponse: boolean;
-  adminEmail: string;
-  hideVotes: boolean;
-
-  respondents: Respondent[];
-}
 
 @Injectable()
 export class PollsService {

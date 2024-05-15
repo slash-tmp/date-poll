@@ -78,7 +78,7 @@ async function submitLastStep(data: StepPayload) {
 
   try {
     // TODO: use generated types from API
-    const data = await $fetch("/api/polls", {
+    const data = await $fetch<{ adminUid: string }>("/api/polls", {
       method: "POST",
       body: createPollRequestBody,
     });
