@@ -19,16 +19,6 @@ if (!poll.value) {
   });
 }
 
-/**
- * Format date: "DD month YYYY"
- * @example "15 mai 2024"
- */
-function formatDate(date: Date) {
-  return Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(
-    new Date(date),
-  );
-}
-
 // TODO: Delete poll
 function deletePoll() {
   console.log("delete poll");
