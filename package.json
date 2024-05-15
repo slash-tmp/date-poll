@@ -13,7 +13,9 @@
   "scripts": {
     "prepare": "husky",
     "cy:run": "cypress run",
-    "heroku-postbuild": "pnpm multi run build"
+    "heroku-postbuild": "pnpm multi run build",
+    "copytypes": "pnpm --filter ./api run generate-api-types && cp ./api/date-poll-api.ts ./website/types",
+    "postinstall": "pnpm run copytypes"
   },
   "dependencies": {
     "pm2": "^5.3.1"

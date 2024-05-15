@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import type { AdminPollApiResponse } from "~/types/poll";
+
 const route = useRoute();
 
 const id = route.params.id;
 
-const { data: poll } = await useFetch(`/api/polls/admin/${id}`);
+const { data: poll } = await useFetch<AdminPollApiResponse>(
+  `/api/polls/admin/${id}`,
+);
 
 if (!poll.value) {
   throw createError({

@@ -49,32 +49,8 @@ async function submitLastStep(data: StepPayload) {
     ...data,
   };
 
-  formData.value.choices.map((c) => {
-    // merge time with date
-    const date = new Date(c.date!);
-    const [hours, minutes] = c.time!.split(":").map(Number);
-    date.setHours(hours, minutes);
-  });
-
-  const createPollRequestBody = {
-    ...formData.value,
-    choices: formData.value.choices.map((c) => {
-      // merge time with date
-      const date = new Date(c.date!);
-      const [hours, minutes] = c.time!.split(":").map(Number);
-      date.setHours(hours, minutes);
-      return { date };
-    }),
-    endDate: formData.value.endDate ? new Date(formData.value.endDate) : null,
-  };
-
   try {
-    // TODO: use generated types from API
-    const data = await $fetch<{ adminUid: string }>("/api/polls", {
-      method: "POST",
-      body: createPollRequestBody,
-    });
-
+    const data = await createPoll(formData.value);
     router.push({ name: "poll-admin-id", params: { id: data.adminUid } });
   } catch (e) {
     // TODO: handle error with toast
