@@ -32,6 +32,7 @@ interface Respondent {
 
 export interface PublicPoll {
   id: number;
+  createdAt: Date;
   publicUid: string;
   title: string;
   description: string | null;
