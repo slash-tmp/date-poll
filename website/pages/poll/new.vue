@@ -5,7 +5,7 @@ import Settings from "~/components/poll/new/Settings.vue";
 import TitleAndDescription from "~/components/poll/new/TitleAndDescription.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
-const step = ref(1);
+const step = ref(0);
 const { t } = useI18n();
 const steps = [
   t("pages.poll.new.titleAndDescription.stepTitle"),
@@ -17,7 +17,7 @@ const steps = [
 const poll = ref<CreatePollFormData>({
   title: "",
   description: null,
-  choices: [{ date: new Date("2025-01-15T12:12:34Z") }],
+  choices: [],
   hideVotes: false,
   endDate: null,
   notifyOnResponse: false,
@@ -34,12 +34,6 @@ function submitStep(data: StepPayload) {
   step.value++;
 }
 
-/**
- * TODO:
- * - `POST /api/polls` with poll.value
- * - Redirect to `/poll/admin/{id}`
- * - Handle error
- */
 async function submitLastStep(data: StepPayload) {
   poll.value = {
     ...poll.value,
@@ -47,11 +41,15 @@ async function submitLastStep(data: StepPayload) {
   };
 
   try {
-    const data = await $fetch("/api");
-    console.log(data);
+    // TODO: use generated types from API
+    const data = await $fetch<{ adminUid: string }>("/api/polls", {
+      method: "POST",
+      body: poll.value,
+    });
 
-    router.push({ name: "poll-admin-id", params: { id: "xxx" } });
+    router.push({ name: "poll-admin-id", params: { id: data.adminUid } });
   } catch (e) {
+    // TODO: handle error with toast
     console.error(e);
   }
 }

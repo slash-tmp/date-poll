@@ -42,7 +42,17 @@ function deleteChoice(index: number) {
   choices.value = choices.value.filter((_, i) => i !== index);
 }
 
-function submit() {
+async function submit() {
+  showNoChoiceError.value = false;
+
+  // validate number of choices
+  if (!choices.value.length) {
+    showNoChoiceError.value = true;
+    await nextTick();
+    noChoiceErrorRef.value?.focus();
+    return;
+  }
+
   const r = (choices.value as { date: string; time: string }[]).map((c) => {
     // merge time with date
     const date = new Date(c.date!);
@@ -57,10 +67,16 @@ function submit() {
 function previous() {
   emit("previous");
 }
+
+const showNoChoiceError = ref(false);
+const noChoiceErrorRef = ref<HTMLParagraphElement>();
 </script>
 
 <template>
   <form @submit.prevent="submit">
+    <p v-if="showNoChoiceError" ref="noChoiceErrorRef" tabindex="-1">
+      Vous devez au moins ajouter une date.
+    </p>
     <template v-for="(choice, i) in choices" :key="choice">
       <div>
         <label :for="`choice-date-${i}`">{{
@@ -68,7 +84,7 @@ function previous() {
         }}</label>
         <input
           :id="`choice-date-${i}`"
-          v-model="choices[i].date"
+          v-model="choice.date"
           type="date"
           required
         />
@@ -80,7 +96,7 @@ function previous() {
         }}</label>
         <input
           :id="`choice-time-${i}`"
-          v-model="choices[i].time"
+          v-model="choice.time"
           type="time"
           required
         />
