@@ -16,7 +16,8 @@ async function main() {
   const document = SwaggerModule.createDocument(app, config);
 
   const ast = await openapiTS(document as OpenAPI3);
-  await writeFile(resolve(process.cwd(), './date-poll-api.ts'), ast, {
+  const fileContent = '/* eslint-disable */\n' + ast;
+  await writeFile(resolve(process.cwd(), './date-poll-api.ts'), fileContent, {
     encoding: 'utf-8',
   });
 }
