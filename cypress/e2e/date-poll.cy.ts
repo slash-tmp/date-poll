@@ -112,7 +112,6 @@ describe("Poll creation page /poll/new", () => {
 
 describe("Poll admin page", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:3000");
     cy.fixture("../fixtures/createPollFormData").then((fixture) => {
       cy.request({
         method: "POST",
@@ -129,8 +128,6 @@ describe("Poll admin page", () => {
   });
 
   it("copies poll public url", () => {
-    // FIXME: does not work otherwise.
-    cy.wait(100);
     cy.contains("Copier").click();
     cy.contains(
       "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",

@@ -46,4 +46,10 @@ Cypress.Commands.add('getByLabel', (label: string) => {
     })
 })
 
+// Overwrite the `visit` command to wait for Nuxt app hydration
+Cypress.Commands.overwrite('visit', (originalFn, url) => {
+  originalFn(url)
+  cy.get('html[data-hydrationcomplete="true"]')
+})
+
 export {}
