@@ -2,60 +2,13 @@ import { NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
-import { CreatePollDto } from './dto/create-poll.dto';
+import {
+  adminPollFixture,
+  createPollDtoFixture,
+  publicPollFixture,
+} from '../../test/fixtures';
 import { PollsController } from './polls.controller';
-import { AdminPoll, PollsService, PublicPoll } from './polls.service';
-
-const createPollDtoFixture: CreatePollDto = {
-  title: 'Trip to the museum',
-  description: 'We are going to the natural history museum.',
-  choices: [
-    {
-      date: new Date('2024-05-14T23:13:27.986Z'),
-    },
-  ],
-  hideVotes: true,
-  endDate: new Date('2024-05-14T23:13:27.986Z'),
-  notifyOnResponse: true,
-  adminName: 'Bob Bobbington',
-  adminEmail: 'bob@domain.com',
-};
-
-const adminPollFixture: AdminPoll = {
-  id: 3,
-  adminUid: 'JpqviwUSYa6P3Tbhb4iwc',
-  publicUid: '-WSaWDoushkIFEWJqg_1Q',
-  title: 'Trip to the museum',
-  description: 'We are going to the natural history museum.',
-  endDate: new Date('2024-05-14T23:13:27.986Z'),
-  hideVotes: true,
-  notifyOnResponse: true,
-  adminEmail: 'bob@domain.com',
-  adminName: 'Bob Bobbington',
-  choices: [
-    {
-      id: 9,
-      date: new Date('2024-05-14T23:13:27.986Z'),
-    },
-  ],
-  respondents: [],
-};
-
-const publicPollFixture: PublicPoll = {
-  id: 3,
-  publicUid: '-WSaWDoushkIFEWJqg_1Q',
-  title: 'Trip to the museum',
-  description: 'We are going to the natural history museum.',
-  endDate: new Date('2024-05-14T23:13:27.986Z'),
-  adminName: 'Bob Bobbington',
-  choices: [
-    {
-      id: 9,
-      date: new Date('2024-05-14T23:13:27.986Z'),
-    },
-  ],
-  respondents: [],
-};
+import { PollsService } from './polls.service';
 
 describe('PollsController', () => {
   let controller: PollsController;
@@ -77,46 +30,46 @@ describe('PollsController', () => {
   });
 
   describe('createPoll', () => {
-    it('create a poll', () => {
+    it('create a poll', async () => {
       pollsService.createPoll.mockResolvedValue(adminPollFixture);
 
-      expect(controller.createPoll(createPollDtoFixture)).resolves.toEqual(
-        adminPollFixture,
-      );
+      await expect(
+        controller.createPoll(createPollDtoFixture),
+      ).resolves.toEqual(adminPollFixture);
     });
   });
 
   describe('getPublicPoll', () => {
-    it('throw when poll is not found', () => {
+    it('throw when poll is not found', async () => {
       pollsService.getPublicPoll.mockResolvedValue(null);
 
-      expect(controller.getPublicPoll('unknown-uid')).rejects.toThrow(
+      await expect(controller.getPublicPoll('unknown-uid')).rejects.toThrow(
         NotFoundException,
       );
     });
 
-    it('returns existing poll', () => {
+    it('returns existing poll', async () => {
       pollsService.getPublicPoll.mockResolvedValue(publicPollFixture);
-      expect(
+      await expect(
         controller.getPublicPoll('-WSaWDoushkIFEWJqg_1Q'),
       ).resolves.toEqual(publicPollFixture);
     });
   });
 
   describe('getAdminPoll', () => {
-    it('throw when poll is not found', () => {
+    it('throw when poll is not found', async () => {
       pollsService.getAdminPoll.mockResolvedValue(null);
 
-      expect(controller.getAdminPoll('unknown-uid')).rejects.toThrow(
+      await expect(controller.getAdminPoll('unknown-uid')).rejects.toThrow(
         NotFoundException,
       );
     });
 
-    it('returns existing poll', () => {
+    it('returns existing poll', async () => {
       pollsService.getAdminPoll.mockResolvedValue(adminPollFixture);
-      expect(controller.getAdminPoll('-WSaWDoushkIFEWJqg_1Q')).resolves.toEqual(
-        adminPollFixture,
-      );
+      await expect(
+        controller.getAdminPoll('JpqviwUSYa6P3Tbhb4iwc'),
+      ).resolves.toEqual(adminPollFixture);
     });
   });
 });
