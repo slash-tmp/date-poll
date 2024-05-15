@@ -25,7 +25,7 @@ async function bootstrap() {
   app.use(morgan(isProductionEnv ? 'common' : 'dev'));
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
-  if (isProductionStage) setupSwagger(app);
+  if (!isProductionStage) setupSwagger(app);
 
   await app.listen(PORT);
   console.log(`API server running on port ${PORT}`);
