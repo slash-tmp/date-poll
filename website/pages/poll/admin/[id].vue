@@ -24,19 +24,17 @@ function deletePoll() {
   console.log("delete poll");
 }
 
+const config = useRuntimeConfig();
+
 // Copy share link
 const shareUrl = computed(() => {
-  if (process.client) {
-    return `${window.location.origin}/poll/${poll.value?.publicUid}`;
-  }
+  return `${config.public.baseUrl}/poll/${poll.value?.publicUid}`;
 });
 
 const shareLinkInputRef = ref<HTMLInputElement>();
 const showCopySuccess = ref(false);
 
 async function copyLink() {
-  if (!shareUrl.value) return;
-
   await navigator.clipboard.writeText(shareUrl.value);
   showCopySuccess.value = true;
 
