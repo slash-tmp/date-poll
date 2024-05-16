@@ -27,8 +27,8 @@ if (!poll.value) {
 async function confirmDelete() {
   try {
     if (poll.value) {
-      const deletedPoll = await deletePoll(poll.value.adminUid);
-      router.push({ name: "index", state: { deletedPoll: deletedPoll.title } });
+      await deletePoll(poll.value.adminUid);
+      router.push({ name: "index", state: { deletedPoll: poll.value.title } });
     }
   } catch (e) {
     // TODO: handle error with toast
