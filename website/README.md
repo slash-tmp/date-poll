@@ -1,4 +1,4 @@
-# date-poll website
+# date-poll-website
 
 This is a [Nuxt 3](https://nuxt.com) project using [TypeScript](https://www.typescriptlang.org/).
 

@@ -1,4 +1,4 @@
-# date-poll api
+# date-poll-api
 
 This is a [Nest.js](https://nestjs.com/) project using [Prisma](https://www.prisma.io/).
 
