@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { nanoid } from 'nanoid';
 
 import { PrismaService } from '../../prisma/prisma.service';
@@ -74,5 +75,29 @@ export class PrismaPollRepository implements PollRepository {
     });
 
     return poll;
+  }
+
+  public async deleteByAdminUid(adminUid: string): Promise<Poll | null> {
+    try {
+      const deletedPoll = await this.prisma.poll.delete({
+        where: { adminUid },
+        include: {
+          choices: true,
+          respondents: {
+            include: {
+              responses: true,
+            },
+          },
+        },
+      });
+
+      return deletedPoll;
+    } catch (e) {
+      // record not found
+      if (e instanceof PrismaClientKnownRequestError && e.code === 'P2025') {
+        return null;
+      }
+      throw e;
+    }
   }
 }

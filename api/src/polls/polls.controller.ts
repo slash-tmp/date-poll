@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -39,5 +40,13 @@ export class PollsController {
       throw new NotFoundException();
     }
     return poll;
+  }
+
+  @Delete('admin/:admin_uid')
+  async deletePoll(@Param('admin_uid') adminUid: string): Promise<void> {
+    const poll = await this.pollsService.deletePoll(adminUid);
+    if (!poll) {
+      throw new NotFoundException();
+    }
   }
 }

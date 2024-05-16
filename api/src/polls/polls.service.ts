@@ -74,4 +74,10 @@ export class PollsService {
       })),
     };
   }
+
+  public async deletePoll(adminUid: string): Promise<AdminPoll | null> {
+    const deletedPoll = await this.pollRepository.deleteByAdminUid(adminUid);
+    if (!deletedPoll) return null;
+    return this.rawPollToAdminPoll(deletedPoll);
+  }
 }
