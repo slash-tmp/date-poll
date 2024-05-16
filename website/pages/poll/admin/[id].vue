@@ -19,6 +19,16 @@ if (!poll.value) {
   });
 }
 
+/**
+ * Format date: "DD month YYYY"
+ * @example "15 mai 2024"
+ */
+function formatDate(date: Date) {
+  return Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(
+    new Date(date),
+  );
+}
+
 // TODO: Delete poll
 function deletePoll() {
   console.log("delete poll");
@@ -26,13 +36,17 @@ function deletePoll() {
 
 // Copy share link
 const shareUrl = computed(() => {
-  return `/poll/${poll.value?.publicUid}`;
+  if (process.client) {
+    return `${window.location.origin}/poll/${poll.value?.publicUid}`;
+  }
 });
 
 const shareLinkInputRef = ref<HTMLInputElement>();
 const showCopySuccess = ref(false);
 
 async function copyLink() {
+  if (!shareUrl.value) return;
+
   await navigator.clipboard.writeText(shareUrl.value);
   showCopySuccess.value = true;
 
@@ -47,6 +61,7 @@ async function copyLink() {
     <h1>{{ poll.title }}</h1>
 
     <div>
+      <!-- TODO: edit poll -->
       <NuxtLink to="#">{{ $t("pages.poll.admin.id.meta.edit") }}</NuxtLink>
       <br />
       <button @click="deletePoll">
@@ -60,10 +75,9 @@ async function copyLink() {
           {{ $t("pages.poll.admin.id.meta.createdBy") }}
           <strong>{{ poll.adminName }}</strong>
         </li>
-        <!-- TODO: add creation date -->
         <li>
           {{ $t("pages.poll.admin.id.meta.createdAt") }}
-          <strong>{{ "XX/XX/XXXX" }}</strong>
+          <strong>{{ formatDate(poll.createdAt) }}</strong>
         </li>
         <li v-if="poll.description">{{ poll.description }}</li>
       </ul>

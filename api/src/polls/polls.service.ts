@@ -26,6 +26,7 @@ export class PollsService {
   private rawPollToAdminPoll(poll: RawPoll): AdminPoll {
     return {
       id: poll.id,
+      createdAt: poll.createdAt,
       adminUid: poll.adminUid,
       publicUid: poll.publicUid,
       title: poll.title,
@@ -57,6 +58,7 @@ export class PollsService {
   private rawPollToPublicPoll(poll: RawPoll): PublicPoll {
     return {
       id: poll.id,
+      createdAt: poll.createdAt,
       publicUid: poll.publicUid,
       title: poll.title,
       description: poll.description,
