@@ -1,68 +1,48 @@
-## Créer un sondage : `POST /api/polls`
+# date-poll-api
 
-```json
-{
-  "title": "Mon sondage",
-  "description": null,
-  "choices": [
-    { "date": "2024-01-01T12:00:00" },
-    { "date": "2024-01-01T14:00:00" },
-    { "date": "2024-01-02T12:00:00" },
-    { "date": "2024-01-02T14:00:00" }
-  ],
-  "hideVotes": false,
-  "endDate": null,
-  "notifyOnResponse": false,
-  "adminName": "Adrien",
-  "adminEmail": "adrien@slash-tmp.dev"
-}
+This is a [Nest.js](https://nestjs.com/) project using [Prisma](https://www.prisma.io/).
+
+## Installation
+
+Create a Postgresql database (example using [Docker](https://www.docker.com/)):
+
+```sh
+docker run --name date-poll-db \
+           --env POSTGRES_USER=db-user \
+           --env POSTGRES_PASSWORD=db-password \
+           --publish 127.0.0.1:5432:5432 \
+           --detach \
+             postgres:13
 ```
 
-## Récuperer un sondage (public) : `GET /api/polls/<public-uid>`
+Add environment variables:
 
-## Voter : `POST /api/polls/<public-id>/responses`
-
-```json
-{
-  "respondentName": "Quentin",
-  "responses": [
-    { "choiceId": 12, "value": "YES" },
-    { "choiceId": 13, "value": "NO" },
-    { "choiceId": 14, "value": "MAYBE" },
-    { "choiceId": 15, "value": "YES" }
-  ]
-}
+```sh
+cp .env.example .env
 ```
 
-## Récuperer un sondage (admin) : `GET /api/polls/admin/<admin-uid>`
+- `DATABASE_URL`: fill with the database infos.
 
-## Supprimer un sondage : `DELETE /api/polls/admin/<admin-uid>`
+Run Prisma migrations:
 
-## Modifier un sondage : `PUT /api/polls/admin/<admin-uid>`
-
-```json
-{
-  "title": "Mon sondage",
-  "description": null,
-  "choices": [
-    // Keep those two
-    { "choiceId": 12, "date": "2024-01-01T12:00:00" },
-    { "choiceId": 14, "date": "2024-01-02T12:00:00" },
-    // Create new dates
-    { "date": "2024-01-03T12:00:00" },
-    { "date": "2024-01-03T14:00:00" }
-  ],
-  "hideVotes": false,
-  "endDate": null,
-  "notifyOnResponse": false,
-  "adminName": "Adrien"
-}
+```sh
+pnpm prisma migrate dev
 ```
 
-## Rechercher ses sondages : `POST /api/polls/find`
+## Development
 
-```json
-{
-  "adminEmail": "adrien@slash-tmp.dev"
-}
+Start the development server on `http://localhost:4000`:
+
+```bash
+pnpm start:dev
+```
+
+API documentation is available on Swagger: [http://localhost:4000/api/swagger](http://localhost:4000/api/swagger).
+
+## Test
+
+Run Jest tests:
+
+```sh
+pnpm test
 ```
