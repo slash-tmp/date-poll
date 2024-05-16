@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Actions from "~/components/poll/admin/Actions.vue";
+import Intro from "~/components/poll/admin/Intro.vue";
+import Share from "~/components/poll/admin/Share.vue";
 import type { AdminPollApiResponse } from "~/types/poll";
 
 const { t } = useI18n();
@@ -23,80 +26,22 @@ if (!poll.value) {
 function deletePoll() {
   console.log("delete poll");
 }
-
-const config = useRuntimeConfig();
-
-// Copy share link
-const shareUrl = computed(() => {
-  return `${config.public.baseUrl}/poll/${poll.value?.publicUid}`;
-});
-
-const shareLinkInputRef = ref<HTMLInputElement>();
-const showCopySuccess = ref(false);
-
-async function copyLink() {
-  await navigator.clipboard.writeText(shareUrl.value);
-  showCopySuccess.value = true;
-
-  setTimeout(() => {
-    showCopySuccess.value = false;
-  }, 5000);
-}
 </script>
 
 <template>
   <template v-if="poll">
     <h1>{{ poll.title }}</h1>
 
-    <div>
-      <!-- TODO: edit poll -->
-      <NuxtLink to="#">{{ $t("pages.poll.admin.id.meta.edit") }}</NuxtLink>
-      <br />
-      <button @click="deletePoll">
-        {{ $t("pages.poll.admin.id.meta.delete") }}
-      </button>
-    </div>
+    <Actions @delete="deletePoll" />
 
     <div>
-      <ul>
-        <li v-if="poll.adminName">
-          {{ $t("pages.poll.admin.id.meta.createdBy") }}
-          <strong>{{ poll.adminName }}</strong>
-        </li>
-        <li>
-          {{ $t("pages.poll.admin.id.meta.createdAt") }}
-          <strong>{{ formatDate(poll.createdAt) }}</strong>
-        </li>
-        <li v-if="poll.description">{{ poll.description }}</li>
-      </ul>
+      <Intro
+        :admin-name="poll.adminName"
+        :description="poll.description"
+        :created-at="poll.createdAt"
+      />
 
-      <div>
-        <h2>{{ $t("pages.poll.admin.id.share.title") }}</h2>
-        <p>
-          {{ $t("pages.poll.admin.id.share.description") }}
-        </p>
-
-        <div aria-live="polite" role="alert">
-          <div>
-            <label for="share-link">{{
-              $t("pages.poll.admin.id.share.label")
-            }}</label>
-            <input
-              id="share-link"
-              ref="shareLinkInputRef"
-              type="url"
-              readonly
-              :value="shareUrl"
-            />
-          </div>
-          <button @click="copyLink">
-            {{ $t("pages.poll.admin.id.share.button") }}
-          </button>
-          <p v-if="showCopySuccess">
-            {{ $t("pages.poll.admin.id.share.successAlert") }}
-          </p>
-        </div>
-      </div>
+      <Share :public-uid="poll.publicUid" />
     </div>
     <div>
       <h2>{{ $t("pages.poll.admin.id.responses.title") }}</h2>

@@ -64,9 +64,11 @@ export default {
       },
       admin: {
         id: {
-          meta: {
+          actions: {
             edit: "Modifier le sondage",
             delete: "Supprimer le sondage",
+          },
+          intro: {
             createdBy: "Créé par",
             createdAt: "Créé le",
           },
