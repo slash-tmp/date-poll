@@ -17,6 +17,7 @@ export class Respondent {
 
 export class PublicPoll {
   id: number;
+  createdAt: Date;
   publicUid: string;
   title: string;
   description: string | null;
