@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { nanoid } from 'nanoid';
 
+import { UidGenerator } from '../../uid-generator';
 import { CreatePollDto } from '../dto/create-poll.dto';
 import { Poll, PollRepository } from './poll.repository';
 
@@ -9,11 +9,13 @@ export class InMemoryPollRepository implements PollRepository {
   private polls: Poll[] = [];
   private nextId: number = 1;
 
+  constructor(private readonly uidGenerator: UidGenerator) {}
+
   public create(data: CreatePollDto): Promise<Poll> {
     const poll: Poll = {
       id: this.nextId++,
-      adminUid: nanoid(),
-      publicUid: nanoid(),
+      adminUid: this.uidGenerator(),
+      publicUid: this.uidGenerator(),
       adminEmail: data.adminEmail,
       adminName: data.adminName ?? null,
       choices: data.choices.map((c) => ({
