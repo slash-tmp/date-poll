@@ -17,6 +17,8 @@ export default defineNuxtConfig({
     vueI18n: "./i18n.config.ts",
   },
 
+  css: ["~/assets/styles/index.css"],
+
   runtimeConfig: {
     public: {
       // Can be overriden with NUXT_PUBLIC_BASE_URL
