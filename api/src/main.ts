@@ -15,7 +15,6 @@ function setupSwagger(app: INestApplication) {
     .setVersion('DEV')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  console.dir(document, { depth: null });
   SwaggerModule.setup('/api/swagger', app, document);
 }
 
