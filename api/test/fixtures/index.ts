@@ -20,6 +20,7 @@ export const createPollDtoFixture: CreatePollDto = {
 
 export const adminPollFixture: AdminPoll = {
   id: 3,
+  createdAt: new Date('2024-05-14T23:13:27.986Z'),
   adminUid: 'JpqviwUSYa6P3Tbhb4iwc',
   publicUid: '-WSaWDoushkIFEWJqg_1Q',
   title: 'Trip to the museum',
