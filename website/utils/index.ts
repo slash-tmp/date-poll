@@ -1,4 +1,5 @@
 import type {
+  AdminPollApiResponse,
   CreatePollApiRequest,
   CreatePollApiResponse,
   CreatePollFormData,
@@ -32,4 +33,17 @@ export async function createPoll(formData: CreatePollFormData) {
   });
 
   return data;
+}
+
+/** Delete a poll and return it */
+export async function deletePoll(adminUid: string) {
+  // FIXME: if seems "delete" methods does not work (works with cURL)
+  const deletedPoll = await $fetch<AdminPollApiResponse>(
+    `/api/polls/admin/${adminUid}`,
+    {
+      method: "DELETE",
+    },
+  );
+
+  return deletedPoll;
 }
