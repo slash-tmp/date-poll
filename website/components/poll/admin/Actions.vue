@@ -46,11 +46,21 @@ function confirmDelete() {
         aria-labelledby="dialog-heading"
         tabindex="-1"
       >
-        <h2 id="dialog-heading">Supprimer le sondage</h2>
-        <p>Vous êtes sur le point de supprimer le sondage "{{ title }}".</p>
+        <h2 id="dialog-heading">
+          {{ $t("pages.poll.admin.id.actions.deleteModal.title") }}
+        </h2>
+        <p>
+          {{
+            $t("pages.poll.admin.id.actions.deleteModal.description", { title })
+          }}
+        </p>
 
-        <button type="button" @click="cancelDelete">Annuler</button>
-        <button type="button" @click="confirmDelete">Supprimer</button>
+        <button type="button" @click="cancelDelete">
+          {{ $t("pages.poll.admin.id.actions.deleteModal.cancel") }}
+        </button>
+        <button type="button" @click="confirmDelete">
+          {{ $t("pages.poll.admin.id.actions.deleteModal.confirm") }}
+        </button>
       </div>
     </Teleport>
   </div>

@@ -30,12 +30,14 @@ async function hideDeletedPollAlert() {
     role="alert"
     tabindex="-1"
   >
-    Le sondage "{{ deletedPoll }}" a bien été supprimé
+    {{ $t("pages.index.deletedPollAlert.description", { title: deletedPoll }) }}
 
-    <button @click="hideDeletedPollAlert">Fermer</button>
+    <button @click="hideDeletedPollAlert">
+      {{ $t("pages.index.deletedPollAlert.close") }}
+    </button>
   </div>
 
-  <RouterLink :to="{ name: 'poll-new' }">{{
-    $t("pages.index.newPoll")
-  }}</RouterLink>
+  <RouterLink :to="{ name: 'poll-new' }">
+    {{ $t("pages.index.newPoll") }}
+  </RouterLink>
 </template>
