@@ -134,7 +134,7 @@ describe("Poll admin page", () => {
     );
   });
 
-  it.only("deletes a poll", () => {
+  it("deletes a poll", () => {
     cy.contains("Supprimer le sondage").click();
     cy.contains(
       `Vous êtes sur le point de supprimer le sondage "Trip to the museum".`,
