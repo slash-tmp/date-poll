@@ -1,0 +1,24 @@
+/*
+TODO:
+  - 60-30-10 rule
+  - color-mix()
+  - hsl()
+*/
+
+:root {
+  /* Grey scale colors */
+  --color-black: #000000;
+  --color-grey-x: grey;
+  --color-whites: #000000;
+
+  /* Brand colors */
+  --color-primary: blue;
+  --color-secondary: red;
+  --color-accent: green;
+
+  /* State colors */
+  --color-warning: orange;
+
+  /* Utility colors */
+  --color-outline: pink;
+}

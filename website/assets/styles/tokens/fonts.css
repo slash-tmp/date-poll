@@ -1,0 +1,27 @@
+:root {
+  /* Sizes, generated with Utopia: https://utopia.fyi/type/calculator?c=320,16,1.2,1240,18,1.25,4,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Step 0: 13.3333px → 14.4px */
+  --font-size-0: clamp(0.8333rem, 0.8101rem + 0.1159vi, 0.9rem);
+
+  /* Step 1: 16px → 18px */
+  --font-size-1: clamp(1rem, 0.9565rem + 0.2174vi, 1.125rem);
+
+  /* Step 2: 19.2px → 22.5px */
+  --font-size-2: clamp(1.2rem, 1.1283rem + 0.3587vi, 1.4063rem);
+
+  /* Step 3: 23.04px → 28.125px */
+  --font-size-3: clamp(1.44rem, 1.3295rem + 0.5527vi, 1.7578rem);
+
+  /* Step 4: 33.1776px → 43.9453px */
+  --font-size-4: clamp(2.0736rem, 1.8395rem + 1.1704vi, 2.7466rem);
+
+  /* Weights */
+  --font-weight-bold: 700;
+  --font-weight-semibold: 600;
+  --font-weight-regular: 400;
+
+  /* Line heights */
+  --line-height-heading: 1.2;
+  --line-height-body: 1.5;
+}
