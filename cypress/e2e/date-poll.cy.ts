@@ -133,4 +133,13 @@ describe("Poll admin page", () => {
       "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",
     );
   });
+
+  it("deletes a poll", () => {
+    cy.contains("Supprimer le sondage").click();
+    cy.contains(
+      `Vous êtes sur le point de supprimer le sondage "Trip to the museum".`,
+    );
+    cy.contains("button", "Supprimer").click();
+    cy.contains('Le sondage "Trip to the museum" a bien été supprimé');
+  });
 });
