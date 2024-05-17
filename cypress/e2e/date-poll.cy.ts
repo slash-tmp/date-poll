@@ -204,5 +204,10 @@ describe("Poll edition page", () => {
   });
 
   // TODO: complete once backend is merged
+  /**
+   * - put request
+   * - redirect with alert
+   * - title has changed
+   */
   it("redirects to index with alert on success");
 });
