@@ -1,24 +1,63 @@
-/*
-TODO:
-  - 60-30-10 rule
-  - color-mix()
-  - hsl()
-*/
-
 :root {
   /* Grey scale colors */
-  --color-black: #000000;
-  --color-grey-x: grey;
-  --color-whites: #000000;
+  --color-white: hsl(0deg 0% 100%);
+  --color-grey-1: hsl(221deg 14% 77%);
+  --color-grey-2: hsl(220deg 11% 55%);
+  --color-grey-3: hsl(220deg 13% 35%);
+  --color-grey-4: hsl(221deg 19% 17%);
+  --color-black: hsl(0deg 0% 0%);
 
-  /* Brand colors */
-  --color-primary: blue;
-  --color-secondary: red;
-  --color-accent: green;
+  /* Primary colors */
+  --hue-primary: 220;
+  --saturation-primary: 60%;
+  --color-primary-lighter: hsl(
+    var(--hue-primary)
+    var(--saturation-primary)
+    95%
+  );
+  --color-primary-light: hsl(
+    var(--hue-primary)
+    var(--saturation-primary)
+    75%
+  );
+  --color-primary: hsl(var(--hue-primary) var(--saturation-primary) 60%);
+  --color-primary-dark: hsl(var(--hue-primary) var(--saturation-primary) 45%);
+  --color-primary-darker: hsl(
+    var(--hue-primary)
+    var(--saturation-primary)
+    35%
+  );
+
+  /* Secondary colors */
+  --hue-secondary: 25;
+  --saturation-secondary: 34%;
+  --color-secondary-light: hsl(
+    var(--hue-secondary)
+    var(--saturation-secondary)
+    90%
+  );
+  --color-secondary: hsl(
+    var(--hue-secondary)
+    var(--saturation-secondary)
+    60%
+  );
+  --color-secondary-dark: hsl(
+    var(--hue-secondary)
+    var(--saturation-secondary)
+    40%
+  );
 
   /* State colors */
-  --color-warning: orange;
+  --hue-info: 200;
+  --color-info: hsl(var(--hue-info) 80% 65%);
+  --color-info-light: hsl(var(--hue-info) 80% 95%);
+  --hue-success: 150;
+  --color-success: hsl(var(--hue-success) 80% 40%);
+  --color-success-light: hsl(var(--hue-success) 80% 95%);
+  --hue-error: 0;
+  --color-error: hsl(var(--hue-error) 80% 65%);
+  --color-error-light: hsl(var(--hue-error) 80% 95%);
 
   /* Utility colors */
-  --color-outline: pink;
+  --color-outline: hsl(var(--hue-primary) var(--saturation-primary) 20%);
 }
