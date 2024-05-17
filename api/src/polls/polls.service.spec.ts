@@ -6,7 +6,9 @@ import {
   createPollDtoFixture,
   databasePollFixture,
   publicPollFixture,
+  updatePollDtoFixture,
 } from '../../test/fixtures';
+import { ChoiceDoesNotExistError } from './errors';
 import { PollsService } from './polls.service';
 import { PollRepository } from './repositories/poll.repository';
 
@@ -83,6 +85,45 @@ describe('PollsService', () => {
       await expect(pollsService.deletePoll('unknown-uid')).resolves.toEqual(
         null,
       );
+    });
+  });
+
+  describe('updatePoll', () => {
+    it('returns null when poll is not found', async () => {
+      pollRepository.findByAdminUid.mockResolvedValue(null);
+      await expect(
+        pollsService.updatePoll('unknown-uid', updatePollDtoFixture),
+      ).resolves.toEqual(null);
+    });
+
+    it('throws when updated choice id does not exist', async () => {
+      pollRepository.findByAdminUid.mockResolvedValue(databasePollFixture);
+      await expect(
+        pollsService.updatePoll('JpqviwUSYa6P3Tbhb4iwc', {
+          ...updatePollDtoFixture,
+          choices: [
+            {
+              id: 12,
+              date: new Date(),
+            },
+          ],
+        }),
+      ).rejects.toThrow(ChoiceDoesNotExistError);
+    });
+
+    it('updates poll if it exists', async () => {
+      pollRepository.findByAdminUid.mockResolvedValue(databasePollFixture);
+      pollRepository.updateByAdminUid.mockResolvedValue({
+        ...databasePollFixture,
+        title: 'Updated title',
+      });
+
+      await expect(
+        pollsService.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).resolves.toEqual({
+        ...adminPollFixture,
+        title: 'Updated title',
+      });
     });
   });
 });

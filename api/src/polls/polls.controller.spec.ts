@@ -6,6 +6,7 @@ import {
   adminPollFixture,
   createPollDtoFixture,
   publicPollFixture,
+  updatePollDtoFixture,
 } from '../../test/fixtures';
 import { PollsController } from './polls.controller';
 import { PollsService } from './polls.service';
@@ -87,6 +88,23 @@ describe('PollsController', () => {
       await expect(
         controller.deletePoll('JpqviwUSYa6P3Tbhb4iwc'),
       ).resolves.toBeUndefined();
+    });
+  });
+
+  describe('updatePoll', () => {
+    it('throw when poll is not found', async () => {
+      pollsService.updatePoll.mockResolvedValue(null);
+
+      await expect(
+        controller.updatePoll('unknown-uid', updatePollDtoFixture),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('deletes existing poll', async () => {
+      pollsService.updatePoll.mockResolvedValue(adminPollFixture);
+      await expect(
+        controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).resolves.toEqual(adminPollFixture);
     });
   });
 });
