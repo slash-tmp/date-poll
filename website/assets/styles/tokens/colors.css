@@ -1,50 +1,32 @@
 :root {
   /* Grey scale colors */
   --color-white: hsl(0deg 0% 100%);
-  --color-grey-1: hsl(221deg 14% 77%);
-  --color-grey-2: hsl(220deg 11% 55%);
-  --color-grey-3: hsl(220deg 13% 35%);
-  --color-grey-4: hsl(221deg 19% 17%);
+  --color-grey-1: hsl(220deg 14% 95%);
+  --color-grey-2: hsl(220deg 11% 75%);
+  --color-grey-3: hsl(220deg 13% 40%);
+  --color-grey-4: hsl(220deg 19% 15%);
   --color-black: hsl(0deg 0% 0%);
 
   /* Primary colors */
   --hue-primary: 220;
   --saturation-primary: 60%;
   --color-primary-lighter: hsl(
-    var(--hue-primary)
-    var(--saturation-primary)
-    95%
+    var(--hue-primary) var(--saturation-primary) 95%
   );
-  --color-primary-light: hsl(
-    var(--hue-primary)
-    var(--saturation-primary)
-    75%
-  );
+  --color-primary-light: hsl(var(--hue-primary) var(--saturation-primary) 75%);
   --color-primary: hsl(var(--hue-primary) var(--saturation-primary) 60%);
   --color-primary-dark: hsl(var(--hue-primary) var(--saturation-primary) 45%);
-  --color-primary-darker: hsl(
-    var(--hue-primary)
-    var(--saturation-primary)
-    35%
-  );
+  --color-primary-darker: hsl(var(--hue-primary) var(--saturation-primary) 35%);
 
   /* Secondary colors */
   --hue-secondary: 25;
   --saturation-secondary: 34%;
   --color-secondary-light: hsl(
-    var(--hue-secondary)
-    var(--saturation-secondary)
-    90%
+    var(--hue-secondary) var(--saturation-secondary) 90%
   );
-  --color-secondary: hsl(
-    var(--hue-secondary)
-    var(--saturation-secondary)
-    60%
-  );
+  --color-secondary: hsl(var(--hue-secondary) var(--saturation-secondary) 60%);
   --color-secondary-dark: hsl(
-    var(--hue-secondary)
-    var(--saturation-secondary)
-    40%
+    var(--hue-secondary) var(--saturation-secondary) 40%
   );
 
   /* State colors */

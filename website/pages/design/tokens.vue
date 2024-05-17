@@ -64,6 +64,15 @@ const stateSwatch = [
 ];
 
 const utilitySwatch = ["--color-outline"];
+
+const borderRadiuses = [
+  { name: "--border-radius-base", value: "0.25rem" },
+  { name: "--border-radius-round", value: "50%" },
+];
+
+const boxShadows = ["--shadow-small", "--shadow-medium", "--shadow-large"];
+
+const breakpoints = [{ name: "--breakpoint-medium", value: "50 rem / 800px" }];
 </script>
 
 <template>
@@ -76,6 +85,7 @@ const utilitySwatch = ["--color-outline"];
     <li><a href="#fw">Font weights</a></li>
     <li><a href="#lh">Line heights</a></li>
     <li><a href="#colors">Colors</a></li>
+    <li><a href="#misc">Miscellaneous</a></li>
   </ul>
 
   <hr />
@@ -94,9 +104,10 @@ const utilitySwatch = ["--color-outline"];
 
   <ul>
     <li v-for="weight in fontWeights" :key="weight.value">
-      <p :style="`font-weight: var(${weight.name})`">
-        Normal ({{ weight.value }}): <code>{{ weight.name }}</code>
-      </p>
+      <span :style="`font-weight: var(${weight.name})`">
+        Normal ({{ weight.value }}):
+      </span>
+      <code>{{ weight.name }}</code>
     </li>
   </ul>
 
@@ -104,9 +115,10 @@ const utilitySwatch = ["--color-outline"];
 
   <ul>
     <li v-for="lh in lineHeights" :key="lh.value">
-      <p :style="`line-height: var(${lh.name})`">
-        {{ lh.title }} line-height ({{ lh.value }}): <code>{{ lh.name }}</code>
-      </p>
+      <span :style="`line-height: var(${lh.name})`">
+        {{ lh.title }} line-height ({{ lh.value }}):
+      </span>
+      <code>{{ lh.name }}</code>
     </li>
   </ul>
 
@@ -153,9 +165,46 @@ const utilitySwatch = ["--color-outline"];
       <code>{{ color }}</code>
     </li>
   </ul>
+
+  <h2 id="misc">Miscellaneous</h2>
+
+  <h3>Box shadows</h3>
+
+  <ul class="box-shadows">
+    <li v-for="shadow in boxShadows" :key="shadow">
+      <span :style="`box-shadow: var(${shadow})`" />
+      <code>{{ shadow }} </code>
+    </li>
+  </ul>
+
+  <h3>Border radiuses</h3>
+
+  <ul class="radiuses">
+    <li v-for="radius in borderRadiuses" :key="radius.value">
+      <span :style="`border-radius: var(${radius.name})`" />
+      <span>
+        <code>{{ radius.name }} </code> ({{ radius.value }})
+      </span>
+    </li>
+  </ul>
+
+  <h3>Breakpoints</h3>
+
+  <ul>
+    <li v-for="bp in breakpoints" :key="bp.value">
+      {{ bp.value }}: <code>{{ bp.name }}</code>
+    </li>
+  </ul>
 </template>
 
 <style scoped>
+code {
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-primary-lighter);
+  font-size: 0.9em;
+  padding: 0.1rem;
+}
+
 .swatch {
   display: flex;
   flex-direction: column;
@@ -168,8 +217,46 @@ const utilitySwatch = ["--color-outline"];
 
     span {
       border: 1px solid var(--color-black);
-      border-radius: 0.25rem;
+      border-radius: var(--border-radius-base);
       width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+.radiuses {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  li {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+
+    span:first-child {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-black);
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+.box-shadows {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  li {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+
+    span:first-child {
+      background-color: var(--color-white);
+      border-radius: var(--border-radius-base);
+      width: 8rem;
       height: 2rem;
     }
   }
