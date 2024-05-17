@@ -3,6 +3,7 @@ import type {
   CreatePollApiRequest,
   CreatePollApiResponse,
   CreatePollFormData,
+  UpdatePollFormData,
 } from "~/types/poll";
 
 /** Send a request to the API to create a new poll and return the result. */
@@ -33,6 +34,43 @@ export async function createPoll(formData: CreatePollFormData) {
   });
 
   return data;
+}
+
+/** Send a request to the API to update an existing poll and return the result. */
+export async function updatePoll(
+  adminUid: string,
+  formData: UpdatePollFormData,
+) {
+  // Transform form data to be accepted by API
+  // TODO: type this with backend type
+  const updatePollRequestBody: any = {
+    title: formData.title,
+    description: formData.description ?? undefined,
+    choices: formData.choices.map((c) => {
+      // merge time with date
+      const date = new Date(c.date!);
+      const [hours, minutes] = c.time!.split(":").map(Number);
+      date.setHours(hours, minutes);
+      return { date: date.toISOString() };
+    }),
+    hideVotes: formData.hideVotes,
+    endDate: formData.endDate
+      ? new Date(formData.endDate).toISOString()
+      : undefined,
+    notifyOnResponse: formData.notifyOnResponse,
+    adminName: formData.adminName ?? undefined,
+  };
+
+  console.log("update poll: ", adminUid, " with:");
+  console.log(updatePollRequestBody);
+
+  // TODO: plug update poll API route
+  // const data = await $fetch<CreatePollApiResponse>(`/api/polls/admin/${adminUid}`, {
+  //   method: "PUT",
+  //   body: updatePollRequestBody,
+  // });
+
+  // return data;
 }
 
 /** Delete a poll and return it */
