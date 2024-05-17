@@ -2,6 +2,7 @@
 import EditPollForm from "~/components/poll/admin/EditPollForm.vue";
 import type { AdminPollApiResponse, UpdatePollFormData } from "~/types/poll";
 
+const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
 
@@ -11,14 +12,11 @@ const { data: poll } = await useFetch<AdminPollApiResponse>(
 );
 
 // Submit edit
-const router = useRouter();
-
 function submitEditForm(data: UpdatePollFormData) {
   try {
     if (poll.value) {
       updatePoll(poll.value.adminUid, data);
-      // TODO: handle redirect with state
-      router.push({ name: "poll-admin-id" });
+      router.push({ name: "poll-admin-id", state: { updatedPoll: true } });
     }
   } catch (e) {
     // TODO: handle error with toast

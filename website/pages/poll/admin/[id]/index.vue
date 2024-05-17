@@ -10,6 +10,25 @@ const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
 
+// Display poll update confirmation alert
+const updatedPollAlertRef = ref<HTMLDivElement>();
+const updatedPoll = ref(false);
+
+onMounted(async () => {
+  if (history.state.updatedPoll) {
+    updatedPoll.value = history.state.updatedPoll;
+    await nextTick();
+    updatedPollAlertRef.value?.focus();
+  }
+});
+
+const headingRef = ref<HTMLHeadingElement>();
+async function hideUpdatedPollAlert() {
+  updatedPoll.value = false;
+  await nextTick();
+  headingRef.value?.focus();
+}
+
 // Fetch poll
 const { data: poll } = await useFetch<AdminPollApiResponse>(
   `/api/polls/admin/${id}`,
@@ -39,7 +58,22 @@ async function confirmDelete() {
 
 <template>
   <template v-if="poll">
-    <h1>{{ poll.title }}</h1>
+    <h1 ref="headingRef" tabindex="-1">{{ poll.title }}</h1>
+
+    <div
+      v-if="updatedPoll"
+      ref="updatedPollAlertRef"
+      role="alert"
+      tabindex="-1"
+    >
+      {{
+        $t("pages.index.deletedPollAlert.description", { title: poll.title })
+      }}
+
+      <button @click="hideUpdatedPollAlert">
+        {{ $t("pages.index.deletedPollAlert.close") }}
+      </button>
+    </div>
 
     <Actions :title="poll.title" @delete="confirmDelete" />
 
