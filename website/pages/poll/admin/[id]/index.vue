@@ -67,11 +67,13 @@ async function confirmDelete() {
       tabindex="-1"
     >
       {{
-        $t("pages.index.deletedPollAlert.description", { title: poll.title })
+        $t("pages.poll.admin.edit.updatedPollAlert.description", {
+          title: poll.title,
+        })
       }}
 
       <button @click="hideUpdatedPollAlert">
-        {{ $t("pages.index.deletedPollAlert.close") }}
+        {{ $t("pages.poll.admin.edit.updatedPollAlert.close") }}
       </button>
     </div>
 

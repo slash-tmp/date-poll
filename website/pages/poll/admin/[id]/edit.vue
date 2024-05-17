@@ -26,16 +26,15 @@ function submitEditForm(data: UpdatePollFormData) {
 </script>
 
 <template>
-  <NuxtLink :to="{ name: 'poll-admin-id' }">Retour au sondage</NuxtLink>
+  <NuxtLink :to="{ name: 'poll-admin-id' }">
+    {{ $t("pages.poll.admin.edit.title") }}
+  </NuxtLink>
 
-  <h1>Modifier le sondage</h1>
+  <h1>{{ $t("pages.poll.admin.edit.back") }}</h1>
 
   <EditPollForm
     v-if="poll"
     :default-form-data="poll"
     @submit="submitEditForm"
   />
-
-  <hr />
-  <pre><code>{{ JSON.stringify(poll, null, 2) }}</code></pre>
 </template>

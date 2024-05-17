@@ -50,11 +50,13 @@ async function submitForm() {
 <template>
   <form @submit.prevent="submitForm">
     <fieldset>
-      <legend>Nom et description</legend>
+      <legend>
+        {{ $t("pages.poll.admin.edit.titleAndDescription.stepTitle") }}
+      </legend>
 
       <div>
         <label for="title">{{
-          $t("pages.poll.new.titleAndDescription.title.label")
+          $t("pages.poll.admin.edit.titleAndDescription.title.label")
         }}</label>
         <br />
         <input id="title" v-model="poll.title" type="text" required />
@@ -62,27 +64,27 @@ async function submitForm() {
 
       <div>
         <label for="description">{{
-          $t("pages.poll.new.titleAndDescription.description.label")
+          $t("pages.poll.admin.edit.titleAndDescription.description.label")
         }}</label>
         <br />
         <textarea id="description" v-model="poll.description" />
       </div>
     </fieldset>
 
+    <!-- TODO: disabled existing dates/times? -->
     <fieldset>
       <legend>
-        Dates et horaires
+        {{ $t("pages.poll.admin.edit.choices.stepTitle") }}
         <br />
-        <span
-          >Vous ne pouvez pas modifier les dates et horaires existants mais
-          seulement en ajouter ou en supprimer.</span
-        >
+        <span>{{ $t("pages.poll.admin.edit.choices.stepSubtitle") }}</span>
       </legend>
 
       <template v-for="(choice, i) in poll.choices" :key="choice">
         <div>
           <label :for="`choice-date-${i}`">{{
-            $t("pages.poll.new.choices.choice.dateLabel", { index: i + 1 })
+            $t("pages.poll.admin.edit.choices.choice.dateLabel", {
+              index: i + 1,
+            })
           }}</label>
           <input
             :id="`choice-date-${i}`"
@@ -94,7 +96,9 @@ async function submitForm() {
 
         <div>
           <label :for="`choice-time-${i}`">{{
-            $t("pages.poll.new.choices.choice.timeLabel", { index: i + 1 })
+            $t("pages.poll.admin.edit.choices.choice.timeLabel", {
+              index: i + 1,
+            })
           }}</label>
           <input
             :id="`choice-time-${i}`"
@@ -109,37 +113,37 @@ async function submitForm() {
           :disabled="poll.choices.length === 1"
           @click="deleteChoice(i)"
         >
-          {{ $t("pages.poll.new.choices.choice.deleteChoice") }}
+          {{ $t("pages.poll.admin.edit.choices.choice.deleteChoice") }}
         </button>
         <br />
         <br />
       </template>
 
       <button type="button" @click="addChoice">
-        {{ $t("pages.poll.new.choices.addNewChoice") }}
+        {{ $t("pages.poll.admin.edit.choices.addNewChoice") }}
       </button>
     </fieldset>
 
     <fieldset>
-      <legend>Paramètres</legend>
+      <legend>{{ $t("pages.poll.admin.edit.settings.stepTitle") }}</legend>
 
       <div>
         <label for="hide-votes">{{
-          $t("pages.poll.new.settings.hideVotes.label")
+          $t("pages.poll.admin.edit.settings.hideVotes.label")
         }}</label>
         <input id="hide-votes" v-model="poll.hideVotes" type="checkbox" />
       </div>
 
       <div>
         <label for="end-date">{{
-          $t("pages.poll.new.settings.endDate.label")
+          $t("pages.poll.admin.edit.settings.endDate.label")
         }}</label>
         <input id="end-date" v-model="poll.endDate" type="date" />
       </div>
 
       <div>
         <label for="notify-on-response">
-          {{ $t("pages.poll.new.settings.notifyOnResponse.label") }}
+          {{ $t("pages.poll.admin.edit.settings.notifyOnResponse.label") }}
         </label>
         <input
           id="notify-on-response"
@@ -150,14 +154,14 @@ async function submitForm() {
     </fieldset>
 
     <fieldset>
-      <legend>Administrateur</legend>
+      <legend>{{ $t("pages.poll.admin.edit.adminInfos.stepTitle") }}</legend>
 
       <div>
         <label for="name">{{
-          $t("pages.poll.new.adminInfos.name.label")
+          $t("pages.poll.admin.edit.adminInfos.name.label")
         }}</label>
         <br />
-        <span>{{ $t("pages.poll.new.adminInfos.name.hint") }}</span>
+        <span>{{ $t("pages.poll.admin.edit.adminInfos.name.hint") }}</span>
         <br />
         <input id="name" v-model="poll.adminName" type="text" />
       </div>
@@ -167,15 +171,15 @@ async function submitForm() {
 
       <div>
         <label for="email">{{
-          $t("pages.poll.new.adminInfos.email.label")
+          $t("pages.poll.admin.edit.adminInfos.email.label")
         }}</label>
         <br />
-        <span>{{ $t("pages.poll.new.adminInfos.email.hint") }}</span>
+        <span>{{ $t("pages.poll.admin.edit.adminInfos.email.hint") }}</span>
         <br />
-        <input id="email" v-model="poll.adminEmail" type="email" required />
+        <input id="email" v-model="poll.adminEmail" type="email" disabled />
       </div>
     </fieldset>
 
-    <button type="submit">Mettre à jour</button>
+    <button type="submit">{{ $t("pages.poll.admin.edit.submit") }}</button>
   </form>
 </template>
