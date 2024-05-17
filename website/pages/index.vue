@@ -1,12 +1,10 @@
 <script setup lang="ts">
 // Display poll deletion confirmation alert
-const showDeletedPollAlert = ref(false);
 const deletedPollAlertRef = ref<HTMLDivElement>();
-const deletedPoll = ref("");
+const deletedPoll = ref<string>();
 
 onMounted(async () => {
   if (history.state.deletedPoll) {
-    showDeletedPollAlert.value = true;
     deletedPoll.value = history.state.deletedPoll;
     await nextTick();
     deletedPollAlertRef.value?.focus();
@@ -15,7 +13,7 @@ onMounted(async () => {
 
 const headingRef = ref<HTMLHeadingElement>();
 async function hideDeletedPollAlert() {
-  showDeletedPollAlert.value = false;
+  deletedPoll.value = undefined;
   await nextTick();
   headingRef.value?.focus();
 }
@@ -24,12 +22,7 @@ async function hideDeletedPollAlert() {
 <template>
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.index.title") }}</h1>
 
-  <div
-    v-if="showDeletedPollAlert"
-    ref="deletedPollAlertRef"
-    role="alert"
-    tabindex="-1"
-  >
+  <div v-if="deletedPoll" ref="deletedPollAlertRef" role="alert" tabindex="-1">
     {{ $t("pages.index.deletedPollAlert.description", { title: deletedPoll }) }}
 
     <button @click="hideDeletedPollAlert">

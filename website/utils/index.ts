@@ -37,7 +37,6 @@ export async function createPoll(formData: CreatePollFormData) {
 
 /** Delete a poll and return it */
 export async function deletePoll(adminUid: string) {
-  // FIXME: if seems "delete" methods does not work (works with cURL)
   const deletedPoll = await $fetch<AdminPollApiResponse>(
     `/api/polls/admin/${adminUid}`,
     {
