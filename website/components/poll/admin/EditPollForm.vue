@@ -15,6 +15,7 @@ const poll = ref({
     return {
       date: c.date.slice(0, 10),
       time: c.date.slice(11, 16),
+      existingDate: true,
     };
   }),
   endDate: props.defaultFormData.endDate?.slice(0, 10) || null,
@@ -22,7 +23,7 @@ const poll = ref({
 
 // Choices management
 function addChoice() {
-  poll.value.choices.push({ date: "", time: "" });
+  poll.value.choices.push({ date: "", time: "", existingDate: false });
 }
 
 function deleteChoice(index: number) {
@@ -34,7 +35,7 @@ async function submitForm() {
   const formData = {
     title: poll.value.title,
     description: poll.value.description,
-    choices: poll.value.choices,
+    choices: poll.value.choices.map((c) => ({ date: c.date, time: c.time })),
     hideVotes: poll.value.hideVotes,
     endDate: poll.value.endDate,
     notifyOnResponse: poll.value.notifyOnResponse,
@@ -42,7 +43,6 @@ async function submitForm() {
     adminEmail: poll.value.adminEmail,
   };
 
-  console.log("submit");
   emit("submit", formData);
 }
 </script>
@@ -71,7 +71,6 @@ async function submitForm() {
       </div>
     </fieldset>
 
-    <!-- TODO: disabled existing dates/times? -->
     <fieldset>
       <legend>
         {{ $t("pages.poll.admin.edit.choices.stepTitle") }}
@@ -91,6 +90,7 @@ async function submitForm() {
             v-model="choice.date"
             type="date"
             required
+            :disabled="choice.existingDate"
           />
         </div>
 
@@ -105,6 +105,7 @@ async function submitForm() {
             v-model="choice.time"
             type="time"
             required
+            :disabled="choice.existingDate"
           />
         </div>
 

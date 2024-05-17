@@ -27,10 +27,10 @@ function submitEditForm(data: UpdatePollFormData) {
 
 <template>
   <NuxtLink :to="{ name: 'poll-admin-id' }">
-    {{ $t("pages.poll.admin.edit.title") }}
+    {{ $t("pages.poll.admin.edit.back") }}
   </NuxtLink>
 
-  <h1>{{ $t("pages.poll.admin.edit.back") }}</h1>
+  <h1>{{ $t("pages.poll.admin.edit.title") }}</h1>
 
   <EditPollForm
     v-if="poll"
