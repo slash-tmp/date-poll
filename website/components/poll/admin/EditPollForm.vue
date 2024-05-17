@@ -22,12 +22,18 @@ const poll = ref({
 });
 
 // Choices management
-function addChoice() {
+const dateRefs = ref<HTMLInputElement[]>([]);
+
+async function addChoice() {
   poll.value.choices.push({ date: "", time: "", existingDate: false });
+  await nextTick();
+  dateRefs.value[poll.value.choices.length - 1].focus();
 }
 
-function deleteChoice(index: number) {
+async function deleteChoice(index: number) {
   poll.value.choices = poll.value.choices.filter((_, i) => i !== index);
+  await nextTick();
+  dateRefs.value[index === 0 ? 0 : index - 1].focus();
 }
 
 // Submission
@@ -87,6 +93,7 @@ async function submitForm() {
           }}</label>
           <input
             :id="`choice-date-${i}`"
+            ref="dateRefs"
             v-model="choice.date"
             type="date"
             required

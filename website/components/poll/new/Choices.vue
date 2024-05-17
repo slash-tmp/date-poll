@@ -12,12 +12,18 @@ const emit = defineEmits<{
 
 const choices = ref([...props.defaultFormData.choices]);
 
-function addChoice() {
+const dateRefs = ref<HTMLInputElement[]>([]);
+
+async function addChoice() {
   choices.value.push({ date: null, time: null });
+  await nextTick();
+  dateRefs.value[choices.value.length - 1].focus();
 }
 
-function deleteChoice(index: number) {
+async function deleteChoice(index: number) {
   choices.value = choices.value.filter((_, i) => i !== index);
+  await nextTick();
+  dateRefs.value[index - 1].focus();
 }
 
 async function submit() {
@@ -54,6 +60,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
         }}</label>
         <input
           :id="`choice-date-${i}`"
+          ref="dateRefs"
           v-model="choice.date"
           type="date"
           required
