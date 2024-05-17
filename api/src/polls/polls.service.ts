@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { UpdatePollDto } from './dto/update-poll.dto';
+import { ChoiceDoesNotExistError } from './errors';
 import {
   Poll as RawPoll,
   PollRepository,
@@ -81,5 +83,32 @@ export class PollsService {
     const deletedPoll = await this.pollRepository.deleteByAdminUid(adminUid);
     if (!deletedPoll) return null;
     return this.rawPollToAdminPoll(deletedPoll);
+  }
+
+  public async updatePoll(
+    adminUid: string,
+    data: UpdatePollDto,
+  ): Promise<AdminPoll | null> {
+    const pollToUpdate = await this.pollRepository.findByAdminUid(adminUid);
+
+    if (!pollToUpdate) {
+      return null;
+    }
+
+    // Validate updated choices
+    const existingChoiceIds = pollToUpdate.choices.map((c) => c.id);
+    const updatedChoiceIds = data.choices.filter((c) => c.id).map((c) => c.id!);
+    for (const updatedChoiceId of updatedChoiceIds) {
+      if (!existingChoiceIds.includes(updatedChoiceId)) {
+        throw new ChoiceDoesNotExistError(updatedChoiceId);
+      }
+    }
+
+    const updatedPoll = await this.pollRepository.updateByAdminUid(
+      adminUid,
+      data,
+    );
+    if (!updatedPoll) return null;
+    return this.rawPollToAdminPoll(updatedPoll);
   }
 }

@@ -6,11 +6,13 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { UpdatePollDto } from './dto/update-poll.dto';
 import { PollsService } from './polls.service';
 
 @Controller('polls')
@@ -48,5 +50,17 @@ export class PollsController {
     if (!poll) {
       throw new NotFoundException();
     }
+  }
+
+  @Put('admin/:admin_uid')
+  async updatePoll(
+    @Param('admin_uid') adminUid: string,
+    @Body() body: UpdatePollDto,
+  ): Promise<AdminPoll> {
+    const poll = await this.pollsService.updatePoll(adminUid, body);
+    if (!poll) {
+      throw new NotFoundException();
+    }
+    return poll;
   }
 }
