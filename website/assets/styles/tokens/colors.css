@@ -1,14 +1,15 @@
 :root {
   /* Grey scale colors */
+  --hue-grey: 250;
   --color-white: hsl(0deg 0% 100%);
-  --color-grey-1: hsl(220deg 14% 95%);
-  --color-grey-2: hsl(220deg 11% 75%);
-  --color-grey-3: hsl(220deg 13% 40%);
-  --color-grey-4: hsl(220deg 19% 15%);
+  --color-grey-1: hsl(var(--hue-grey) 14% 95%);
+  --color-grey-2: hsl(var(--hue-grey) 11% 75%);
+  --color-grey-3: hsl(var(--hue-grey) 13% 40%);
+  --color-grey-4: hsl(var(--hue-grey) 19% 15%);
   --color-black: hsl(0deg 0% 0%);
 
   /* Primary colors */
-  --hue-primary: 220;
+  --hue-primary: 250;
   --saturation-primary: 60%;
   --color-primary-lighter: hsl(
     var(--hue-primary) var(--saturation-primary) 95%
@@ -20,7 +21,7 @@
 
   /* Secondary colors */
   --hue-secondary: 25;
-  --saturation-secondary: 34%;
+  --saturation-secondary: 35%;
   --color-secondary-light: hsl(
     var(--hue-secondary) var(--saturation-secondary) 90%
   );
@@ -31,13 +32,13 @@
 
   /* State colors */
   --hue-info: 200;
-  --color-info: hsl(var(--hue-info) 80% 65%);
+  --color-info: hsl(var(--hue-info) 80% 40%);
   --color-info-light: hsl(var(--hue-info) 80% 95%);
   --hue-success: 150;
   --color-success: hsl(var(--hue-success) 80% 40%);
   --color-success-light: hsl(var(--hue-success) 80% 95%);
   --hue-error: 0;
-  --color-error: hsl(var(--hue-error) 80% 65%);
+  --color-error: hsl(var(--hue-error) 80% 40%);
   --color-error-light: hsl(var(--hue-error) 80% 95%);
 
   /* Utility colors */

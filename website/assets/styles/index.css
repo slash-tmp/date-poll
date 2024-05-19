@@ -2,3 +2,8 @@
 @import url("./tokens/index.css");
 @import url("./typography.css");
 @import url("./utils.css");
+
+*:focus-visible {
+  outline: 2px solid var(--color-outline-local, var(--color-outline));
+  outline-offset: 2px;
+}
