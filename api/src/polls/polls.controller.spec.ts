@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
@@ -8,6 +8,7 @@ import {
   publicPollFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
+import { ChoiceDoesNotExistError } from './errors';
 import { PollsController } from './polls.controller';
 import { PollsService } from './polls.service';
 
@@ -105,6 +106,15 @@ describe('PollsController', () => {
       await expect(
         controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
       ).resolves.toEqual(adminPollFixture);
+    });
+
+    it('throws BadRequestException when a choice does not exist on the poll', async () => {
+      pollsService.updatePoll.mockRejectedValue(
+        new ChoiceDoesNotExistError(12),
+      );
+      await expect(
+        controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 });

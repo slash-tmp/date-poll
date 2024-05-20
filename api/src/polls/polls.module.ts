@@ -1,11 +1,9 @@
 import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
 import { nanoid } from 'nanoid';
 
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { UID_GENERATOR, UidGenerator } from '../uid-generator';
-import { PollUpdateValidationErrorFilter } from './poll-update-validation-error.filter';
 import { PollsController } from './polls.controller';
 import { PollsService } from './polls.service';
 import { InMemoryPollRepository } from './repositories/in-memory-poll.repository';
@@ -32,7 +30,6 @@ const pollRepositoryProvider = {
   controllers: [PollsController],
   providers: [
     PollsService,
-    { provide: APP_FILTER, useClass: PollUpdateValidationErrorFilter },
     pollRepositoryProvider,
     {
       provide: UID_GENERATOR,

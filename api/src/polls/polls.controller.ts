@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -13,6 +14,7 @@ import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
 import { UpdatePollDto } from './dto/update-poll.dto';
+import { ChoiceDoesNotExistError } from './errors';
 import { PollsService } from './polls.service';
 
 @Controller('polls')
@@ -57,10 +59,17 @@ export class PollsController {
     @Param('admin_uid') adminUid: string,
     @Body() body: UpdatePollDto,
   ): Promise<AdminPoll> {
-    const poll = await this.pollsService.updatePoll(adminUid, body);
-    if (!poll) {
-      throw new NotFoundException();
+    try {
+      const poll = await this.pollsService.updatePoll(adminUid, body);
+      if (!poll) {
+        throw new NotFoundException();
+      }
+      return poll;
+    } catch (e) {
+      if (e instanceof ChoiceDoesNotExistError) {
+        throw new BadRequestException(e.message, { cause: e });
+      }
+      throw e;
     }
-    return poll;
   }
 }
