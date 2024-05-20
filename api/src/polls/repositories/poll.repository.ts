@@ -1,4 +1,5 @@
 import { CreatePollDto } from '../dto/create-poll.dto';
+import { UpdatePollDto } from '../dto/update-poll.dto';
 
 export interface Poll {
   id: number;
@@ -45,4 +46,8 @@ export abstract class PollRepository {
   public abstract findByAdminUid(uid: string): Promise<Poll | null>;
   public abstract findByPublicUid(uid: string): Promise<Poll | null>;
   public abstract deleteByAdminUid(uid: string): Promise<Poll | null>;
+  public abstract updateByAdminUid(
+    uid: string,
+    data: UpdatePollDto,
+  ): Promise<Poll | null>;
 }

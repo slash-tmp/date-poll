@@ -3,6 +3,9 @@ import { Injectable } from '@nestjs/common';
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { UpdatePollDto, UpdatePollDtoChoice } from './dto/update-poll.dto';
+import { ChoiceDoesNotExistError } from './errors';
+import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import {
   Poll as RawPoll,
   PollRepository,
@@ -80,5 +83,48 @@ export class PollsService {
     const deletedPoll = await this.pollRepository.deleteByAdminUid(adminUid);
     if (!deletedPoll) return null;
     return this.rawPollToAdminPoll(deletedPoll);
+  }
+
+  public async updatePoll(
+    adminUid: string,
+    data: UpdatePollDto,
+  ): Promise<AdminPoll | null> {
+    const pollToUpdate = await this.pollRepository.findByAdminUid(adminUid);
+
+    if (!pollToUpdate) {
+      return null;
+    }
+
+    // Validate updated choices
+    const existingChoiceIds = pollToUpdate.choices.map((c) => c.id);
+    const updatedChoices = data.choices.filter(
+      (c) => c.id,
+    ) as Required<UpdatePollDtoChoice>[];
+    for (const updatedChoice of updatedChoices) {
+      if (!existingChoiceIds.includes(updatedChoice.id)) {
+        throw new ChoiceDoesNotExistError(updatedChoice.id);
+      }
+
+      const existingChoice = pollToUpdate.choices.find(
+        (c) => c.id === updatedChoice.id,
+      );
+      if (
+        existingChoice &&
+        existingChoice.date.getTime() !== updatedChoice.date.getTime()
+      ) {
+        throw new CannotChangeChoiceDateError(
+          existingChoice.id,
+          existingChoice.date,
+          updatedChoice.date,
+        );
+      }
+    }
+
+    const updatedPoll = await this.pollRepository.updateByAdminUid(
+      adminUid,
+      data,
+    );
+    if (!updatedPoll) return null;
+    return this.rawPollToAdminPoll(updatedPoll);
   }
 }

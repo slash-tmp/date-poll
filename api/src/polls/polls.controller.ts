@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -6,11 +7,15 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
 } from '@nestjs/common';
 
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { UpdatePollDto } from './dto/update-poll.dto';
+import { ChoiceDoesNotExistError } from './errors';
+import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import { PollsService } from './polls.service';
 
 @Controller('polls')
@@ -47,6 +52,28 @@ export class PollsController {
     const poll = await this.pollsService.deletePoll(adminUid);
     if (!poll) {
       throw new NotFoundException();
+    }
+  }
+
+  @Put('admin/:admin_uid')
+  async updatePoll(
+    @Param('admin_uid') adminUid: string,
+    @Body() body: UpdatePollDto,
+  ): Promise<AdminPoll> {
+    try {
+      const poll = await this.pollsService.updatePoll(adminUid, body);
+      if (!poll) {
+        throw new NotFoundException();
+      }
+      return poll;
+    } catch (e) {
+      if (
+        e instanceof ChoiceDoesNotExistError ||
+        e instanceof CannotChangeChoiceDateError
+      ) {
+        throw new BadRequestException(e.message, { cause: e });
+      }
+      throw e;
     }
   }
 }

@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
@@ -6,7 +6,10 @@ import {
   adminPollFixture,
   createPollDtoFixture,
   publicPollFixture,
+  updatePollDtoFixture,
 } from '../../test/fixtures';
+import { ChoiceDoesNotExistError } from './errors';
+import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import { PollsController } from './polls.controller';
 import { PollsService } from './polls.service';
 
@@ -87,6 +90,41 @@ describe('PollsController', () => {
       await expect(
         controller.deletePoll('JpqviwUSYa6P3Tbhb4iwc'),
       ).resolves.toBeUndefined();
+    });
+  });
+
+  describe('updatePoll', () => {
+    it('throws when poll is not found', async () => {
+      pollsService.updatePoll.mockResolvedValue(null);
+
+      await expect(
+        controller.updatePoll('unknown-uid', updatePollDtoFixture),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('updates existing poll', async () => {
+      pollsService.updatePoll.mockResolvedValue(adminPollFixture);
+      await expect(
+        controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).resolves.toEqual(adminPollFixture);
+    });
+
+    it('throws BadRequestException when a choice does not exist on the poll', async () => {
+      pollsService.updatePoll.mockRejectedValue(
+        new ChoiceDoesNotExistError(12),
+      );
+      await expect(
+        controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it("throws BadRequestException when attempting to update exsting choice's date", async () => {
+      pollsService.updatePoll.mockRejectedValue(
+        new CannotChangeChoiceDateError(12, new Date(), new Date()),
+      );
+      await expect(
+        controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 });
