@@ -23,8 +23,12 @@ export class PollsController {
   constructor(private readonly pollsService: PollsService) {}
 
   @Post()
-  createPoll(@Body() body: CreatePollDto): Promise<AdminPoll> {
-    return this.pollsService.createPoll(body);
+  async createPoll(@Body() body: CreatePollDto): Promise<AdminPoll> {
+    const poll = await this.pollsService.createPoll(body);
+
+    this.pollsService.sendSuccessfulPollCreationEmail(poll);
+
+    return poll;
   }
 
   @Get(':public_uid')

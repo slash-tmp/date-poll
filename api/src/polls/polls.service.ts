@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import slugify from 'slugify';
 
+import { MailerService } from '../mailer/mailer.service';
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
@@ -13,11 +15,34 @@ import {
 
 @Injectable()
 export class PollsService {
-  constructor(private readonly pollRepository: PollRepository) {}
+  constructor(
+    private readonly pollRepository: PollRepository,
+    private readonly mailerService: MailerService,
+  ) {}
 
   async createPoll(data: CreatePollDto): Promise<AdminPoll> {
     const poll = await this.pollRepository.create(data);
     return this.rawPollToAdminPoll(poll);
+  }
+
+  async sendSuccessfulPollCreationEmail(poll: AdminPoll): Promise<void> {
+    const websiteBaseUrl =
+      process.env.WEBSITE_BASE_URL ||
+      (process.env.HEROKU_APP_NAME &&
+        `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`) ||
+      'http://localhost:3000';
+
+    const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
+    const slug = slugify(poll.title, { lower: true, strict: true });
+    const publicLink = `${websiteBaseUrl}/poll/${poll.publicUid}/${slug}`;
+
+    const subject = `Sondage créé : ${poll.title}`;
+    const text = `Le sondage "${poll.title}" a bien été créé.
+
+Lien d'administration : ${adminLink}
+Lien de partage : ${publicLink}`;
+
+    await this.mailerService.sendEmail(poll.adminEmail, subject, text);
   }
 
   async getAdminPoll(adminUid: string): Promise<AdminPoll | null> {
