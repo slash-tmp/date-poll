@@ -9,7 +9,7 @@
   --color-black: hsl(0deg 0% 0%);
 
   /* Primary colors */
-  --hue-primary: 250;
+  --hue-primary: 220;
   --saturation-primary: 60%;
   --color-primary-lighter: hsl(
     var(--hue-primary) var(--saturation-primary) 95%
