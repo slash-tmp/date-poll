@@ -9,6 +9,10 @@ export default {
     },
     index: {
       title: "date poll",
+      deletedPollAlert: {
+        description: 'Le sondage "{title}" a bien été supprimé',
+        close: "Fermer",
+      },
       newPoll: "Créer un sondage",
     },
     poll: {
@@ -67,6 +71,13 @@ export default {
           actions: {
             edit: "Modifier le sondage",
             delete: "Supprimer le sondage",
+            deleteModal: {
+              title: "Supprimer le sondage",
+              description:
+                'Vous êtes sur le point de supprimer le sondage "{title}".',
+              cancel: "Annuler",
+              confirm: "Supprimer",
+            },
           },
           intro: {
             createdBy: "Créé par",

@@ -6,6 +6,7 @@ import type { AdminPollApiResponse } from "~/types/poll";
 
 const { t } = useI18n();
 
+const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
 
@@ -22,9 +23,17 @@ if (!poll.value) {
   });
 }
 
-// TODO: Delete poll
-function deletePoll() {
-  console.log("delete poll");
+// Delete poll
+async function confirmDelete() {
+  try {
+    if (poll.value) {
+      await deletePoll(poll.value.adminUid);
+      router.push({ name: "index", state: { deletedPoll: poll.value.title } });
+    }
+  } catch (e) {
+    // TODO: handle error with toast
+    console.error(e);
+  }
 }
 </script>
 
@@ -32,7 +41,7 @@ function deletePoll() {
   <template v-if="poll">
     <h1>{{ poll.title }}</h1>
 
-    <Actions @delete="deletePoll" />
+    <Actions :title="poll.title" @delete="confirmDelete" />
 
     <div>
       <Intro

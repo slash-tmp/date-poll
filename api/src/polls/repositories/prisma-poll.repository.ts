@@ -1,21 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { nanoid } from 'nanoid';
 
 import { PrismaService } from '../../prisma/prisma.service';
+import { UidGenerator } from '../../uid-generator';
 import { CreatePollDto } from '../dto/create-poll.dto';
 import { UpdatePollDto } from '../dto/update-poll.dto';
 import { Poll, PollRepository } from './poll.repository';
 
 @Injectable()
 export class PrismaPollRepository implements PollRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly uidGenerator: UidGenerator,
+  ) {}
 
   public async create(data: CreatePollDto): Promise<Poll> {
     const poll = await this.prisma.poll.create({
       data: {
-        adminUid: nanoid(),
-        publicUid: nanoid(),
+        adminUid: this.uidGenerator(),
+        publicUid: this.uidGenerator(),
 
         title: data.title,
         description: data.description,
