@@ -92,7 +92,7 @@ describe('PollsController', () => {
   });
 
   describe('updatePoll', () => {
-    it('throw when poll is not found', async () => {
+    it('throws when poll is not found', async () => {
       pollsService.updatePoll.mockResolvedValue(null);
 
       await expect(
@@ -100,7 +100,7 @@ describe('PollsController', () => {
       ).rejects.toThrow(NotFoundException);
     });
 
-    it('deletes existing poll', async () => {
+    it('updates existing poll', async () => {
       pollsService.updatePoll.mockResolvedValue(adminPollFixture);
       await expect(
         controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
