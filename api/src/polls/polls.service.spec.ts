@@ -9,6 +9,7 @@ import {
   updatePollDtoFixture,
 } from '../../test/fixtures';
 import { ChoiceDoesNotExistError } from './errors';
+import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import { PollsService } from './polls.service';
 import { PollRepository } from './repositories/poll.repository';
 
@@ -90,7 +91,7 @@ describe('PollsService', () => {
 
   describe('updatePoll', () => {
     it('returns null when poll is not found', async () => {
-      pollRepository.findByAdminUid.mockResolvedValue(null);
+      pollRepository.findByAdminUid.mockResolvedValueOnce(null);
       await expect(
         pollsService.updatePoll('unknown-uid', updatePollDtoFixture),
       ).resolves.toEqual(null);
@@ -109,6 +110,21 @@ describe('PollsService', () => {
           ],
         }),
       ).rejects.toThrow(ChoiceDoesNotExistError);
+    });
+
+    it('throws when updated choice date is changed', async () => {
+      pollRepository.findByAdminUid.mockResolvedValue(databasePollFixture);
+      await expect(
+        pollsService.updatePoll('JpqviwUSYa6P3Tbhb4iwc', {
+          ...updatePollDtoFixture,
+          choices: [
+            {
+              id: 9,
+              date: new Date('2024-05-14T23:45:00.000Z'),
+            },
+          ],
+        }),
+      ).rejects.toThrow(CannotChangeChoiceDateError);
     });
 
     it('updates poll if it exists', async () => {

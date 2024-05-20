@@ -9,6 +9,7 @@ import {
   updatePollDtoFixture,
 } from '../../test/fixtures';
 import { ChoiceDoesNotExistError } from './errors';
+import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import { PollsController } from './polls.controller';
 import { PollsService } from './polls.service';
 
@@ -111,6 +112,15 @@ describe('PollsController', () => {
     it('throws BadRequestException when a choice does not exist on the poll', async () => {
       pollsService.updatePoll.mockRejectedValue(
         new ChoiceDoesNotExistError(12),
+      );
+      await expect(
+        controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),
+      ).rejects.toThrow(BadRequestException);
+    });
+
+    it("throws BadRequestException when attempting to update exsting choice's date", async () => {
+      pollsService.updatePoll.mockRejectedValue(
+        new CannotChangeChoiceDateError(12, new Date(), new Date()),
       );
       await expect(
         controller.updatePoll('JpqviwUSYa6P3Tbhb4iwc', updatePollDtoFixture),

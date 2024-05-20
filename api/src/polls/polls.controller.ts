@@ -15,6 +15,7 @@ import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
 import { UpdatePollDto } from './dto/update-poll.dto';
 import { ChoiceDoesNotExistError } from './errors';
+import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import { PollsService } from './polls.service';
 
 @Controller('polls')
@@ -66,7 +67,10 @@ export class PollsController {
       }
       return poll;
     } catch (e) {
-      if (e instanceof ChoiceDoesNotExistError) {
+      if (
+        e instanceof ChoiceDoesNotExistError ||
+        e instanceof CannotChangeChoiceDateError
+      ) {
         throw new BadRequestException(e.message, { cause: e });
       }
       throw e;
