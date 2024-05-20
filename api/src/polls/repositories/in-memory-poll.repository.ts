@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { UidGenerator } from '../../uid-generator';
 import { CreatePollDto } from '../dto/create-poll.dto';
+import { UpdatePollDto } from '../dto/update-poll.dto';
 import { Poll, PollRepository } from './poll.repository';
 
 @Injectable()
@@ -55,5 +56,48 @@ export class InMemoryPollRepository implements PollRepository {
     this.polls.splice(index, 1);
 
     return Promise.resolve(poll);
+  }
+
+  public updateByAdminUid(
+    uid: string,
+    data: UpdatePollDto,
+  ): Promise<Poll | null> {
+    const pollToUpdate = this.polls.find((p) => p.adminUid === uid);
+
+    if (!pollToUpdate) {
+      return Promise.resolve(null);
+    }
+
+    pollToUpdate.updatedAt = new Date();
+
+    pollToUpdate.title = data.title;
+    pollToUpdate.description = data.description ?? null;
+
+    pollToUpdate.adminName = data.adminName ?? null;
+    pollToUpdate.hideVotes = data.hideVotes;
+    pollToUpdate.notifyOnResponse = data.notifyOnResponse;
+    pollToUpdate.endDate = data.endDate ?? null;
+
+    pollToUpdate.choices = data.choices.map((choiceUpdate) => {
+      const existingChoice = pollToUpdate.choices.find(
+        (c) => c.id === choiceUpdate.id,
+      );
+      if (existingChoice) {
+        return {
+          ...existingChoice,
+          updatedAt: new Date(),
+          date: choiceUpdate.date,
+        };
+      } else {
+        return {
+          id: this.nextId++,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          date: choiceUpdate.date,
+        };
+      }
+    });
+
+    return Promise.resolve(pollToUpdate);
   }
 }
