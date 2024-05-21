@@ -14,7 +14,7 @@ export default {
         close: "Fermer",
       },
       newPoll: "Créer un sondage",
-      findPoll: "Retrouver un sondage",
+      findPoll: "Rechercher un sondage",
     },
     poll: {
       find: {

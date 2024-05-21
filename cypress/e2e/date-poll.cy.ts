@@ -143,3 +143,18 @@ describe("Poll admin page", () => {
     cy.contains('Le sondage "Trip to the museum" a bien été supprimé');
   });
 });
+
+describe("Find poll page", () => {
+  it("sends an email with polls links", () => {
+    cy.visit("http://localhost:3000");
+    cy.contains("Rechercher un sondage").click();
+
+    cy.getByLabel("Adresse email").type("johndoe@example.com");
+
+    cy.contains("button", "Rechercher").click();
+
+    cy.contains(
+      "Un email a été envoyé à l’adresse johndoe@example.com avec la liste de vos sondages.",
+    );
+  });
+});
