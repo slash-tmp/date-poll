@@ -33,7 +33,7 @@ export class MailerService {
         html,
       })
       .then((info) => {
-        console.log(getTestMessageUrl(info));
+        info && console.log(getTestMessageUrl(info));
       });
   }
 }

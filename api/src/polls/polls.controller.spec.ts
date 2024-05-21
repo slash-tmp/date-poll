@@ -39,6 +39,9 @@ describe('PollsController', () => {
       await expect(
         controller.createPoll(createPollDtoFixture),
       ).resolves.toEqual(adminPollFixture);
+      expect(pollsService.sendSuccessfulPollCreationEmail).toHaveBeenCalledWith(
+        adminPollFixture,
+      );
     });
   });
 

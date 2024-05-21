@@ -8,6 +8,7 @@ import {
   publicPollFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
+import { MailerService } from '../mailer/mailer.service';
 import { ChoiceDoesNotExistError } from './errors';
 import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
 import { PollsService } from './polls.service';
@@ -16,6 +17,7 @@ import { PollRepository } from './repositories/poll.repository';
 describe('PollsService', () => {
   let pollsService: PollsService;
   let pollRepository: DeepMockProxy<PollRepository>;
+  let mailerService: DeepMockProxy<MailerService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -25,11 +27,16 @@ describe('PollsService', () => {
           provide: PollRepository,
           useValue: mockDeep<PollRepository>(),
         },
+        {
+          provide: MailerService,
+          useValue: mockDeep<MailerService>(),
+        },
       ],
     }).compile();
 
     pollsService = module.get<PollsService>(PollsService);
     pollRepository = module.get<DeepMockProxy<PollRepository>>(PollRepository);
+    mailerService = module.get<DeepMockProxy<MailerService>>(MailerService);
   });
 
   describe('createPoll', () => {
@@ -140,6 +147,20 @@ describe('PollsService', () => {
         ...adminPollFixture,
         title: 'Updated title',
       });
+    });
+  });
+
+  describe('sendSuccessfulPollCreationEmail', () => {
+    it('sends a confirmation email', async () => {
+      await pollsService.sendSuccessfulPollCreationEmail(adminPollFixture);
+      expect(mailerService.sendEmail).toHaveBeenCalledWith(
+        `bob@domain.com`,
+        `Sondage créé : Trip to the museum`,
+        `Le sondage "Trip to the museum" a bien été créé.
+
+Lien d'administration : http://localhost:3000/poll/admin/JpqviwUSYa6P3Tbhb4iwc
+Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-museum`,
+      );
     });
   });
 });
