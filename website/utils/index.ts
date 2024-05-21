@@ -3,6 +3,8 @@ import type {
   CreatePollApiRequest,
   CreatePollApiResponse,
   CreatePollFormData,
+  UpdatePollApiRequest,
+  UpdatePollApiResponse,
   UpdatePollFormData,
 } from "~/types/poll";
 
@@ -42,8 +44,7 @@ export async function updatePoll(
   formData: UpdatePollFormData,
 ) {
   // Transform form data to be accepted by API
-  // TODO: type this with backend type
-  const updatePollRequestBody: any = {
+  const updatePollRequestBody: UpdatePollApiRequest = {
     title: formData.title,
     description: formData.description ?? undefined,
     choices: formData.choices.map((c) => {
@@ -61,16 +62,15 @@ export async function updatePoll(
     adminName: formData.adminName ?? undefined,
   };
 
-  console.log("update poll: ", adminUid, " with:");
-  console.log(updatePollRequestBody);
+  const data = await $fetch<UpdatePollApiResponse>(
+    `/api/polls/admin/${adminUid}`,
+    {
+      method: "PUT",
+      body: updatePollRequestBody,
+    },
+  );
 
-  // TODO: plug update poll API route
-  // const data = await $fetch<CreatePollApiResponse>(`/api/polls/admin/${adminUid}`, {
-  //   method: "PUT",
-  //   body: updatePollRequestBody,
-  // });
-
-  // return data;
+  return data;
 }
 
 /** Delete a poll and return it */

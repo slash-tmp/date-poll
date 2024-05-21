@@ -34,3 +34,8 @@ export type CreatePollApiRequest =
   paths["/polls"]["post"]["requestBody"]["content"]["application/json"];
 export type CreatePollApiResponse =
   paths["/polls"]["post"]["responses"]["201"]["content"]["application/json"];
+
+export type UpdatePollApiRequest =
+  paths["/polls/admin/{admin_uid}"]["put"]["requestBody"]["content"]["application/json"];
+export type UpdatePollApiResponse =
+  paths["/polls/admin/{admin_uid}"]["put"]["responses"]["200"]["content"]["application/json"];

@@ -19,6 +19,9 @@ onMounted(async () => {
     updatedPoll.value = history.state.updatedPoll;
     await nextTick();
     updatedPollAlertRef.value?.focus();
+
+    // update "poll" value
+    refresh();
   }
 });
 
@@ -30,7 +33,7 @@ async function hideUpdatedPollAlert() {
 }
 
 // Fetch poll
-const { data: poll } = await useFetch<AdminPollApiResponse>(
+const { data: poll, refresh } = await useFetch<AdminPollApiResponse>(
   `/api/polls/admin/${id}`,
 );
 
