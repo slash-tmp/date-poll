@@ -203,11 +203,16 @@ describe("Poll edition page", () => {
     cy.getByLabel("Horaire n°2").should("not.have.attr", "disabled");
   });
 
-  // TODO: complete once backend is merged
-  /**
-   * - put request
-   * - redirect with alert
-   * - title has changed
-   */
-  it("redirects to index with alert on success");
+  it("redirects to index with alert on success", () => {
+    cy.getByLabel("Nom").clear().type("Trip to the ocean");
+    cy.getByLabel("Description")
+      .clear()
+      .type("We are going to the see the dolphins");
+
+    cy.contains("Mettre à jour").click();
+
+    cy.contains("h1", "Trip to the ocean");
+    cy.contains("We are going to the see the dolphins");
+    cy.contains('Le sondage "Trip to the ocean" a bien été mis à jour');
+  });
 });
