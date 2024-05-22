@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import VotingForm from "~/components/poll/id/VotingForm.vue";
+import VoteForm from "~/components/poll/id/VoteForm.vue";
 
 /**
  * TODO:
  * - fetch public poll (+ handle 404)
- * - poll is expired (show alert instead of voting form)
- * - confirmation page (after submit)
- * - i18n
  */
 
 const poll = ref({
@@ -27,7 +24,7 @@ const poll = ref({
     },
   ],
   hideVotes: false,
-  endDate: "2024-01-02",
+  endDate: "2024-10-02",
   adminName: "Odette",
 });
 
@@ -40,8 +37,10 @@ const isExpired = computed(() => {
   return new Date(poll.value.endDate) < new Date();
 });
 
+// Vote submission
+const showConfirmation = ref(false);
 function submitVote() {
-  console.log();
+  showConfirmation.value = true;
 }
 </script>
 
@@ -52,19 +51,26 @@ function submitVote() {
 
   <div v-if="isExpired">
     <p>
-      La date limite de vote de ce sondage est dépassée. Il n’est plus possible
-      d’ajouter de nouvelles réponses.
+      {{ $t("pages.poll.id.isExpired") }}
     </p>
   </div>
 
   <template v-else>
-    Vous avez été invité {{ poll.adminName ? `par ${poll.adminName}` : "" }} à
-    répondre à ce sondage.
-    <template v-if="poll.endDate"
-      >Vous avez jusqu’au <time>{{ formatDate(poll.endDate) }}</time> pour y
-      répondre.</template
-    >
+    <p>
+      <template v-if="poll.adminName">
+        {{ $t("pages.poll.id.invitedBy", { adminName: poll.adminName }) }}
+      </template>
+      <template v-else>{{ $t("pages.poll.id.invited") }}</template>
+      <i18n-t v-if="poll.endDate" keypath="pages.poll.id.expiredOn">
+        <template #endDate>
+          <time :datetime="poll.endDate">{{ formatDate(poll.endDate) }}</time>
+        </template>
+      </i18n-t>
+    </p>
     <br />
-    <VotingForm :poll="poll" @submit="submitVote" />
+    <div v-if="showConfirmation">
+      <p>{{ $t("pages.poll.id.confirmation") }}</p>
+    </div>
+    <VoteForm v-else :poll="poll" @submit="submitVote" />
   </template>
 </template>

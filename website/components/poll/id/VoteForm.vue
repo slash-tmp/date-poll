@@ -37,7 +37,7 @@ function submitVote() {
 <template>
   <form @submit.prevent="submitVote">
     <div>
-      <label for="name">Votre nom</label>
+      <label for="name">{{ $t("pages.poll.id.form.name") }}</label>
       <input id="name" v-model="name" type="text" required />
     </div>
 
@@ -65,15 +65,15 @@ function submitVote() {
             {{ respondent }}
           </li>
           <li v-if="[Response.YES, Response.MAYBE].includes(choice.presence)">
-            vous
+            {{ $t("pages.poll.id.form.you") }}
             <template v-if="choice.presence === Response.MAYBE">
-              (peut-être)
+              {{ $t("pages.poll.id.form.maybe") }}
             </template>
           </li>
         </ul>
       </li>
     </ul>
 
-    <button type="submit">Voter</button>
+    <button type="submit">{{ $t("pages.poll.id.form.submit") }}</button>
   </form>
 </template>

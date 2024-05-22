@@ -191,6 +191,21 @@ export default {
           submit: "Mettre à jour",
         },
       },
+      id: {
+        invited: "Vous avez été invité·e à participer à ce sondage.",
+        invitedBy:
+          "Vous avez été invité·e par {adminName} à participer à ce sondage.",
+        expiredOn: "Vous avez jusqu’au {endDate} pour y participer.",
+        isExpired:
+          "La date limite de participation de ce sondage est dépassée. Il n’est plus possible d’y répondre.",
+        form: {
+          name: "Votre nom",
+          you: "Vous",
+          maybe: "(peut-être)",
+          submit: "Voter",
+        },
+        confirmation: "Votre vote a bien été pris en compte !",
+      },
     },
   },
 };
