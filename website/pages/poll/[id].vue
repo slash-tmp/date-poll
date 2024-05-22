@@ -4,7 +4,7 @@ import VotingForm from "~/components/poll/id/VotingForm.vue";
 /**
  * TODO:
  * - fetch public poll (+ handle 404)
- * - poll is expired or deleted (show alert instead of voting form)
+ * - poll is expired (show alert instead of voting form)
  * - confirmation page (after submit)
  * - i18n
  */
@@ -31,6 +31,15 @@ const poll = ref({
   adminName: "Odette",
 });
 
+// Handle expired poll
+const isExpired = computed(() => {
+  if (!poll.value.endDate) {
+    return false;
+  }
+
+  return new Date(poll.value.endDate) < new Date();
+});
+
 function submitVote() {
   console.log();
 }
@@ -41,15 +50,21 @@ function submitVote() {
 
   <p v-if="poll.description">{{ poll.description }}</p>
 
-  <div>
+  <div v-if="isExpired">
+    <p>
+      La date limite de vote de ce sondage est dépassée. Il n’est plus possible
+      d’ajouter de nouvelles réponses.
+    </p>
+  </div>
+
+  <template v-else>
     Vous avez été invité {{ poll.adminName ? `par ${poll.adminName}` : "" }} à
     répondre à ce sondage.
     <template v-if="poll.endDate"
       >Vous avez jusqu’au <time>{{ formatDate(poll.endDate) }}</time> pour y
       répondre.</template
     >
-  </div>
-
-  <br />
-  <VotingForm :poll="poll" @submit="submitVote" />
+    <br />
+    <VotingForm :poll="poll" @submit="submitVote" />
+  </template>
 </template>
