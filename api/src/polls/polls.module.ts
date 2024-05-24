@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { nanoid } from 'nanoid';
 
+import { MailerModule } from '../mailer/mailer.module';
 import { PrismaModule } from '../prisma/prisma.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { UID_GENERATOR, UidGenerator } from '../uid-generator';
@@ -26,7 +27,7 @@ const pollRepositoryProvider = {
 };
 
 @Module({
-  imports: [PrismaModule],
+  imports: [PrismaModule, MailerModule],
   controllers: [PollsController],
   providers: [
     PollsService,
