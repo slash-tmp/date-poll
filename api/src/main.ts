@@ -1,13 +1,10 @@
 import { INestApplication, ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import morgan from 'morgan';
 
 import { AppModule } from './app.module';
-
-const PORT = 4000;
-const isProductionStage = process.env.STAGE === 'production';
-const isProductionEnv = process.env.NODE_ENV === 'production';
 
 function setupSwagger(app: INestApplication) {
   const config = new DocumentBuilder()
@@ -20,6 +17,11 @@ function setupSwagger(app: INestApplication) {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
+
+  const PORT = 4000;
+  const isProductionStage = config.get('STAGE') === 'production';
+  const isProductionEnv = config.get('NODE_ENV') === 'production';
 
   app.setGlobalPrefix('api');
   app.use(morgan(isProductionEnv ? 'common' : 'dev'));

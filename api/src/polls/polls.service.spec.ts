@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
@@ -18,6 +19,7 @@ describe('PollsService', () => {
   let pollsService: PollsService;
   let pollRepository: DeepMockProxy<PollRepository>;
   let mailerService: DeepMockProxy<MailerService>;
+  let configService: DeepMockProxy<ConfigService>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -31,12 +33,17 @@ describe('PollsService', () => {
           provide: MailerService,
           useValue: mockDeep<MailerService>(),
         },
+        {
+          provide: ConfigService,
+          useValue: mockDeep<ConfigService>(),
+        },
       ],
     }).compile();
 
     pollsService = module.get<PollsService>(PollsService);
     pollRepository = module.get<DeepMockProxy<PollRepository>>(PollRepository);
     mailerService = module.get<DeepMockProxy<MailerService>>(MailerService);
+    configService = module.get<DeepMockProxy<ConfigService>>(ConfigService);
   });
 
   describe('createPoll', () => {
@@ -152,6 +159,7 @@ describe('PollsService', () => {
 
   describe('sendSuccessfulPollCreationEmail', () => {
     it('sends a confirmation email', async () => {
+      configService.get.mockReturnValueOnce('http://localhost:3000');
       await pollsService.sendSuccessfulPollCreationEmail(adminPollFixture);
       expect(mailerService.sendEmail).toHaveBeenCalledWith(
         `bob@domain.com`,

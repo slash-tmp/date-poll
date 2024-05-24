@@ -1,19 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { createTransport, getTestMessageUrl, Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+
+import mailerConfig from '../config/mailer.config';
 
 @Injectable()
 export class MailerService {
   private readonly transporter: Transporter<SMTPTransport.SentMessageInfo>;
 
-  constructor() {
+  constructor(
+    @Inject(mailerConfig.KEY)
+    private readonly config: ConfigType<typeof mailerConfig>,
+  ) {
     this.transporter = createTransport({
-      host: process.env.MAILER_SMTP_HOST,
-      port: Number(process.env.MAILER_SMTP_PORT),
-      secure: process.env.MAILER_SMTP_SECURE === 'true',
+      host: config.smtp.host,
+      port: config.smtp.port,
+      secure: config.smtp.secure,
       auth: {
-        user: process.env.MAILER_USER,
-        pass: process.env.MAILER_PASSWORD,
+        user: config.auth.user,
+        pass: config.auth.pass,
       },
     });
   }
@@ -27,7 +33,7 @@ export class MailerService {
     await this.transporter
       .sendMail({
         to,
-        from: process.env.MAILER_USER,
+        from: this.config.auth.user,
         subject,
         text,
         html,

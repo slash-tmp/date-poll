@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { PrismaService } from './prisma.service';
 
@@ -6,11 +7,12 @@ import { PrismaService } from './prisma.service';
   providers: [
     {
       provide: PrismaService,
-      useFactory() {
-        if (process.env.DATABASE_URL) {
+      useFactory(config: ConfigService) {
+        if (config.get('DATABASE_URL')) {
           return new PrismaService();
         }
       },
+      inject: [ConfigService],
     },
   ],
   exports: [PrismaService],

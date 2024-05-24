@@ -3,6 +3,7 @@ import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 import nodemailer, { Transporter } from 'nodemailer';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 
+import mailerConfig from '../config/mailer.config';
 import { MailerService } from './mailer.service';
 
 describe('PollsService', () => {
@@ -14,7 +15,23 @@ describe('PollsService', () => {
     jest.spyOn(nodemailer, 'createTransport').mockReturnValue(transporter);
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [MailerService],
+      providers: [
+        MailerService,
+        {
+          provide: mailerConfig.KEY,
+          useValue: {
+            smtp: {
+              host: 'smtp.domain.com',
+              port: 587,
+              secure: false,
+            },
+            auth: {
+              user: 'do-not-reply@date-poll.com',
+              pass: 'password',
+            },
+          },
+        },
+      ],
     }).compile();
 
     mailerService = module.get<MailerService>(MailerService);
@@ -23,10 +40,6 @@ describe('PollsService', () => {
   describe('sendEmail', () => {
     it('sends a mail', async () => {
       transporter.sendMail.mockResolvedValue(null);
-
-      jest.replaceProperty(process, 'env', {
-        MAILER_USER: 'do-not-reply@date-poll.com',
-      });
 
       await mailerService.sendEmail(
         'user@domain.com',

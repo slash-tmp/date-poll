@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import slugify from 'slugify';
 
 import { MailerService } from '../mailer/mailer.service';
@@ -18,6 +19,7 @@ export class PollsService {
   constructor(
     private readonly pollRepository: PollRepository,
     private readonly mailerService: MailerService,
+    private readonly config: ConfigService,
   ) {}
 
   async createPoll(data: CreatePollDto): Promise<AdminPoll> {
@@ -26,11 +28,7 @@ export class PollsService {
   }
 
   async sendSuccessfulPollCreationEmail(poll: AdminPoll): Promise<void> {
-    const websiteBaseUrl =
-      process.env.WEBSITE_BASE_URL ||
-      (process.env.HEROKU_APP_NAME &&
-        `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`) ||
-      'http://localhost:3000';
+    const websiteBaseUrl = this.config.get('WEBSITE_BASE_URL');
 
     const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
     const slug = slugify(poll.title, { lower: true, strict: true });
