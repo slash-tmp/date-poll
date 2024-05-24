@@ -4,6 +4,7 @@ import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
 import {
   adminPollFixture,
+  adminPollListFixture,
   createPollDtoFixture,
   publicPollFixture,
   updatePollDtoFixture,
@@ -132,7 +133,19 @@ describe('PollsController', () => {
   });
 
   describe('requestPollListEmail', () => {
-    it.todo('send an email if polls are found');
-    it.todo('does not send an email if no polls are found');
+    it('send an email if polls are found', async () => {
+      pollsService.getPollsByEmail.mockResolvedValue(adminPollListFixture);
+      await controller.requestPollListEmail({ adminEmail: 'bob@domain.com' });
+      expect(pollsService.sendPollListByEmail).toHaveBeenCalledWith(
+        'bob@domain.com',
+        adminPollListFixture,
+      );
+    });
+
+    it('does not send an email if no polls are found', async () => {
+      pollsService.getPollsByEmail.mockResolvedValue([]);
+      await controller.requestPollListEmail({ adminEmail: 'bobby@domain.com' });
+      expect(pollsService.sendPollListByEmail).not.toHaveBeenCalled();
+    });
   });
 });

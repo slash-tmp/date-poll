@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import _ from 'lodash';
 import slugify from 'slugify';
 
 import { MailerService } from '../mailer/mailer.service';
@@ -170,9 +171,11 @@ Lien de partage : ${publicLink}`;
       return `- ${poll.title} : ${adminLink}`;
     };
 
+    const sortedPolls = _.sortBy(polls, 'createdAt');
+
     const subject = `Vos sondages`;
     const text = `Bonjour, vous avez demandé la liste des sondages créés avec l'addresse ${to} :
-${polls.map(getPollLine).join('\n')}`;
+${sortedPolls.map(getPollLine).join('\n')}`;
 
     await this.mailerService.sendEmail(to, subject, text);
   }
