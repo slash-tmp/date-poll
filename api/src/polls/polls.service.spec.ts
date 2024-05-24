@@ -163,4 +163,14 @@ Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-m
       );
     });
   });
+
+  describe('getPollsByEmail', () => {
+    it.todo('returns existing polls');
+  });
+
+  describe('sendPollListByEmail', () => {
+    it.todo(
+      'send an email containing the list of polls ordered by creation date',
+    );
+  });
 });

@@ -152,4 +152,28 @@ Lien de partage : ${publicLink}`;
     if (!updatedPoll) return null;
     return this.rawPollToAdminPoll(updatedPoll);
   }
+
+  async getPollsByEmail(adminEmail: string): Promise<AdminPoll[]> {
+    const polls = await this.pollRepository.findManyByAdminEmail(adminEmail);
+    return polls.map(this.rawPollToAdminPoll);
+  }
+
+  async sendPollListByEmail(to: string, polls: AdminPoll[]): Promise<void> {
+    const websiteBaseUrl =
+      process.env.WEBSITE_BASE_URL ||
+      (process.env.HEROKU_APP_NAME &&
+        `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`) ||
+      'http://localhost:3000';
+
+    const getPollLine = (poll: AdminPoll) => {
+      const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
+      return `- ${poll.title} : ${adminLink}`;
+    };
+
+    const subject = `Vos sondages`;
+    const text = `Bonjour, vous avez demandé la liste des sondages créés avec l'addresse ${to} :
+${polls.map(getPollLine).join('\n')}`;
+
+    await this.mailerService.sendEmail(to, subject, text);
+  }
 }

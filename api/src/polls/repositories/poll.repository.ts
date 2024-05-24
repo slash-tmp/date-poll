@@ -45,6 +45,7 @@ export abstract class PollRepository {
   public abstract create(data: CreatePollDto): Promise<Poll>;
   public abstract findByAdminUid(uid: string): Promise<Poll | null>;
   public abstract findByPublicUid(uid: string): Promise<Poll | null>;
+  public abstract findManyByAdminEmail(adminEmail: string): Promise<Poll[]>;
   public abstract deleteByAdminUid(uid: string): Promise<Poll | null>;
   public abstract updateByAdminUid(
     uid: string,

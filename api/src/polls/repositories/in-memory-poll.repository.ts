@@ -46,6 +46,14 @@ export class InMemoryPollRepository implements PollRepository {
     return Promise.resolve(this.polls.find((p) => p.publicUid === uid) ?? null);
   }
 
+  public findManyByAdminEmail(adminEmail: string): Promise<Poll[]> {
+    return Promise.resolve(
+      this.polls.filter(
+        (poll) => poll.adminEmail.toLowerCase() === adminEmail.toLowerCase(),
+      ),
+    );
+  }
+
   public deleteByAdminUid(uid: string): Promise<Poll | null> {
     const index = this.polls.findIndex((p) => p.adminUid === uid);
     if (index === -1) {

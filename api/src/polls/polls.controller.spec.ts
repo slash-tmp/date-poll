@@ -130,4 +130,9 @@ describe('PollsController', () => {
       ).rejects.toThrow(BadRequestException);
     });
   });
+
+  describe('requestPollListEmail', () => {
+    it.todo('send an email if polls are found');
+    it.todo('does not send an email if no polls are found');
+  });
 });
