@@ -3,8 +3,10 @@ import { DeepMockProxy, mockDeep } from 'jest-mock-extended';
 
 import {
   adminPollFixture,
+  adminPollListFixture,
   createPollDtoFixture,
   databasePollFixture,
+  databasePollListFixture,
   publicPollFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
@@ -160,6 +162,34 @@ describe('PollsService', () => {
 
 Lien d'administration : http://localhost:3000/poll/admin/JpqviwUSYa6P3Tbhb4iwc
 Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-museum`,
+      );
+    });
+  });
+
+  describe('getPollsByEmail', () => {
+    it('returns existing poll', async () => {
+      pollRepository.findManyByAdminEmail.mockResolvedValue(
+        databasePollListFixture,
+      );
+      await expect(
+        pollsService.getPollsByEmail('bob@domain.com'),
+      ).resolves.toEqual(adminPollListFixture);
+    });
+  });
+
+  describe('sendPollListByEmail', () => {
+    it('send an email containing the list of polls ordered by creation date', async () => {
+      await pollsService.sendPollListByEmail(
+        'bob@domain.com',
+        adminPollListFixture,
+      );
+      expect(mailerService.sendEmail).toHaveBeenCalledWith(
+        'bob@domain.com',
+        'Vos sondages',
+        `Bonjour, vous avez demandé la liste des sondages créés avec l'addresse bob@domain.com :
+- My first poll : http://localhost:3000/poll/admin/admin-uid-3
+- My second poll : http://localhost:3000/poll/admin/admin-uid-5
+- My third poll : http://localhost:3000/poll/admin/admin-uid-4`,
       );
     });
   });

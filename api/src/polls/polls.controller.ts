@@ -4,6 +4,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
@@ -13,6 +14,7 @@ import {
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { SearchPollsDto } from './dto/search-polls.dto';
 import { UpdatePollDto } from './dto/update-poll.dto';
 import { ChoiceDoesNotExistError } from './errors';
 import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
@@ -78,6 +80,15 @@ export class PollsController {
         throw new BadRequestException(e.message, { cause: e });
       }
       throw e;
+    }
+  }
+
+  @Post('find')
+  @HttpCode(204)
+  async requestPollListEmail(@Body() body: SearchPollsDto) {
+    const polls = await this.pollsService.getPollsByEmail(body.adminEmail);
+    if (polls.length > 0) {
+      this.pollsService.sendPollListByEmail(body.adminEmail, polls);
     }
   }
 }

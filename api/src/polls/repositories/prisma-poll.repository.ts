@@ -7,6 +7,15 @@ import { CreatePollDto } from '../dto/create-poll.dto';
 import { UpdatePollDto } from '../dto/update-poll.dto';
 import { Poll, PollRepository } from './poll.repository';
 
+const POLL_INCLUDE = {
+  choices: true,
+  respondents: {
+    include: {
+      responses: true,
+    },
+  },
+} as const;
+
 @Injectable()
 export class PrismaPollRepository implements PollRepository {
   constructor(
@@ -36,14 +45,7 @@ export class PrismaPollRepository implements PollRepository {
           },
         },
       },
-      include: {
-        choices: true,
-        respondents: {
-          include: {
-            responses: true,
-          },
-        },
-      },
+      include: POLL_INCLUDE,
     });
 
     return poll;
@@ -52,14 +54,7 @@ export class PrismaPollRepository implements PollRepository {
   public async findByAdminUid(uid: string): Promise<Poll | null> {
     const poll = await this.prisma.poll.findUnique({
       where: { adminUid: uid },
-      include: {
-        choices: true,
-        respondents: {
-          include: {
-            responses: true,
-          },
-        },
-      },
+      include: POLL_INCLUDE,
     });
 
     return poll;
@@ -68,31 +63,31 @@ export class PrismaPollRepository implements PollRepository {
   public async findByPublicUid(uid: string): Promise<Poll | null> {
     const poll = await this.prisma.poll.findUnique({
       where: { publicUid: uid },
-      include: {
-        choices: true,
-        respondents: {
-          include: {
-            responses: true,
-          },
-        },
-      },
+      include: POLL_INCLUDE,
     });
 
     return poll;
+  }
+
+  public async findManyByAdminEmail(adminEmail: string): Promise<Poll[]> {
+    const polls = await this.prisma.poll.findMany({
+      where: {
+        adminEmail: {
+          equals: adminEmail,
+          mode: 'insensitive',
+        },
+      },
+      include: POLL_INCLUDE,
+    });
+
+    return polls;
   }
 
   public async deleteByAdminUid(adminUid: string): Promise<Poll | null> {
     try {
       const deletedPoll = await this.prisma.poll.delete({
         where: { adminUid },
-        include: {
-          choices: true,
-          respondents: {
-            include: {
-              responses: true,
-            },
-          },
-        },
+        include: POLL_INCLUDE,
       });
 
       return deletedPoll;
@@ -140,14 +135,7 @@ export class PrismaPollRepository implements PollRepository {
           })),
         },
       },
-      include: {
-        choices: true,
-        respondents: {
-          include: {
-            responses: true,
-          },
-        },
-      },
+      include: POLL_INCLUDE,
     });
 
     return updatedPoll ?? null;
