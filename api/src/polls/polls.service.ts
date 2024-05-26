@@ -158,12 +158,7 @@ Lien de partage : ${publicLink}`;
   }
 
   async sendPollListByEmail(to: string, polls: AdminPoll[]): Promise<void> {
-    // TODO: use config module
-    const websiteBaseUrl =
-      process.env.WEBSITE_BASE_URL ||
-      (process.env.HEROKU_APP_NAME &&
-        `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`) ||
-      'http://localhost:3000';
+    const websiteBaseUrl = this.config.get('WEBSITE_BASE_URL');
 
     const getPollLine = (poll: AdminPoll) => {
       const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
