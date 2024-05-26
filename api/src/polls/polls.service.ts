@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import _ from 'lodash';
+import { sortBy } from 'lodash';
 import slugify from 'slugify';
 
 import { MailerService } from '../mailer/mailer.service';
@@ -160,6 +160,7 @@ Lien de partage : ${publicLink}`;
   }
 
   async sendPollListByEmail(to: string, polls: AdminPoll[]): Promise<void> {
+    // TODO: use config module
     const websiteBaseUrl =
       process.env.WEBSITE_BASE_URL ||
       (process.env.HEROKU_APP_NAME &&
@@ -171,7 +172,7 @@ Lien de partage : ${publicLink}`;
       return `- ${poll.title} : ${adminLink}`;
     };
 
-    const sortedPolls = _.sortBy(polls, 'createdAt');
+    const sortedPolls = sortBy(polls, 'createdAt');
 
     const subject = `Vos sondages`;
     const text = `Bonjour, vous avez demandé la liste des sondages créés avec l'addresse ${to} :
