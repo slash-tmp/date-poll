@@ -188,6 +188,7 @@ Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-m
   describe('sendPollListByEmail', () => {
     it('send an email containing the list of polls ordered by creation date', async () => {
       configService.get.mockReturnValueOnce('http://localhost:3000');
+      
       await pollsService.sendPollListByEmail(
         'bob@domain.com',
         adminPollListFixture,
