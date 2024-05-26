@@ -8,7 +8,7 @@ onMounted(() => {
 <template>
   <Html :data-hydrationcomplete="isHydrated" />
 
-  <main>
+  <NuxtLayout>
     <NuxtPage />
-  </main>
+  </NuxtLayout>
 </template>
