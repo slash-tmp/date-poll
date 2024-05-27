@@ -12,10 +12,10 @@ const { data: poll } = await useFetch<AdminPollApiResponse>(
 );
 
 // Submit edit
-function submitEditForm(data: UpdatePollFormData) {
+async function submitEditForm(data: UpdatePollFormData) {
   try {
     if (poll.value) {
-      updatePoll(poll.value.adminUid, data);
+      await updatePoll(poll.value.adminUid, data);
       router.push({ name: "poll-admin-id", state: { updatedPoll: true } });
     }
   } catch (e) {
