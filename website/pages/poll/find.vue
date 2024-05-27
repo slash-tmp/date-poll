@@ -1,10 +1,19 @@
 <script setup lang="ts">
 const email = ref("");
+const recipientEmail = ref("");
 
-async function searchPoll() {
-  showSuccessAlert.value = true;
-  await nextTick();
-  alertRef.value.focus();
+async function submit() {
+  try {
+    await findPoll(email.value);
+    recipientEmail.value = email.value;
+    showSuccessAlert.value = true;
+    await nextTick();
+    alertRef.value?.focus();
+    email.value = "";
+  } catch (e) {
+    // TODO: handle error with toast
+    console.error(e);
+  }
 }
 
 const showSuccessAlert = ref(false);
@@ -14,7 +23,8 @@ const headingRef = ref<HTMLHeadingElement>();
 async function closeAlert() {
   showSuccessAlert.value = false;
   await nextTick();
-  headingRef.value.focus();
+  headingRef.value?.focus();
+  recipientEmail.value = "";
 }
 </script>
 
@@ -26,7 +36,11 @@ async function closeAlert() {
   <div ref="alertRef" aria-live="polite" role="alert" tabindex="-1">
     <template v-if="showSuccessAlert">
       <p>
-        {{ $t("pages.poll.find.alert.description", { emailAddress: email }) }}
+        {{
+          $t("pages.poll.find.alert.description", {
+            emailAddress: recipientEmail,
+          })
+        }}
       </p>
       <button type="button" @click="closeAlert">
         {{ $t("pages.poll.find.alert.close") }}
@@ -34,7 +48,7 @@ async function closeAlert() {
     </template>
   </div>
 
-  <form @submit.prevent="searchPoll">
+  <form @submit.prevent="submit">
     <div>
       <label for="email">{{ $t("pages.poll.find.form.label") }}</label>
       <input id="email" v-model="email" type="email" required />
