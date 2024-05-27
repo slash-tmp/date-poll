@@ -49,10 +49,10 @@ export async function updatePoll(
     description: formData.description ?? undefined,
     choices: formData.choices.map((c) => {
       // merge time with date
-      const date = new Date(c.date!);
+      const date = new Date(c.date);
       const [hours, minutes] = c.time!.split(":").map(Number);
       date.setHours(hours, minutes);
-      return { date: date.toISOString() };
+      return { id: c.id, date: date.toISOString() };
     }),
     hideVotes: formData.hideVotes,
     endDate: formData.endDate

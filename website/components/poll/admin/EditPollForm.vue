@@ -13,9 +13,9 @@ const poll = ref({
   ...props.defaultFormData,
   choices: props.defaultFormData.choices.map((c) => {
     return {
-      date: c.date.slice(0, 10),
-      time: c.date.slice(11, 16),
-      existingDate: true,
+      id: c.id,
+      date: toLocalDateString(c.date).substring(0, 10),
+      time: toLocalDateString(c.date).substring(11),
     };
   }),
   endDate: props.defaultFormData.endDate?.slice(0, 10) || null,
@@ -25,7 +25,8 @@ const poll = ref({
 const dateRefs = ref<HTMLInputElement[]>([]);
 
 async function addChoice() {
-  poll.value.choices.push({ date: "", time: "", existingDate: false });
+  // FIXME: id is mandatory, but not for newly added choices
+  poll.value.choices.push({ date: "", time: "" });
   await nextTick();
   dateRefs.value[poll.value.choices.length - 1].focus();
 }
@@ -41,7 +42,11 @@ async function submitForm() {
   const formData = {
     title: poll.value.title,
     description: poll.value.description,
-    choices: poll.value.choices.map((c) => ({ date: c.date, time: c.time })),
+    choices: poll.value.choices.map((c) => ({
+      ...(c.id ? { id: c.id } : {}),
+      date: c.date,
+      time: c.time,
+    })),
     hideVotes: poll.value.hideVotes,
     endDate: poll.value.endDate,
     notifyOnResponse: poll.value.notifyOnResponse,
@@ -97,7 +102,7 @@ async function submitForm() {
             v-model="choice.date"
             type="date"
             required
-            :disabled="choice.existingDate"
+            :disabled="!!choice.id"
           />
         </div>
 
@@ -112,7 +117,7 @@ async function submitForm() {
             v-model="choice.time"
             type="time"
             required
-            :disabled="choice.existingDate"
+            :disabled="!!choice.id"
           />
         </div>
 

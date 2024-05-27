@@ -18,7 +18,7 @@ export type StepPayload = Partial<CreatePollFormData>;
 export interface UpdatePollFormData {
   title: string;
   description: string | null;
-  choices: { date: string | null; time: string | null }[];
+  choices: { id?: number; date: string; time: string }[];
   hideVotes: boolean;
   endDate: string | null;
   notifyOnResponse: boolean;
