@@ -48,7 +48,7 @@ export async function deletePoll(adminUid: string) {
 }
 
 export async function findPoll(adminEmail: string) {
-  $fetch(`/api/polls/find`, {
+  await $fetch(`/api/polls/find`, {
     method: "POST",
     body: {
       adminEmail,
