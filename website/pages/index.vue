@@ -33,4 +33,10 @@ async function hideDeletedPollAlert() {
   <RouterLink :to="{ name: 'poll-new' }">
     {{ $t("pages.index.newPoll") }}
   </RouterLink>
+
+  <br />
+
+  <RouterLink :to="{ name: 'poll-find' }">
+    {{ $t("pages.index.findPoll") }}
+  </RouterLink>
 </template>

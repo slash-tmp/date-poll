@@ -46,3 +46,12 @@ export async function deletePoll(adminUid: string) {
 
   return deletedPoll;
 }
+
+export async function findPoll(adminEmail: string) {
+  await $fetch(`/api/polls/find`, {
+    method: "POST",
+    body: {
+      adminEmail,
+    },
+  });
+}

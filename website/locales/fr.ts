@@ -14,8 +14,23 @@ export default {
         close: "Fermer",
       },
       newPoll: "Créer un sondage",
+      findPoll: "Rechercher un sondage",
     },
     poll: {
+      find: {
+        title: "Rechercher un sondage",
+        description:
+          "Pour retrouver des sondages existants, entrez l’adresse email que vous avez utilisée les créer. Si l’adresse existe, un email avec la liste de vos sondages vous sera envoyé.",
+        alert: {
+          description:
+            "Un email a été envoyé à l’adresse {emailAddress} avec la liste de vos sondages.",
+          close: "Fermer",
+        },
+        form: {
+          label: "Adresse email",
+          submit: "Rechercher",
+        },
+      },
       new: {
         title: "Nouveau sondage",
         stepper: "Étape {current} sur {count}",
