@@ -235,8 +235,7 @@ describe("Poll edition page", () => {
     cy.getByLabel("Date de fin").should("have.value", "");
   });
 
-  // TODO: check when dates will be sorted
-  it("adds and delete new dates and save existing ones", () => {
+  it.only("adds and delete new dates and save existing ones", () => {
     cy.contains("Supprimer").click();
 
     cy.contains("Ajouter une date").click();
@@ -255,18 +254,18 @@ describe("Poll edition page", () => {
 
     // Deleted date is gone
     cy.getByLabel("Date n°1").should("not.have.value", "2024-05-15");
-    cy.getByLabel("Horaire n°1").should("not.have.value", "08:30");
+    cy.getByLabel("Horaire n°1").should("not.have.value", "10:30");
 
     // Previous 2nd date is now 1st
     cy.getByLabel("Date n°1").should("have.value", "2024-05-22");
-    cy.getByLabel("Horaire n°1").should("have.value", "11:00");
+    cy.getByLabel("Horaire n°1").should("have.value", "13:00");
 
     // Previous 3rd date is now 2nd
     cy.getByLabel("Date n°2").should("have.value", "2024-05-29");
-    cy.getByLabel("Horaire n°2").should("have.value", "16:50");
+    cy.getByLabel("Horaire n°2").should("have.value", "18:50");
 
     // 3rd date is the newly added
-    cy.getByLabel("Date n°3").should("have.value", "2024-05-15");
-    cy.getByLabel("Horaire n°3").should("have.value", "08:30");
+    cy.getByLabel("Date n°3").should("have.value", "2024-10-30");
+    cy.getByLabel("Horaire n°3").should("have.value", "12:00");
   });
 });

@@ -1,32 +1,22 @@
 <script setup lang="ts">
-import type { AdminPollApiResponse, UpdatePollFormData } from "~/types/poll";
+import type { UpdatePollFormData } from "~/types/poll";
 
 const props = defineProps<{
-  defaultFormData: AdminPollApiResponse;
+  adminEmail: string;
+  defaultFormData: UpdatePollFormData;
 }>();
 
 const emit = defineEmits<{
   (e: "submit", payload: UpdatePollFormData): void;
 }>();
 
-const poll = ref({
-  ...props.defaultFormData,
-  choices: props.defaultFormData.choices.map((c) => {
-    return {
-      id: c.id,
-      date: toLocalDateString(c.date).substring(0, 10),
-      time: toLocalDateString(c.date).substring(11),
-    };
-  }),
-  endDate: props.defaultFormData.endDate?.slice(0, 10) || null,
-});
+const poll = ref(props.defaultFormData);
 
 // Choices management
 const dateRefs = ref<HTMLInputElement[]>([]);
 
 async function addChoice() {
-  // FIXME: id is mandatory, but not for newly added choices
-  poll.value.choices.push({ date: "", time: "" });
+  poll.value.choices.push({ id: undefined, date: "", time: "" });
   await nextTick();
   dateRefs.value[poll.value.choices.length - 1].focus();
 }
@@ -51,7 +41,6 @@ async function submitForm() {
     endDate: poll.value.endDate,
     notifyOnResponse: poll.value.notifyOnResponse,
     adminName: poll.value.adminName,
-    adminEmail: poll.value.adminEmail,
   };
 
   emit("submit", formData);
@@ -189,7 +178,7 @@ async function submitForm() {
         <br />
         <span>{{ $t("pages.poll.admin.edit.adminInfos.email.hint") }}</span>
         <br />
-        <input id="email" v-model="poll.adminEmail" type="email" disabled />
+        <input id="email" :value="adminEmail" type="email" disabled />
       </div>
     </fieldset>
 

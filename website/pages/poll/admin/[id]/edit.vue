@@ -11,6 +11,30 @@ const { data: poll } = await useFetch<AdminPollApiResponse>(
   `/api/polls/admin/${id}`,
 );
 
+const defaultFormData = computed(() => {
+  return poll.value
+    ? {
+        title: poll.value.title,
+        description: poll.value.description,
+        choices: poll.value.choices
+          .sort(
+            (a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf(),
+          )
+          .map((c) => ({
+            ...(c.id ? { id: c.id } : {}),
+            date: toLocalDateString(c.date).substring(0, 10),
+            time: toLocalDateString(c.date).substring(11),
+          })),
+        hideVotes: poll.value.hideVotes,
+        endDate: poll.value.endDate
+          ? toLocalDateString(poll.value.endDate).substring(0, 10)
+          : null,
+        notifyOnResponse: poll.value.notifyOnResponse,
+        adminName: poll.value.adminName,
+      }
+    : {};
+});
+
 // Submit edit
 async function submitEditForm(data: UpdatePollFormData) {
   try {
@@ -34,7 +58,8 @@ async function submitEditForm(data: UpdatePollFormData) {
 
   <EditPollForm
     v-if="poll"
-    :default-form-data="poll"
+    :admin-email="poll.adminEmail"
+    :default-form-data="defaultFormData"
     @submit="submitEditForm"
   />
 </template>
