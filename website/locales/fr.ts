@@ -128,7 +128,11 @@ export default {
               "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",
           },
           responses: {
-            title: "Participations (TODO)",
+            title: "Réponses et participations",
+            at: "à",
+            vote: "vote",
+            votes: "votes",
+            maybe: "(peut-être)",
           },
           error: {
             404: {

@@ -1,30 +1,6 @@
 <script setup lang="ts">
+import type { PublicPoll } from "~/types/poll";
 import { Response } from "~/types/poll";
-
-// FIXME: temp types
-interface RespondentResponse {
-  id: number;
-  choiceId: number;
-  value: Response;
-}
-
-// FIXME: temp types
-interface Respondent {
-  id: number;
-  name: string;
-  responses: RespondentResponse[];
-}
-
-// FIXME: temp types
-interface PublicPoll {
-  title: string;
-  description?: string;
-  choices: { id: number; date: string }[];
-  respondents: Respondent[];
-  hideVotes: boolean;
-  endDate: string | null;
-  adminName: string | null;
-}
 
 const props = defineProps<{
   poll: PublicPoll;

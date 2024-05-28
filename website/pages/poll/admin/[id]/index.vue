@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import Actions from "~/components/poll/admin/Actions.vue";
 import Intro from "~/components/poll/admin/Intro.vue";
+import Responses from "~/components/poll/admin/Responses.vue";
 import Share from "~/components/poll/admin/Share.vue";
 import type { AdminPollApiResponse } from "~/types/poll";
+import { Response } from "~/types/poll";
 
 const { t } = useI18n();
 
@@ -57,6 +59,74 @@ async function confirmDelete() {
     console.error(e);
   }
 }
+
+// FIXME: temp data
+const respondents = ref([
+  {
+    id: 0,
+    name: "Anna",
+    responses: [
+      {
+        id: 0,
+        choiceId: 846,
+        value: Response.YES,
+      },
+      {
+        id: 1,
+        choiceId: 847,
+        value: Response.NO,
+      },
+    ],
+  },
+  {
+    id: 1,
+    name: "Alexandre",
+    responses: [
+      {
+        id: 2,
+        choiceId: 846,
+        value: Response.NO,
+      },
+      {
+        id: 3,
+        choiceId: 847,
+        value: Response.YES,
+      },
+    ],
+  },
+  {
+    id: 2,
+    name: "Jean-Eduardo",
+    responses: [
+      {
+        id: 4,
+        choiceId: 846,
+        value: Response.NO,
+      },
+      {
+        id: 5,
+        choiceId: 847,
+        value: Response.MAYBE,
+      },
+    ],
+  },
+  {
+    id: 3,
+    name: "Véronique",
+    responses: [
+      {
+        id: 6,
+        choiceId: 846,
+        value: Response.NO,
+      },
+      {
+        id: 7,
+        choiceId: 847,
+        value: Response.YES,
+      },
+    ],
+  },
+]);
 </script>
 
 <template>
@@ -93,6 +163,7 @@ async function confirmDelete() {
     </div>
     <div>
       <h2>{{ $t("pages.poll.admin.id.responses.title") }}</h2>
+      <Responses :choices="poll.choices" :respondents="respondents" />
     </div>
   </template>
 </template>
