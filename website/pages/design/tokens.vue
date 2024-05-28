@@ -38,14 +38,6 @@ const brandSwatch = [
       "--color-primary-darker",
     ],
   },
-  {
-    name: "Secondary",
-    colors: [
-      "--color-secondary-light",
-      "--color-secondary",
-      "--color-secondary-dark",
-    ],
-  },
 ];
 
 const stateSwatch = [

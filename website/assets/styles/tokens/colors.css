@@ -19,17 +19,6 @@
   --color-primary-dark: hsl(var(--hue-primary) var(--saturation-primary) 45%);
   --color-primary-darker: hsl(var(--hue-primary) var(--saturation-primary) 35%);
 
-  /* Secondary colors */
-  --hue-secondary: 25;
-  --saturation-secondary: 35%;
-  --color-secondary-light: hsl(
-    var(--hue-secondary) var(--saturation-secondary) 90%
-  );
-  --color-secondary: hsl(var(--hue-secondary) var(--saturation-secondary) 60%);
-  --color-secondary-dark: hsl(
-    var(--hue-secondary) var(--saturation-secondary) 40%
-  );
-
   /* Info color */
   --hue-info: 216;
   --color-info: hsl(var(--hue-info) 100% 63%);
