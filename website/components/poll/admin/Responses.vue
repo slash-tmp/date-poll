@@ -23,6 +23,20 @@ function getRespondentsForDate(choiceId: number) {
 
   return res;
 }
+
+// TODO: improve how best choice is selected
+const bestChoiceId = computed(() => {
+  const res = props.choices.map((c) => {
+    return {
+      id: c.id,
+      responses: getRespondentsForDate(c.id).length,
+    };
+  });
+
+  return res.reduce(function (prev, current) {
+    return prev && prev.responses > current.responses ? prev : current;
+  }).id;
+});
 </script>
 
 <template>
@@ -42,8 +56,9 @@ function getRespondentsForDate(choiceId: number) {
           )
         }})
 
-        <!-- FIXME: set best date -->
-        <mark>Meilleur choix</mark>
+        <mark v-if="choice.id === bestChoiceId">{{
+          $t("pages.poll.admin.id.responses.bestChoice")
+        }}</mark>
       </p>
 
       <ul>

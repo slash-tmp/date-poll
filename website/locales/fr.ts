@@ -133,6 +133,7 @@ export default {
             vote: "vote",
             votes: "votes",
             maybe: "(peut-être)",
+            bestChoice: "Meilleur choix",
           },
           error: {
             404: {
