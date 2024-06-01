@@ -128,8 +128,8 @@ const breakpoints = [{ name: "--breakpoint-medium", value: "50 rem / 800px" }];
   <h3>Brand colors</h3>
 
   <template v-for="brand in brandSwatch" :key="brand.name">
+    <h4>{{ brand.name }}</h4>
     <ul class="swatch">
-      <h4>{{ brand.name }}</h4>
       <li v-for="color in brand.colors" :key="color">
         <span :style="`background-color: var(${color})`" />
         <code>{{ color }}</code>
@@ -140,8 +140,8 @@ const breakpoints = [{ name: "--breakpoint-medium", value: "50 rem / 800px" }];
   <h3>State colors</h3>
 
   <template v-for="state in stateSwatch" :key="state.name">
+    <h4>{{ state.name }}</h4>
     <ul class="swatch">
-      <h4>{{ state.name }}</h4>
       <li v-for="color in state.colors" :key="color">
         <span :style="`background-color: var(${color})`" />
         <code>{{ color }}</code>
