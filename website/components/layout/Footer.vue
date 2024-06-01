@@ -21,13 +21,14 @@ footer {
   margin-block-start: auto;
 
   ul {
-    margin: 0;
     padding: 1rem;
     display: flex;
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
     list-style: none;
+    max-width: var(--content-width);
+    margin: 0 auto;
   }
 }
 </style>
