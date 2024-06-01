@@ -1,0 +1,22 @@
+:root {
+  /*
+  Breakpoints
+  Variables can't be used inside a @media declaration but only with JavaScript.
+  To use in CSS, just report the value manually.
+
+  By default, design is desktop-first.
+  */
+  --breakpoint-medium: 50rem; /* 800px */
+
+  /* Shadows */
+  --shadow-small: 0.5px 1px 1px hsl(0deg 0% 50% / 70%);
+  --shadow-medium: 1px 2px 2px hsl(0deg 0% 50% / 33.3%),
+    2px 4px 4px hsl(0deg 0% 50% / 33.3%), 3px 6px 6px hsl(0deg 0% 50% / 33.3%);
+  --shadow-large: 1px 2px 2px hsl(0deg 0% 50% / 20%),
+    2px 4px 4px hsl(0deg 0% 50% / 20%), 4px 8px 8px hsl(0deg 0% 50% / 20%),
+    8px 16px 16px hsl(0deg 0% 50% / 20%), 16px 32px 32px hsl(0deg 0% 50% / 20%);
+
+  /* Border radiuses */
+  --border-radius-base: 0.25rem;
+  --border-radius-round: 50%;
+}

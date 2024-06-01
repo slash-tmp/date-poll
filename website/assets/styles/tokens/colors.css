@@ -1,0 +1,39 @@
+:root {
+  /* Grey scale colors */
+  --hue-grey: 250;
+  --color-white: hsl(0deg 0% 100%);
+  --color-grey-1: hsl(var(--hue-grey) 14% 95%);
+  --color-grey-2: hsl(var(--hue-grey) 11% 75%);
+  --color-grey-3: hsl(var(--hue-grey) 13% 40%);
+  --color-grey-4: hsl(var(--hue-grey) 19% 15%);
+  --color-black: hsl(0deg 0% 0%);
+
+  /* Primary colors */
+  --hue-primary: 217;
+  --saturation-primary: 75%;
+  --color-primary-lighter: hsl(
+    var(--hue-primary) var(--saturation-primary) 95%
+  );
+  --color-primary-light: hsl(var(--hue-primary) var(--saturation-primary) 75%);
+  --color-primary: hsl(var(--hue-primary) var(--saturation-primary) 52%);
+  --color-primary-dark: hsl(var(--hue-primary) var(--saturation-primary) 45%);
+  --color-primary-darker: hsl(var(--hue-primary) var(--saturation-primary) 35%);
+
+  /* Info color */
+  --hue-info: 216;
+  --color-info: hsl(var(--hue-info) 100% 63%);
+  --color-info-light: hsl(var(--hue-info) 100% 90%);
+
+  /* Success color */
+  --hue-success: 138;
+  --color-success: hsl(var(--hue-success) 100% 31%);
+  --color-success-light: hsl(var(--hue-success) 100% 95%);
+
+  /* Error color */
+  --hue-error: 11;
+  --color-error: hsl(var(--hue-error) 100% 42%);
+  --color-error-light: hsl(var(--hue-error) 100% 95%);
+
+  /* Utility colors */
+  --color-outline: hsl(var(--hue-primary) var(--saturation-primary) 20%);
+}
