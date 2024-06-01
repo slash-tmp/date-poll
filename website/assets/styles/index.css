@@ -8,3 +8,10 @@
   outline: 2px solid var(--color-outline-local, var(--color-outline));
   outline-offset: 2px;
 }
+
+/* stylelint-disable-next-line selector-id-pattern */
+#__nuxt {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

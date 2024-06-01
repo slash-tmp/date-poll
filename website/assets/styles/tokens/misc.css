@@ -19,4 +19,7 @@
   /* Border radiuses */
   --border-radius-base: 0.25rem;
   --border-radius-round: 50%;
+
+  /* Widths */
+  --content-width: 56.25rem; /* 900px */
 }

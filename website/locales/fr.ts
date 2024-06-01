@@ -6,6 +6,11 @@ export default {
   pages: {
     error: {
       homeLink: "Retourner à la page d’accueil",
+      404: {
+        title: "Page introuvable",
+        description:
+          "Le sondage que vous cherchez n’existe pas ou a été supprimée.",
+      },
     },
     index: {
       title: "date poll",

@@ -1,6 +1,19 @@
 <template>
   <header>
-    <RouterLink :to="{ name: 'index' }">date-poll</RouterLink>
-    <hr />
+    <div class="content">
+      <RouterLink :to="{ name: 'index' }">📆 date-poll</RouterLink>
+    </div>
   </header>
 </template>
+
+<style scoped>
+header {
+  border-bottom: 1px solid var(--color-grey-2);
+
+  .content {
+    max-width: var(--content-width);
+    margin-inline: auto;
+    padding: 1rem;
+  }
+}
+</style>
