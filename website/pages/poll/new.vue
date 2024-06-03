@@ -101,10 +101,6 @@ watch(step, () => {
     @submit="submitLastStep"
     @previous="goToPreviousStep"
   />
-
-  <hr />
-
-  <pre><code>{{ JSON.stringify(formData, null, 2) }}</code></pre>
 </template>
 
 <style scoped>

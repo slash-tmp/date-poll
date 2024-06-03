@@ -40,6 +40,7 @@ export default {
         title: "Créer un sondage",
         stepper: "Étape {current} sur {count}",
         navigation: {
+          back: "Retour",
           previous: "Précédent",
           next: "Suivant",
           submit: "Valider",

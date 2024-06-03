@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from "~/components/Button.vue";
 import Input from "~/components/Input.vue";
 import Textarea from "~/components/Textarea.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
@@ -23,6 +24,7 @@ function submit() {
   <p class="intro">
     {{ $t("pages.poll.new.titleAndDescription.intro") }}
   </p>
+
   <form @submit.prevent="submit">
     <Input
       id="title"
@@ -41,8 +43,11 @@ function submit() {
       :help="$t('pages.poll.new.titleAndDescription.description.help')"
     />
 
-    <div>
-      <button type="submit">{{ $t("pages.poll.new.navigation.next") }}</button>
+    <div class="actions">
+      <Button :to="{ name: 'index' }" variant="secondary">
+        {{ $t("pages.poll.new.navigation.back") }}
+      </Button>
+      <Button type="submit">{{ $t("pages.poll.new.navigation.next") }}</Button>
     </div>
   </form>
 </template>
@@ -56,5 +61,20 @@ function submit() {
 .description-field {
   max-width: 30rem;
   margin-block-end: 1rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-block-start: 4rem;
+  gap: 1rem;
+
+  > * {
+    @media (width < 50rem) {
+      flex-grow: 1;
+    }
+  }
 }
 </style>

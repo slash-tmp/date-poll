@@ -66,6 +66,7 @@ function focus() {
       );
       border-radius: var(--border-radius-base);
       background: var(--color-primary);
+      transition: width 0.2s ease;
     }
   }
 }
