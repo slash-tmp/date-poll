@@ -69,13 +69,16 @@ export default {
         settings: {
           stepTitle: "Paramètres",
           hideVotes: {
-            label: "Masquer les votes",
+            label: "Masquer la liste des participant·es",
+            help: "Les noms des participant·es seront cachés aux autres (mais pas à vous, évidemment).",
           },
           endDate: {
             label: "Date de fin",
+            help: "Une fois la date limite passée, le sondage n’acceptera plus de réponses. Désolé.",
           },
           notifyOnResponse: {
             label: "Recevoir un email pour chaque participation",
+            help: "On vous envoie un email dès qu’une personne répond à votre sondage, pratique.",
           },
         },
         adminInfos: {

@@ -2,12 +2,12 @@
 defineProps<{
   id: string;
   label: string;
-  type?: "text";
+  type?: "text" | "date";
   help?: string;
   required?: boolean;
 }>();
 
-const model = defineModel<string>();
+const model = defineModel<string | null>();
 </script>
 
 <template>
