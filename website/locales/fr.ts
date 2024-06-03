@@ -37,7 +37,7 @@ export default {
         },
       },
       new: {
-        title: "Nouveau sondage",
+        title: "Créer un sondage",
         stepper: "Étape {current} sur {count}",
         navigation: {
           previous: "Précédent",
