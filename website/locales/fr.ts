@@ -85,9 +85,11 @@ export default {
         },
         adminInfos: {
           stepTitle: "Administrateur",
+          intro:
+            "Dernière étape : il est temps d’indiquer aux participant·es qui vous êtes (mais vous pouvez aussi rester anonyme 🥷). Vous serez ensuite redirigé·e vers la page de gestion de votre sondage que vous n’aurez plus qu’à partager !",
           name: {
             label: "Nom",
-            hint: "Le nom est utilisé pour indiquer aux participants qui est l’auteur·ice du sondage",
+            hint: "Le nom est utilisé pour indiquer aux participant·es qui est l’auteur·ice du sondage",
           },
           email: {
             label: "Adresse email",

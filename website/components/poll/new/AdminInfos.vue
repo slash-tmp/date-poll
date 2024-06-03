@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import Input from "~/components/Input.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
+
+import Actions from "./Actions.vue";
 
 const props = defineProps<{
   defaultFormData: CreatePollFormData;
@@ -23,37 +26,57 @@ function previous() {
 </script>
 
 <template>
-  <form @submit.prevent="submit">
-    <div>
-      <label for="name">{{ $t("pages.poll.new.adminInfos.name.label") }}</label>
-      <br />
-      <span>{{ $t("pages.poll.new.adminInfos.name.hint") }}</span>
-      <br />
-      <input id="name" v-model="name" type="text" />
-    </div>
+  <form class="form" @submit.prevent="submit">
+    <p class="intro">
+      {{ $t("pages.poll.new.adminInfos.intro") }}
+    </p>
+    <Input
+      id="name"
+      v-model="name"
+      class="name"
+      type="text"
+      :label="$t('pages.poll.new.adminInfos.name.label')"
+      :help="$t('pages.poll.new.adminInfos.name.hint')"
+    />
 
-    <br />
-    <br />
+    <Input
+      id="email"
+      v-model="email"
+      class="email"
+      type="email"
+      required
+      :label="$t('pages.poll.new.adminInfos.email.label')"
+      :help="$t('pages.poll.new.adminInfos.email.hint')"
+    />
 
-    <div>
-      <label for="email">{{
-        $t("pages.poll.new.adminInfos.email.label")
-      }}</label>
-      <br />
-      <span>{{ $t("pages.poll.new.adminInfos.email.hint") }}</span>
-      <br />
-      <input id="email" v-model="email" type="email" required />
-    </div>
-
-    <br />
-    <br />
-    <div>
-      <button type="button" @click="previous">
-        {{ $t("pages.poll.new.navigation.previous") }}
-      </button>
-      <button type="submit">
-        {{ $t("pages.poll.new.navigation.submit") }}
-      </button>
-    </div>
+    <Actions>
+      <template #prev>
+        <Button variant="secondary" @click="previous">
+          {{ $t("pages.poll.new.navigation.previous") }}
+        </Button>
+      </template>
+      <template #next>
+        <Button type="submit">
+          {{ $t("pages.poll.new.navigation.submit") }}
+        </Button>
+      </template>
+    </Actions>
   </form>
 </template>
+
+<style scoped>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intro {
+  margin-block-end: 1rem;
+}
+
+.name,
+.email {
+  max-width: 30rem;
+}
+</style>

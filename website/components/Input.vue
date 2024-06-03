@@ -2,7 +2,7 @@
 defineProps<{
   id: string;
   label: string;
-  type?: "text" | "date";
+  type?: "text" | "email" | "date";
   help?: string;
   required?: boolean;
 }>();
