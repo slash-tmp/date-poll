@@ -1,4 +1,4 @@
-describe("Poll creation page /poll/new", () => {
+describe.only("Poll creation page /poll/new", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
     cy.contains("Créer un sondage").click();
@@ -24,7 +24,7 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 3
-    cy.getByLabel("Masquer les votes").check();
+    cy.getByLabel("Masquer la liste des participant·es").check();
     cy.getByLabel("Date de fin").type("2023-11-02");
     cy.getByLabel("Recevoir un email pour chaque participation").check();
     cy.contains("Suivant").click();
@@ -85,7 +85,7 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 3
-    cy.getByLabel("Masquer les votes").check();
+    cy.getByLabel("Masquer la liste des participant·es").check();
     cy.getByLabel("Date de fin").type("2023-11-02");
     cy.getByLabel("Recevoir un email pour chaque participation").check();
     cy.contains("Suivant").click();
@@ -96,7 +96,10 @@ describe("Poll creation page /poll/new", () => {
 
     // Check step 3 was saved
     cy.contains("Précédent").click();
-    cy.getByLabel("Masquer les votes").should("have.value", "on");
+    cy.getByLabel("Masquer la liste des participant·es").should(
+      "have.value",
+      "on",
+    );
     cy.getByLabel("Date de fin").should("have.value", "2023-11-02");
     cy.getByLabel("Recevoir un email pour chaque participation").should(
       "have.value",
