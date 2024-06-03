@@ -5,6 +5,8 @@ const fontSizes = [
   "--font-size-2",
   "--font-size-3",
   "--font-size-4",
+  "--font-size-5",
+  "--font-size-6",
 ];
 
 const fontWeights = [

@@ -3,6 +3,7 @@
 
   <h1>Typography</h1>
 
+  <h1 class="highlighted">Level 1 highlighted heading</h1>
   <h1>Level 1 heading</h1>
   <h2>Level 2 heading</h2>
   <h3>Level 3 heading</h3>
