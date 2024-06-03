@@ -38,9 +38,7 @@ function previous() {
 <template>
   <form class="form" @submit.prevent="submit">
     <p class="intro">
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Error eveniet
-      vel, mollitia eius expedita quibusdam ad assumenda. Fuga excepturi, autem
-      optio corporis, qui quae velit voluptatem delectus a, suscipit inventore.
+      {{ $t("pages.poll.new.settings.intro") }}
     </p>
 
     <Input
@@ -93,6 +91,6 @@ function previous() {
 }
 
 .end-date {
-  max-width: 20rem;
+  max-width: 22rem;
 }
 </style>

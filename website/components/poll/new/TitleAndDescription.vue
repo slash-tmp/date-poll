@@ -23,11 +23,11 @@ function submit() {
 </script>
 
 <template>
-  <p class="intro">
-    {{ $t("pages.poll.new.titleAndDescription.intro") }}
-  </p>
+  <form class="form" @submit.prevent="submit">
+    <p class="intro">
+      {{ $t("pages.poll.new.titleAndDescription.intro") }}
+    </p>
 
-  <form @submit.prevent="submit">
     <Input
       id="title"
       v-model="title"
@@ -61,13 +61,18 @@ function submit() {
 </template>
 
 <style scoped>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .intro {
-  margin-block-end: 2rem;
+  margin-block-end: 1rem;
 }
 
 .title-field,
 .description-field {
   max-width: 30rem;
-  margin-block-end: 1rem;
 }
 </style>
