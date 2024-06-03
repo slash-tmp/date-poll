@@ -44,7 +44,7 @@ h4 {
   text-wrap: balance;
 }
 
-/* A elements that don't have a class get default styles */
+/* A elements default styles */
 a {
   text-decoration-skip-ink: auto;
   color: currentcolor;

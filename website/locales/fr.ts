@@ -9,7 +9,7 @@ export default {
       404: {
         title: "Page introuvable",
         description:
-          "Le sondage que vous cherchez n’existe pas ou a été supprimée.",
+          "La page que vous cherchez n’existe pas ou a été supprimée.",
       },
     },
     index: {
