@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Input from "~/components/Input.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 const props = defineProps<{
@@ -18,14 +19,17 @@ function submit() {
 </script>
 
 <template>
+  <p class="intro">
+    {{ $t("pages.poll.new.titleAndDescription.intro") }}
+  </p>
   <form @submit.prevent="submit">
-    <div>
-      <label for="title">{{
-        $t("pages.poll.new.titleAndDescription.title.label")
-      }}</label>
-      <br />
-      <input id="title" v-model="title" type="text" required />
-    </div>
+    <Input
+      id="title"
+      v-model="title"
+      class="title-field"
+      required
+      :label="$t('pages.poll.new.titleAndDescription.title.label')"
+    />
 
     <div>
       <label for="description">{{
@@ -39,3 +43,13 @@ function submit() {
     </div>
   </form>
 </template>
+
+<style scoped>
+.intro {
+  margin-block-end: 2rem;
+}
+
+.title-field {
+  max-width: 30rem;
+}
+</style>

@@ -45,6 +45,8 @@ export default {
           submit: "Valider",
         },
         titleAndDescription: {
+          intro:
+            "Donnez un nom et présentez brièvement votre sondage aux participant·es si vous le souhaitez. Vous pouvez par exemple indiquer un lieu, annoncer le planning des activités ou ajouter le lien d’une visio.",
           stepTitle: "Nom et description",
           title: {
             label: "Nom",
