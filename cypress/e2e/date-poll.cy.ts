@@ -1,4 +1,4 @@
-describe.only("Poll creation page /poll/new", () => {
+describe("Poll creation page /poll/new", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
     cy.contains("Créer un sondage").click();
