@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Input from "~/components/Input.vue";
+import Textarea from "~/components/Textarea.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 const props = defineProps<{
@@ -31,13 +32,15 @@ function submit() {
       :label="$t('pages.poll.new.titleAndDescription.title.label')"
     />
 
-    <div>
-      <label for="description">{{
-        $t("pages.poll.new.titleAndDescription.description.label")
-      }}</label>
-      <br />
-      <textarea id="description" v-model="description" />
-    </div>
+    <Textarea
+      id="description"
+      v-model="description"
+      class="description-field"
+      :rows="6"
+      :label="$t('pages.poll.new.titleAndDescription.description.label')"
+      :help="$t('pages.poll.new.titleAndDescription.description.help')"
+    />
+
     <div>
       <button type="submit">{{ $t("pages.poll.new.navigation.next") }}</button>
     </div>
@@ -49,7 +52,9 @@ function submit() {
   margin-block-end: 2rem;
 }
 
-.title-field {
+.title-field,
+.description-field {
   max-width: 30rem;
+  margin-block-end: 1rem;
 }
 </style>

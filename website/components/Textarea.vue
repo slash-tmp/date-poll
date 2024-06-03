@@ -2,27 +2,27 @@
 defineProps<{
   id: string;
   label: string;
-  type?: "text";
+  rows?: number;
   help?: string;
   required?: boolean;
 }>();
 
-const model = defineModel<string>();
+const model = defineModel<string | null>();
 </script>
 
 <template>
   <div class="wrapper">
-    <label :for="`input-${id}`" class="label">
+    <label :for="`textarea-${id}`" class="label">
       {{ label }}
       <span v-if="required" aria-hidden="true" class="required">*</span>
       <span v-if="help" class="help">{{ help }}</span>
     </label>
-    <input
-      :id="`input-${id}`"
+    <textarea
+      :id="`textarea-${id}`"
       v-model="model"
       class="field"
       :required="required"
-      :type="type ?? 'text'"
+      :rows="rows"
     />
   </div>
 </template>

@@ -46,13 +46,14 @@ export default {
         },
         titleAndDescription: {
           intro:
-            "Donnez un nom et présentez brièvement votre sondage aux participant·es si vous le souhaitez. Vous pouvez par exemple indiquer un lieu, annoncer le planning des activités ou ajouter le lien d’une visio.",
+            "Commencez par présenter votre sondage à vos participant·es. Donnez-lui d’abord un nom puis une brève description si vous le souhaitez.",
           stepTitle: "Nom et description",
           title: {
-            label: "Nom",
+            label: "Nom du sondage",
           },
           description: {
             label: "Description (optionnel)",
+            help: "Vous pouvez par exemple indiquer un lieu, détailler les activités prévues ou ajouter des liens utiles.",
           },
         },
         choices: {
