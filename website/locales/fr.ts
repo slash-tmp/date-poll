@@ -46,9 +46,9 @@ export default {
           submit: "Valider",
         },
         titleAndDescription: {
-          intro:
-            "Commencez par présenter votre sondage à vos participant·es. Donnez-lui d’abord un nom puis une brève description si vous le souhaitez.",
           stepTitle: "Nom et description",
+          intro:
+            "Commencez par présenter votre sondage à vos participant·es. Donnez-lui d’abord un nom sympa puis une brève description si vous le souhaitez.",
           title: {
             label: "Nom du sondage",
           },
@@ -68,13 +68,15 @@ export default {
         },
         settings: {
           stepTitle: "Paramètres",
+          intro:
+            "Personnalisez maintenant votre sondage en sélectionnant les options souhaitées. Pas de panique, vous pourrez toujours les modifier une fois le sondage créé.",
           hideVotes: {
             label: "Masquer la liste des participant·es",
             help: "Les noms des participant·es seront cachés aux autres (mais pas à vous, évidemment).",
           },
           endDate: {
             label: "Date de fin",
-            help: "Une fois la date limite passée, le sondage n’acceptera plus de réponses. Désolé.",
+            help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
           },
           notifyOnResponse: {
             label: "Recevoir un email pour chaque participation",
