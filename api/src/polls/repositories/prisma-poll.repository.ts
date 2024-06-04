@@ -112,13 +112,13 @@ export class PrismaPollRepository implements PollRepository {
       where: { adminUid },
       data: {
         title: data.title,
-        description: data.description,
+        description: data.description ?? null,
 
-        endDate: data.endDate,
+        endDate: data.endDate ?? null,
         hideVotes: data.hideVotes,
         notifyOnResponse: data.notifyOnResponse,
 
-        adminName: data.adminName,
+        adminName: data.adminName ?? null,
 
         choices: {
           deleteMany: {
