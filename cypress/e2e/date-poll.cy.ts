@@ -217,8 +217,7 @@ describe("Poll edition page", () => {
     cy.contains('Le sondage "Trip to the ocean" a bien été mis à jour');
   });
 
-  // TODO: check when `endDate` bug will be fixed
-  it.skip("deletes endDate", () => {
+  it("deletes endDate", () => {
     cy.getByLabel("Date de fin").clear();
 
     cy.contains("Mettre à jour").click();
