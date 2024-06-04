@@ -158,3 +158,51 @@ describe("Find poll page", () => {
     );
   });
 });
+
+describe("Poll edition page", () => {
+  beforeEach(() => {
+    cy.fixture("../fixtures/createPollFormData").then((fixture) => {
+      cy.request({
+        method: "POST",
+        url: "http://localhost:4000/api/polls",
+        body: fixture,
+      }).then((data) => {
+        cy.visit(`http://localhost:3000/poll/admin/${data.body.adminUid}/edit`);
+      });
+    });
+  });
+
+  it("retrieves poll data in fields", () => {
+    cy.getByLabel("Nom").should("have.value", "Trip to the museum");
+    cy.getByLabel("Description").should(
+      "have.value",
+      "We are going to the natural history museum.",
+    );
+
+    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
+    cy.getByLabel("Horaire n°1").should("have.value", "16:50");
+
+    cy.getByLabel("Masquer les votes").should("have.value", "on");
+    cy.getByLabel("Date de fin").should("have.value", "2024-05-15");
+    cy.getByLabel("Recevoir un email pour chaque participation").should(
+      "have.value",
+      "on",
+    );
+
+    cy.get("fieldset:last-of-type")
+      .getByLabel("Adresse email")
+      .should("have.value", "bob@domain.com");
+  });
+
+  it("disables existing choices (date and time)", () => {
+    cy.getByLabel("Date n°1").should("have.attr", "disabled");
+    cy.getByLabel("Horaire n°1").should("have.attr", "disabled");
+
+    cy.contains("Ajouter une date").click();
+    cy.getByLabel("Date n°2").should("not.have.attr", "disabled");
+    cy.getByLabel("Horaire n°2").should("not.have.attr", "disabled");
+  });
+
+  // TODO: complete once backend is merged
+  it("redirects to index with alert on success");
+});
