@@ -5,7 +5,7 @@
         <RouterLink to="#">Données personnelles</RouterLink>
       </li>
       <li>
-        <RouterLink to="#">À propos</RouterLink>
+        <RouterLink :to="{ name: 'about' }">À propos</RouterLink>
       </li>
       <li>
         <RouterLink to="#">Contact</RouterLink>
