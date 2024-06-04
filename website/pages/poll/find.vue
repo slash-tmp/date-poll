@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import Alert from "~/components/Alert.vue";
+import Input from "~/components/Input.vue";
+
 const email = ref("");
 const recipientEmail = ref("");
 
@@ -31,29 +34,61 @@ async function closeAlert() {
 <template>
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.poll.find.title") }}</h1>
 
-  <p>{{ $t("pages.poll.find.description") }}</p>
+  <p class="intro">{{ $t("pages.poll.find.description") }}</p>
 
-  <div ref="alertRef" aria-live="polite" role="alert" tabindex="-1">
-    <template v-if="showSuccessAlert">
-      <p>
-        {{
-          $t("pages.poll.find.alert.description", {
-            emailAddress: recipientEmail,
-          })
-        }}
-      </p>
-      <button type="button" @click="closeAlert">
-        {{ $t("pages.poll.find.alert.close") }}
-      </button>
-    </template>
+  <div
+    ref="alertRef"
+    class="alert"
+    aria-live="polite"
+    role="alert"
+    tabindex="-1"
+  >
+    <Alert
+      v-if="showSuccessAlert"
+      is-closable
+      type="success"
+      @close="closeAlert"
+    >
+      {{
+        $t("pages.poll.find.alert.description", {
+          emailAddress: recipientEmail,
+        })
+      }}
+    </Alert>
   </div>
 
-  <form @submit.prevent="submit">
-    <div>
-      <label for="email">{{ $t("pages.poll.find.form.label") }}</label>
-      <input id="email" v-model="email" type="email" required />
-    </div>
+  <form class="form" @submit.prevent="submit">
+    <Input
+      :id="email"
+      v-model="email"
+      type="email"
+      required
+      :label="$t('pages.poll.find.form.label')"
+    />
 
-    <button type="submit">{{ $t("pages.poll.find.form.submit") }}</button>
+    <Button class="submit" type="submit">
+      {{ $t("pages.poll.find.form.submit") }}
+    </Button>
   </form>
 </template>
+
+<style scoped>
+.intro {
+  margin-block-end: 2rem;
+}
+
+.alert {
+  margin-block-end: 1rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 30rem;
+}
+
+.submit {
+  align-self: start;
+}
+</style>

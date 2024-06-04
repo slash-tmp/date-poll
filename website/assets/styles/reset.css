@@ -71,6 +71,10 @@ select {
   line-height: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 /* Anything that has been anchored to should have extra scroll margin */
 :target {
   scroll-margin-block: 1rem;
