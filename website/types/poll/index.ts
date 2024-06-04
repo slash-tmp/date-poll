@@ -15,6 +15,16 @@ export interface CreatePollFormData {
 // Selected properties of `CreatePollFormData`
 export type StepPayload = Partial<CreatePollFormData>;
 
+export interface UpdatePollFormData {
+  title: string;
+  description: string | null;
+  choices: { id?: number; date: string; time: string }[];
+  hideVotes: boolean;
+  endDate: string | null;
+  notifyOnResponse: boolean;
+  adminName: string | null;
+}
+
 // GET /polls/admin/<admin_uid>
 export type AdminPollApiResponse =
   paths["/polls/admin/{admin_uid}"]["get"]["responses"]["200"]["content"]["application/json"];
@@ -24,3 +34,8 @@ export type CreatePollApiRequest =
   paths["/polls"]["post"]["requestBody"]["content"]["application/json"];
 export type CreatePollApiResponse =
   paths["/polls"]["post"]["responses"]["201"]["content"]["application/json"];
+
+export type UpdatePollApiRequest =
+  paths["/polls/admin/{admin_uid}"]["put"]["requestBody"]["content"]["application/json"];
+export type UpdatePollApiResponse =
+  paths["/polls/admin/{admin_uid}"]["put"]["responses"]["200"]["content"]["application/json"];

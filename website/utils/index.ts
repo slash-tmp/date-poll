@@ -3,6 +3,9 @@ import type {
   CreatePollApiRequest,
   CreatePollApiResponse,
   CreatePollFormData,
+  UpdatePollApiRequest,
+  UpdatePollApiResponse,
+  UpdatePollFormData,
 } from "~/types/poll";
 
 /** Send a request to the API to create a new poll and return the result. */
@@ -31,6 +34,41 @@ export async function createPoll(formData: CreatePollFormData) {
     method: "POST",
     body: createPollRequestBody,
   });
+
+  return data;
+}
+
+/** Send a request to the API to update an existing poll and return the result. */
+export async function updatePoll(
+  adminUid: string,
+  formData: UpdatePollFormData,
+) {
+  // Transform form data to be accepted by API
+  const updatePollRequestBody: UpdatePollApiRequest = {
+    title: formData.title,
+    description: formData.description ?? undefined,
+    choices: formData.choices.map((c) => {
+      // merge time with date
+      const date = new Date(c.date);
+      const [hours, minutes] = c.time!.split(":").map(Number);
+      date.setHours(hours, minutes);
+      return { id: c.id, date: date.toISOString() };
+    }),
+    hideVotes: formData.hideVotes,
+    endDate: formData.endDate
+      ? new Date(formData.endDate).toISOString()
+      : undefined,
+    notifyOnResponse: formData.notifyOnResponse,
+    adminName: formData.adminName ?? undefined,
+  };
+
+  const data = await $fetch<UpdatePollApiResponse>(
+    `/api/polls/admin/${adminUid}`,
+    {
+      method: "PUT",
+      body: updatePollRequestBody,
+    },
+  );
 
   return data;
 }

@@ -158,3 +158,113 @@ describe("Find poll page", () => {
     );
   });
 });
+
+describe("Poll edition page", () => {
+  beforeEach(() => {
+    cy.fixture("../fixtures/createPollFormData").then((fixture) => {
+      cy.request({
+        method: "POST",
+        url: "http://localhost:4000/api/polls",
+        body: fixture,
+      }).then((data) => {
+        cy.visit(`http://localhost:3000/poll/admin/${data.body.adminUid}/edit`);
+      });
+    });
+  });
+
+  it("retrieves poll data in fields", () => {
+    cy.getByLabel("Nom").should("have.value", "Trip to the museum");
+    cy.getByLabel("Description").should(
+      "have.value",
+      "We are going to the natural history museum.",
+    );
+
+    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
+    cy.getByLabel("Horaire n°1").should("have.value", "10:30");
+
+    cy.getByLabel("Masquer les votes").should("have.value", "on");
+    cy.getByLabel("Date de fin").should("have.value", "2024-05-15");
+    cy.getByLabel("Recevoir un email pour chaque participation").should(
+      "have.value",
+      "on",
+    );
+
+    cy.get("fieldset:last-of-type")
+      .getByLabel("Adresse email")
+      .should("have.value", "bob@domain.com");
+  });
+
+  it("disables existing choices (date and time)", () => {
+    cy.getByLabel("Date n°1").should("have.attr", "disabled");
+    cy.getByLabel("Horaire n°1").should("have.attr", "disabled");
+
+    cy.contains("Ajouter une date").click();
+    cy.getByLabel("Date n°4").should("not.have.attr", "disabled");
+    cy.getByLabel("Horaire n°4").should("not.have.attr", "disabled");
+  });
+
+  it("redirects to index with alert on success", () => {
+    cy.getByLabel("Nom").clear().type("Trip to the ocean");
+    cy.getByLabel("Description")
+      .clear()
+      .type("We are going to the see the dolphins");
+
+    cy.contains("Mettre à jour").click();
+
+    cy.location("pathname").should("match", /^\/poll\/admin\/[A-Za-z0-9_-]+$/);
+    cy.contains("h1", "Trip to the ocean");
+    cy.contains("We are going to the see the dolphins");
+    cy.contains('Le sondage "Trip to the ocean" a bien été mis à jour');
+  });
+
+  it("deletes endDate", () => {
+    cy.getByLabel("Date de fin").clear();
+
+    cy.contains("Mettre à jour").click();
+
+    cy.location("pathname").should("match", /^\/poll\/admin\/[A-Za-z0-9_-]+$/);
+
+    cy.contains("Modifier le sondage").click();
+
+    cy.location("pathname").should(
+      "match",
+      /^\/poll\/admin\/[A-Za-z0-9_-]+\/edit$/,
+    );
+
+    cy.getByLabel("Date de fin").should("have.value", "");
+  });
+
+  it("adds and delete new dates and save existing ones", () => {
+    cy.contains("Supprimer").click();
+
+    cy.contains("Ajouter une date").click();
+
+    cy.getByLabel("Date n°3").type("2024-10-30");
+    cy.getByLabel("Horaire n°3").type("12:00");
+
+    cy.contains("Mettre à jour").click();
+    cy.location("pathname").should("match", /^\/poll\/admin\/[A-Za-z0-9_-]+$/);
+
+    cy.contains("Modifier le sondage").click();
+    cy.location("pathname").should(
+      "match",
+      /^\/poll\/admin\/[A-Za-z0-9_-]+\/edit$/,
+    );
+
+    // Deleted date is gone
+    cy.getByLabel("Date n°1").should("not.have.value", "2024-05-15");
+    cy.getByLabel("Horaire n°1").should("not.have.value", "10:30");
+
+    // Previous 2nd date is now 1st
+    cy.getByLabel("Date n°1").should("have.value", "2024-05-22");
+    cy.getByLabel("Horaire n°1").should("have.value", "13:00");
+
+    // Previous 3rd date is now 2nd
+    cy.getByLabel("Date n°2").should("have.value", "2024-05-29");
+    cy.getByLabel("Horaire n°2").should("have.value", "18:50");
+
+    // 3rd date is the newly added
+    cy.getByLabel("Date n°3").should("have.value", "2024-10-30");
+    cy.getByLabel("Horaire n°3").should("have.value", "12:00");
+  });
+});

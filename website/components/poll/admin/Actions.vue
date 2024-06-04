@@ -30,8 +30,9 @@ function confirmDelete() {
 
 <template>
   <div>
-    <!-- TODO: edit poll -->
-    <NuxtLink to="#">{{ $t("pages.poll.admin.id.actions.edit") }}</NuxtLink>
+    <NuxtLink :to="{ name: 'poll-admin-id-edit' }">
+      {{ $t("pages.poll.admin.id.actions.edit") }}
+    </NuxtLink>
     <br />
     <button ref="deleteButtonRef" @click="openDeleteModal">
       {{ $t("pages.poll.admin.id.actions.delete") }}

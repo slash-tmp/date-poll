@@ -3,11 +3,17 @@
   "description": "We are going to the natural history museum.",
   "choices": [
     {
-      "date": "2024-05-15T16:50:14.768Z"
+      "date": "2024-05-15T08:30:00.000Z"
+    },
+    {
+      "date": "2024-05-22T11:00:00.000Z"
+    },
+    {
+      "date": "2024-05-29T16:50:00.000Z"
     }
   ],
   "hideVotes": true,
-  "endDate": "2024-05-15T16:50:14.768Z",
+  "endDate": "2024-05-15T19:00:00.000Z",
   "notifyOnResponse": true,
   "adminName": "Bob Bobbington",
   "adminEmail": "bob@domain.com"

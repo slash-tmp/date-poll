@@ -123,6 +123,58 @@ export default {
             },
           },
         },
+        edit: {
+          title: "Modifier le sondage",
+          back: "Retour au sondage",
+          updatedPollAlert: {
+            description: 'Le sondage "{title}" a bien été mis à jour',
+            close: "Fermer",
+          },
+          titleAndDescription: {
+            stepTitle: "Nom et description",
+            title: {
+              label: "Nom",
+            },
+            description: {
+              label: "Description (optionnel)",
+            },
+          },
+          choices: {
+            stepTitle: "Dates et horaires",
+            stepSubtitle:
+              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer.",
+            choice: {
+              dateLabel: "Date n°{index}",
+              timeLabel: "Horaire n°{index}",
+              deleteChoice: "Supprimer",
+            },
+            addNewChoice: "Ajouter une date",
+          },
+          settings: {
+            stepTitle: "Paramètres",
+            hideVotes: {
+              label: "Masquer les votes",
+            },
+            endDate: {
+              label: "Date de fin",
+            },
+            notifyOnResponse: {
+              label: "Recevoir un email pour chaque participation",
+            },
+          },
+          adminInfos: {
+            stepTitle: "Administrateur",
+            name: {
+              label: "Nom",
+              hint: "Le nom est utilisé pour indiquer aux participants qui est l’auteur·ice du sondage",
+            },
+            email: {
+              label: "Adresse email",
+              hint: "L’adresse email est utilisée pour vous envoyer un email avec les informations de votre sondage (dont le lien d’administration)",
+            },
+          },
+          submit: "Mettre à jour",
+        },
       },
     },
   },

@@ -10,37 +10,20 @@ const emit = defineEmits<{
   (e: "previous", payload: StepPayload): void;
 }>();
 
-// const choices = ref(
-//   props.defaultFormData.choices.map((c) => {
-//     if (!c.date) {
-//       return { date: null, time: null };
-//     }
-
-//     // Convert Date object to local time HH:mm
-//     const hours = c.date.getHours().toString().padStart(2, "0");
-//     const minutes = c.date.getMinutes().toString().padStart(2, "0");
-//     const time = `${hours}:${minutes}`;
-
-//     // Convert Date object to local date YYYY-MM-DD
-//     const year = c.date.getFullYear().toString().padStart(4, "0");
-//     const month = (c.date.getMonth() + 1).toString().padStart(2, "0");
-//     const day = c.date.getDate().toString().padStart(2, "0");
-//     const date = `${year}-${month}-${day}`;
-
-//     return {
-//       date,
-//       time,
-//     };
-//   }),
-// );
 const choices = ref([...props.defaultFormData.choices]);
 
-function addChoice() {
+const dateRefs = ref<HTMLInputElement[]>([]);
+
+async function addChoice() {
   choices.value.push({ date: null, time: null });
+  await nextTick();
+  dateRefs.value[choices.value.length - 1].focus();
 }
 
-function deleteChoice(index: number) {
+async function deleteChoice(index: number) {
   choices.value = choices.value.filter((_, i) => i !== index);
+  await nextTick();
+  dateRefs.value[index - 1].focus();
 }
 
 async function submit() {
@@ -54,14 +37,6 @@ async function submit() {
     return;
   }
 
-  // const r = (choices.value as { date: string; time: string }[]).map((c) => {
-  //   // merge time with date
-  //   const date = new Date(c.date!);
-  //   const [hours, minutes] = c.time.split(":").map(Number);
-  //   date.setHours(hours, minutes);
-
-  //   return { date };
-  // });
   emit("submit", { choices: choices.value });
 }
 
@@ -85,6 +60,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
         }}</label>
         <input
           :id="`choice-date-${i}`"
+          ref="dateRefs"
           v-model="choice.date"
           type="date"
           required
