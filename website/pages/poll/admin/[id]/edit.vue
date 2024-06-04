@@ -32,7 +32,7 @@ const defaultFormData = computed(() => {
         notifyOnResponse: poll.value.notifyOnResponse,
         adminName: poll.value.adminName,
       }
-    : {};
+    : null;
 });
 
 // Submit edit
@@ -57,7 +57,7 @@ async function submitEditForm(data: UpdatePollFormData) {
   <h1>{{ $t("pages.poll.admin.edit.title") }}</h1>
 
   <EditPollForm
-    v-if="poll"
+    v-if="poll && defaultFormData"
     :admin-email="poll.adminEmail"
     :default-form-data="defaultFormData"
     @submit="submitEditForm"
