@@ -55,13 +55,10 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 <template>
   <form class="form" @submit.prevent="submit">
     <p class="intro">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem, inventore
-      cum accusantium a odit aliquam necessitatibus blanditiis fuga enim, quas
-      voluptatem ad tempora fugit natus asperiores. Voluptas, reiciendis
-      tempore! Ipsam.
+      {{ $t("pages.poll.new.choices.intro") }}
     </p>
     <p v-if="showNoChoiceError" ref="noChoiceErrorRef" tabindex="-1">
-      Vous devez au moins ajouter une date.
+      {{ $t("pages.poll.new.choices.noChoiceError") }}
     </p>
     <div v-for="(choice, i) in choices" :key="i" class="choice">
       <Input

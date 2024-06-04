@@ -59,6 +59,9 @@ export default {
         },
         choices: {
           stepTitle: "Dates et horaires",
+          intro:
+            "Maintenant, faites votre sélection de dates : chaque date doit avoir un horaire associé et votre sondage doit au moins proposer une date (cela va de soi non ?).",
+          noChoiceError: "Vous devez au moins ajouter une date.",
           choice: {
             dateLabel: "Date n°{index}",
             timeLabel: "Horaire n°{index}",
