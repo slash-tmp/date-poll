@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import CheckCircle from "./icons/CheckCircle.vue";
+import Info from "./icons/Info.vue";
+import Warning from "./icons/Warning.vue";
 import Xmark from "./icons/Xmark.vue";
 
 defineProps<{
@@ -10,11 +12,17 @@ defineProps<{
 defineEmits<{
   (e: "close"): void;
 }>();
+
+const iconComponent = {
+  success: CheckCircle,
+  info: Info,
+  error: Warning,
+};
 </script>
 
 <template>
   <div :class="`alert alert-${type}`">
-    <CheckCircle class="icon" aria-hidden="true" />
+    <component :is="iconComponent[type]" class="icon" aria-hidden="true" />
     <div>
       <slot />
     </div>
