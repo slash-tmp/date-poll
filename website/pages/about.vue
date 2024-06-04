@@ -21,7 +21,11 @@
       divergent de leur objectif initial pour devenir des usines à gaz. On
       voulait faire un outil de réservation de créneau : on fait ça et c’est
       tout. Pas de fioritures, pas de comptes, pas de synchronisation Google
-      Calendar ou d’intégration Teams (🤮).
+      Calendar, d’intégration Teams et encore moins d’<abbr
+        title="intelligence artificielle"
+        >IA</abbr
+      >
+      (🤮).
     </li>
     <li>
       <strong>Accessible</strong> ? Ça n’est pas une surprise : le web n’est pas
@@ -43,7 +47,7 @@
   </p>
 
   <p>
-    Si ce sont des valeurs qui vous parlent, on s’appelle
+    Si ce sont des choses qui vous parlent, on s’appelle
     <a href="https://slash-tmp.dev" aria-label="site de slash tmp">/tmp</a> et
     on peut peut-être travailler ensemble.
   </p>
@@ -83,6 +87,9 @@
     chose, il est très peu probable que nous prenions en compte les suggestions
     de nouvelles fonctionnalités.
   </p>
+
+  <!-- TODO: name -->
+  <p>Merci à vous d’utiliser <code>date-poll</code> ❤️.</p>
 </template>
 
 <style scoped>

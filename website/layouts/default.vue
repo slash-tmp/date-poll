@@ -6,8 +6,6 @@
       <slot />
     </div>
   </main>
-
-  <LayoutFooter />
 </template>
 
 <style scoped>

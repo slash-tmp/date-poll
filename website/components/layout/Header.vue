@@ -1,7 +1,12 @@
 <template>
   <header>
     <div class="content">
-      <RouterLink :to="{ name: 'index' }">📆 date-poll</RouterLink>
+      <RouterLink :to="{ name: 'index' }">
+        {{ $t("layout.header.name") }}
+      </RouterLink>
+      <RouterLink :to="{ name: 'about' }">
+        {{ $t("layout.header.about") }}
+      </RouterLink>
     </div>
   </header>
 </template>
@@ -14,6 +19,9 @@ header {
     max-width: var(--content-width);
     margin-inline: auto;
     padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 </style>
