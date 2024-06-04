@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import Button from "~/components/Button.vue";
+import Input from "~/components/Input.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
+
+import Actions from "./Actions.vue";
 
 const props = defineProps<{
   defaultFormData: CreatePollFormData;
@@ -12,7 +16,7 @@ const emit = defineEmits<{
 
 const choices = ref([...props.defaultFormData.choices]);
 
-const dateRefs = ref<HTMLInputElement[]>([]);
+const dateRefs = ref<InstanceType<typeof Input>[]>([]);
 
 async function addChoice() {
   choices.value.push({ date: null, time: null });
@@ -49,58 +53,86 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 </script>
 
 <template>
-  <form @submit.prevent="submit">
+  <form class="form" @submit.prevent="submit">
+    <p class="intro">
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem, inventore
+      cum accusantium a odit aliquam necessitatibus blanditiis fuga enim, quas
+      voluptatem ad tempora fugit natus asperiores. Voluptas, reiciendis
+      tempore! Ipsam.
+    </p>
     <p v-if="showNoChoiceError" ref="noChoiceErrorRef" tabindex="-1">
       Vous devez au moins ajouter une date.
     </p>
-    <template v-for="(choice, i) in choices" :key="choice">
-      <div>
-        <label :for="`choice-date-${i}`">{{
-          $t("pages.poll.new.choices.choice.dateLabel", { index: i + 1 })
-        }}</label>
-        <input
-          :id="`choice-date-${i}`"
-          ref="dateRefs"
-          v-model="choice.date"
-          type="date"
-          required
-        />
-      </div>
+    <div v-for="(choice, i) in choices" :key="i" class="choice">
+      <Input
+        :id="`choice-date-${i}`"
+        ref="dateRefs"
+        v-model="choice.date"
+        type="date"
+        :label="$t('pages.poll.new.choices.choice.dateLabel', { index: i + 1 })"
+        required
+      />
 
-      <div>
-        <label :for="`choice-time-${i}`">{{
-          $t("pages.poll.new.choices.choice.timeLabel", { index: i + 1 })
-        }}</label>
-        <input
-          :id="`choice-time-${i}`"
-          v-model="choice.time"
-          type="time"
-          required
-        />
-      </div>
+      <Input
+        :id="`choice-time-${i}`"
+        v-model="choice.time"
+        type="time"
+        :label="$t('pages.poll.new.choices.choice.timeLabel', { index: i + 1 })"
+        required
+      />
 
-      <button
-        type="button"
-        :disabled="choices.length === 1"
+      <Button
+        v-if="choices.length > 1"
+        variant="secondary"
         @click="deleteChoice(i)"
       >
         {{ $t("pages.poll.new.choices.choice.deleteChoice") }}
-      </button>
-      <br />
-      <br />
-    </template>
-
-    <button type="button" @click="addChoice">
-      {{ $t("pages.poll.new.choices.addNewChoice") }}
-    </button>
-
-    <br />
-    <br />
-    <div>
-      <button type="button" @click="previous">
-        {{ $t("pages.poll.new.navigation.previous") }}
-      </button>
-      <button type="submit">{{ $t("pages.poll.new.navigation.next") }}</button>
+      </Button>
     </div>
+
+    <Button class="add-choice" variant="secondary" @click="addChoice">
+      {{ $t("pages.poll.new.choices.addNewChoice") }}
+    </Button>
+
+    <Actions>
+      <template #prev>
+        <Button variant="secondary" @click="previous">
+          {{ $t("pages.poll.new.navigation.previous") }}
+        </Button>
+      </template>
+      <template #next>
+        <Button type="submit">
+          {{ $t("pages.poll.new.navigation.next") }}
+        </Button>
+      </template>
+    </Actions>
   </form>
 </template>
+
+<style scoped>
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intro {
+  margin-block-end: 1rem;
+}
+
+.choice {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-block-end: 1rem;
+
+  > * {
+    flex-grow: 1;
+  }
+}
+
+.add-choice {
+  align-self: start;
+}
+</style>

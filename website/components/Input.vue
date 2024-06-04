@@ -2,10 +2,19 @@
 defineProps<{
   id: string;
   label: string;
-  type?: "text" | "email" | "date";
+  type?: "text" | "email" | "date" | "time";
   help?: string;
   required?: boolean;
 }>();
+
+defineExpose({
+  focus: focusField,
+});
+
+const fieldRef = ref<HTMLInputElement>();
+function focusField() {
+  fieldRef.value?.focus();
+}
 
 const model = defineModel<string | null>();
 </script>
@@ -19,6 +28,7 @@ const model = defineModel<string | null>();
     </label>
     <input
       :id="`input-${id}`"
+      ref="fieldRef"
       v-model="model"
       class="field"
       :required="required"

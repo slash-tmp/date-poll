@@ -16,7 +16,7 @@
   margin-block-start: 4rem;
   gap: 1rem;
 
-  > * {
+  &:deep(> *) {
     @media (width < 50rem) {
       flex-grow: 1;
     }
