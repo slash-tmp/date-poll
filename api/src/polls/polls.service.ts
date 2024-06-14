@@ -7,6 +7,7 @@ import { MailerService } from '../mailer/mailer.service';
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { RespondToPollDto } from './dto/respond-to-poll.dto';
 import { UpdatePollDto, UpdatePollDtoChoice } from './dto/update-poll.dto';
 import { ChoiceDoesNotExistError } from './errors';
 import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
@@ -172,5 +173,22 @@ Lien de partage : ${publicLink}`;
 ${sortedPolls.map(getPollLine).join('\n')}`;
 
     await this.mailerService.sendEmail(to, subject, text);
+  }
+
+  async addResponseToPoll(publicUid: string, body: RespondToPollDto) {
+    const poll = await this.pollRepository.findByPublicUid(publicUid);
+    if (!poll) {
+      throw new Error('Poll not found');
+    }
+
+    // Validate choice IDs
+    const availableChoiceIds = poll.choices.map((choice) => choice.id);
+    body.responses.forEach((response) => {
+      if (!availableChoiceIds.includes(response.choiceId)) {
+        throw new ChoiceDoesNotExistError(response.choiceId);
+      }
+    });
+
+    await this.pollRepository.addResponse(publicUid, body);
   }
 }

@@ -8,7 +8,9 @@ import {
   createPollDtoFixture,
   databasePollFixture,
   databasePollListFixture,
+  invalidRespondToPollDtoFixture,
   publicPollFixture,
+  respondToPollDtoFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
 import { MailerService } from '../mailer/mailer.service';
@@ -188,7 +190,7 @@ Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-m
   describe('sendPollListByEmail', () => {
     it('send an email containing the list of polls ordered by creation date', async () => {
       configService.get.mockReturnValueOnce('http://localhost:3000');
-      
+
       await pollsService.sendPollListByEmail(
         'bob@domain.com',
         adminPollListFixture,
@@ -200,6 +202,37 @@ Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-m
 - My first poll : http://localhost:3000/poll/admin/admin-uid-3
 - My second poll : http://localhost:3000/poll/admin/admin-uid-5
 - My third poll : http://localhost:3000/poll/admin/admin-uid-4`,
+      );
+    });
+  });
+
+  describe('addResponseToPoll', () => {
+    it('throws if poll is not found', async () => {
+      pollRepository.findByPublicUid.mockResolvedValue(null);
+      await expect(
+        pollsService.addResponseToPoll('unknown', respondToPollDtoFixture),
+      ).rejects.toThrow('Poll not found');
+    });
+
+    it('throws if choiceId does not exist in poll', async () => {
+      pollRepository.findByPublicUid.mockResolvedValue(databasePollFixture);
+      await expect(
+        pollsService.addResponseToPoll(
+          'some-poll-id',
+          invalidRespondToPollDtoFixture,
+        ),
+      ).rejects.toThrow(ChoiceDoesNotExistError);
+    });
+
+    it('adds response to poll', async () => {
+      pollRepository.findByPublicUid.mockResolvedValue(databasePollFixture);
+      await pollsService.addResponseToPoll(
+        'some-poll-id',
+        respondToPollDtoFixture,
+      );
+      expect(pollRepository.addResponse).toHaveBeenCalledWith(
+        'some-poll-id',
+        respondToPollDtoFixture,
       );
     });
   });

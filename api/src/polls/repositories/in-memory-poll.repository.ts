@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { UidGenerator } from '../../uid-generator';
 import { CreatePollDto } from '../dto/create-poll.dto';
+import { RespondToPollDto } from '../dto/respond-to-poll.dto';
 import { UpdatePollDto } from '../dto/update-poll.dto';
 import { Poll, PollRepository } from './poll.repository';
 
@@ -104,6 +105,33 @@ export class InMemoryPollRepository implements PollRepository {
           date: choiceUpdate.date,
         };
       }
+    });
+
+    return Promise.resolve(pollToUpdate);
+  }
+
+  public addResponse(
+    publicUid: string,
+    response: RespondToPollDto,
+  ): Promise<Poll | null> {
+    const pollToUpdate = this.polls.find((p) => p.publicUid === publicUid);
+
+    if (!pollToUpdate) {
+      return Promise.resolve(null);
+    }
+
+    pollToUpdate.respondents.push({
+      id: this.nextId++,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      name: response.respondentName,
+      responses: response.responses.map((r) => ({
+        id: this.nextId++,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        choiceId: r.choiceId,
+        value: r.value,
+      })),
     });
 
     return Promise.resolve(pollToUpdate);

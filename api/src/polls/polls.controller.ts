@@ -14,6 +14,7 @@ import {
 import { AdminPoll } from './dto/admin-poll.dto';
 import { CreatePollDto } from './dto/create-poll.dto';
 import { PublicPoll } from './dto/public-poll.dto';
+import { RespondToPollDto } from './dto/respond-to-poll.dto';
 import { SearchPollsDto } from './dto/search-polls.dto';
 import { UpdatePollDto } from './dto/update-poll.dto';
 import { ChoiceDoesNotExistError } from './errors';
@@ -42,6 +43,26 @@ export class PollsController {
       throw new NotFoundException();
     }
     return poll;
+  }
+
+  @Post(':public_uid/responses')
+  async respondToPoll(
+    @Param('public_uid') publicUid: string,
+    @Body() body: RespondToPollDto,
+  ) {
+    const poll = await this.pollsService.getPublicPoll(publicUid);
+    if (!poll) {
+      throw new NotFoundException();
+    }
+
+    try {
+      await this.pollsService.addResponseToPoll(publicUid, body);
+    } catch (e) {
+      if (e instanceof ChoiceDoesNotExistError) {
+        throw new BadRequestException(e.message, { cause: e });
+      }
+      throw e;
+    }
   }
 
   @Get('admin/:admin_uid')

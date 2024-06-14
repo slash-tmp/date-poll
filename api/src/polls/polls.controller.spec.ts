@@ -6,7 +6,9 @@ import {
   adminPollFixture,
   adminPollListFixture,
   createPollDtoFixture,
+  invalidRespondToPollDtoFixture,
   publicPollFixture,
+  respondToPollDtoFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
 import { ChoiceDoesNotExistError } from './errors';
@@ -60,6 +62,38 @@ describe('PollsController', () => {
       await expect(
         controller.getPublicPoll('-WSaWDoushkIFEWJqg_1Q'),
       ).resolves.toEqual(publicPollFixture);
+    });
+  });
+
+  describe('respondToPoll', () => {
+    it('adds the response to the poll', async () => {
+      pollsService.getPublicPoll.mockResolvedValue(publicPollFixture);
+      await controller.respondToPoll(
+        'some-poll',
+        invalidRespondToPollDtoFixture,
+      );
+      expect(pollsService.addResponseToPoll).toHaveBeenCalledWith(
+        'some-poll',
+        invalidRespondToPollDtoFixture,
+      );
+    });
+
+    it('throws when poll is not found', async () => {
+      pollsService.getPublicPoll.mockResolvedValue(null);
+
+      await expect(
+        controller.respondToPoll('unknown-uid', respondToPollDtoFixture),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('throws BadRequestException when invalid choiceId is given', async () => {
+      pollsService.getPublicPoll.mockResolvedValue(publicPollFixture);
+      pollsService.addResponseToPoll.mockRejectedValue(
+        new ChoiceDoesNotExistError(-123),
+      );
+      await expect(
+        controller.respondToPoll('some-poll', invalidRespondToPollDtoFixture),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 

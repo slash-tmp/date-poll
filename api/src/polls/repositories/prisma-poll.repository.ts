@@ -4,6 +4,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { PrismaService } from '../../prisma/prisma.service';
 import { UidGenerator } from '../../uid-generator';
 import { CreatePollDto } from '../dto/create-poll.dto';
+import { RespondToPollDto } from '../dto/respond-to-poll.dto';
 import { UpdatePollDto } from '../dto/update-poll.dto';
 import { Poll, PollRepository } from './poll.repository';
 
@@ -139,5 +140,32 @@ export class PrismaPollRepository implements PollRepository {
     });
 
     return updatedPoll ?? null;
+  }
+
+  public async addResponse(
+    publicUid: string,
+    response: RespondToPollDto,
+  ): Promise<Poll | null> {
+    const poll = await this.prisma.poll.update({
+      where: { publicUid },
+      data: {
+        respondents: {
+          create: {
+            name: response.respondentName,
+            responses: {
+              createMany: {
+                data: response.responses.map((r) => ({
+                  value: r.value,
+                  choiceId: r.choiceId,
+                })),
+              },
+            },
+          },
+        },
+      },
+      include: POLL_INCLUDE,
+    });
+
+    return poll ?? null;
   }
 }
