@@ -8,14 +8,16 @@ import {
   createPollDtoFixture,
   databasePollFixture,
   databasePollListFixture,
-  invalidRespondToPollDtoFixture,
+  duplicateIdRespondToPollDtoFixture,
   publicPollFixture,
   respondToPollDtoFixture,
+  unknownIdRespondToPollDtoFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
 import { MailerService } from '../mailer/mailer.service';
 import { ChoiceDoesNotExistError } from './errors';
 import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
+import { DuplicateChoiceResponseError } from './errors/duplicate-choice-response.error';
 import { PollsService } from './polls.service';
 import { PollRepository } from './repositories/poll.repository';
 
@@ -219,9 +221,19 @@ Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-m
       await expect(
         pollsService.addResponseToPoll(
           'some-poll-id',
-          invalidRespondToPollDtoFixture,
+          unknownIdRespondToPollDtoFixture,
         ),
       ).rejects.toThrow(ChoiceDoesNotExistError);
+    });
+
+    it('throws if the same choiceId is present multiple times', async () => {
+      pollRepository.findByPublicUid.mockResolvedValue(databasePollFixture);
+      await expect(
+        pollsService.addResponseToPoll(
+          'some-poll-id',
+          duplicateIdRespondToPollDtoFixture,
+        ),
+      ).rejects.toThrow(DuplicateChoiceResponseError);
     });
 
     it('adds response to poll', async () => {

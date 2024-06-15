@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { sortBy } from 'lodash';
+import { sortBy, uniqBy } from 'lodash';
 import slugify from 'slugify';
 
 import { MailerService } from '../mailer/mailer.service';
@@ -11,6 +11,7 @@ import { RespondToPollDto } from './dto/respond-to-poll.dto';
 import { UpdatePollDto, UpdatePollDtoChoice } from './dto/update-poll.dto';
 import { ChoiceDoesNotExistError } from './errors';
 import { CannotChangeChoiceDateError } from './errors/cannot-change-choice-date.error';
+import { DuplicateChoiceResponseError } from './errors/duplicate-choice-response.error';
 import {
   Poll as RawPoll,
   PollRepository,
@@ -181,13 +182,18 @@ ${sortedPolls.map(getPollLine).join('\n')}`;
       throw new Error('Poll not found');
     }
 
-    // Validate choice IDs
+    // Check only choices from poll are present
     const availableChoiceIds = poll.choices.map((choice) => choice.id);
     body.responses.forEach((response) => {
       if (!availableChoiceIds.includes(response.choiceId)) {
         throw new ChoiceDoesNotExistError(response.choiceId);
       }
     });
+
+    // Check there are no duplicate choices
+    if (uniqBy(body.responses, 'choiceId').length !== body.responses.length) {
+      throw new DuplicateChoiceResponseError();
+    }
 
     await this.pollRepository.addResponse(publicUid, body);
   }

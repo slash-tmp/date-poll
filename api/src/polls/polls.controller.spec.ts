@@ -6,9 +6,9 @@ import {
   adminPollFixture,
   adminPollListFixture,
   createPollDtoFixture,
-  invalidRespondToPollDtoFixture,
   publicPollFixture,
   respondToPollDtoFixture,
+  unknownIdRespondToPollDtoFixture,
   updatePollDtoFixture,
 } from '../../test/fixtures';
 import { ChoiceDoesNotExistError } from './errors';
@@ -70,11 +70,11 @@ describe('PollsController', () => {
       pollsService.getPublicPoll.mockResolvedValue(publicPollFixture);
       await controller.respondToPoll(
         'some-poll',
-        invalidRespondToPollDtoFixture,
+        unknownIdRespondToPollDtoFixture,
       );
       expect(pollsService.addResponseToPoll).toHaveBeenCalledWith(
         'some-poll',
-        invalidRespondToPollDtoFixture,
+        unknownIdRespondToPollDtoFixture,
       );
     });
 
@@ -92,7 +92,7 @@ describe('PollsController', () => {
         new ChoiceDoesNotExistError(-123),
       );
       await expect(
-        controller.respondToPoll('some-poll', invalidRespondToPollDtoFixture),
+        controller.respondToPoll('some-poll', unknownIdRespondToPollDtoFixture),
       ).rejects.toThrow(BadRequestException);
     });
   });

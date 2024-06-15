@@ -251,13 +251,28 @@ export const respondToPollDtoFixture: RespondToPollDto = {
   ],
 };
 
-export const invalidRespondToPollDtoFixture: RespondToPollDto = {
+export const unknownIdRespondToPollDtoFixture: RespondToPollDto = {
   respondentName: 'Bob',
   responses: [
     {
       // Unknown choice id
       choiceId: -123,
       value: RespondToPollDtoResponseValue.MAYBE,
+    },
+  ],
+};
+
+export const duplicateIdRespondToPollDtoFixture: RespondToPollDto = {
+  respondentName: 'Bob',
+  responses: [
+    {
+      choiceId: 9,
+      value: RespondToPollDtoResponseValue.MAYBE,
+    },
+    {
+      // Same id
+      choiceId: 9,
+      value: RespondToPollDtoResponseValue.NO,
     },
   ],
 };
