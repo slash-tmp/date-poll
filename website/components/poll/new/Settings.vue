@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from "~/components/Button.vue";
 import Checkbox from "~/components/Checkbox.vue";
 import Input from "~/components/Input.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
