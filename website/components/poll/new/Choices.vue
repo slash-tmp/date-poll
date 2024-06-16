@@ -118,14 +118,14 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 }
 
 .choice {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
   gap: 1rem;
   align-items: end;
-  flex-wrap: wrap;
   margin-block-end: 1rem;
 
-  > * {
-    flex-grow: 1;
+  @media (width < 50rem) {
+    grid-template-columns: 1fr;
   }
 }
 
