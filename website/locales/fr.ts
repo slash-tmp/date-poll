@@ -80,6 +80,7 @@ export default {
           endDate: {
             label: "Date de fin (optionnel)",
             help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
+            delete: "Supprimer",
           },
           notifyOnResponse: {
             label: "Recevoir un email pour chaque participation",

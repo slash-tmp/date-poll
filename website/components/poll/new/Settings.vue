@@ -19,6 +19,14 @@ const hideVotes = ref(props.defaultFormData.hideVotes);
 const endDate = ref(props.defaultFormData.endDate);
 const notifyOnResponse = ref(props.defaultFormData.notifyOnResponse);
 
+const endDateRef = ref<InstanceType<typeof Input>>();
+
+async function deleteEndDate() {
+  endDate.value = null;
+  await nextTick();
+  endDateRef.value?.focus();
+}
+
 function submit() {
   emit("submit", {
     hideVotes: hideVotes.value,
@@ -42,14 +50,21 @@ function previous() {
       {{ $t("pages.poll.new.settings.intro") }}
     </p>
 
-    <Input
-      id="end-date"
-      v-model="endDate"
-      class="end-date"
-      type="date"
-      :label="$t('pages.poll.new.settings.endDate.label')"
-      :help="$t('pages.poll.new.settings.endDate.help')"
-    />
+    <div class="end-date-wrapper">
+      <Input
+        id="end-date"
+        ref="endDateRef"
+        v-model="endDate"
+        class="end-date"
+        type="date"
+        :label="$t('pages.poll.new.settings.endDate.label')"
+        :help="$t('pages.poll.new.settings.endDate.help')"
+      />
+
+      <Button v-if="endDate" variant="secondary" @click="deleteEndDate">
+        {{ $t("pages.poll.new.settings.endDate.delete") }}
+      </Button>
+    </div>
 
     <Checkbox
       id="hide-votes"
@@ -89,6 +104,13 @@ function previous() {
 
 .intro {
   margin-block-end: 1rem;
+}
+
+.end-date-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 1rem;
 }
 
 .end-date {
