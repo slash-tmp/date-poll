@@ -17,7 +17,7 @@ const choices = ref(
   props.choices.map((c) => {
     return {
       ...c,
-      presence: Response.UNKNOWN,
+      presence: null,
     };
   }),
 );
@@ -48,7 +48,7 @@ function submitVote() {
     respondentName: name.value,
     responses: choices.value.map((c) => ({
       choiceId: c.id,
-      value: c.presence,
+      value: c.presence ?? Response.NO,
     })),
   });
 }
@@ -96,7 +96,12 @@ function submitVote() {
             </span>
           </li>
 
-          <li v-if="[Response.YES, Response.MAYBE].includes(choice.presence)">
+          <li
+            v-if="
+              choice.presence &&
+              [Response.YES, Response.MAYBE].includes(choice.presence)
+            "
+          >
             <template v-if="name">
               <template v-if="choice.presence === Response.MAYBE">
                 {{ $t("pages.poll.id.form.withName.maybe", { name }) }}

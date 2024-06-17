@@ -62,7 +62,12 @@ const mostVotesValue = computed(() => {
           )
         }})
 
-        <mark v-if="mostVotesValue === getRespondentsForDate(choice.id).length">
+        <mark
+          v-if="
+            mostVotesValue === getRespondentsForDate(choice.id).length &&
+            !!mostVotesValue
+          "
+        >
           {{ $t("pages.poll.admin.id.responses.bestChoice") }}
         </mark>
       </p>

@@ -54,7 +54,6 @@ export enum Response {
   YES = "YES",
   MAYBE = "MAYBE",
   NO = "NO",
-  UNKNOWN = "UNKNOWN",
 }
 
 export interface Respondent {
