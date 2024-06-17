@@ -80,6 +80,7 @@ export const publicPollFixture: PublicPoll = {
   title: 'Trip to the museum',
   description: 'We are going to the natural history museum.',
   endDate: new Date('2024-05-14T23:13:27.986Z'),
+  hideVotes: true,
   adminName: 'Bob Bobbington',
   choices: [
     {

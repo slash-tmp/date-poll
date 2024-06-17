@@ -91,6 +91,7 @@ Lien de partage : ${publicLink}`;
       title: poll.title,
       description: poll.description,
       endDate: poll.endDate,
+      hideVotes: poll.hideVotes,
       adminName: poll.adminName,
       choices: poll.choices.map((c) => ({ id: c.id, date: c.date })),
       respondents: poll.respondents.map((respondent) => ({

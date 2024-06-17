@@ -21,6 +21,7 @@ export class PublicPoll {
   title: string;
   description: string | null;
   endDate: Date | null;
+  hideVotes: boolean;
   adminName: string | null;
 
   choices: Choice[];
