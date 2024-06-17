@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Poll {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -84,4 +83,7 @@ model Response {
 
   respondent   Respondent @relation(fields: [respondentId], references: [id], onDelete: Cascade)
   respondentId Int
+
+  // A respondant can only respond once to each choice
+  @@unique([choiceId, respondentId])
 }

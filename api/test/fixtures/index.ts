@@ -1,6 +1,10 @@
 import { AdminPoll } from '../../src/polls/dto/admin-poll.dto';
 import { CreatePollDto } from '../../src/polls/dto/create-poll.dto';
 import { PublicPoll } from '../../src/polls/dto/public-poll.dto';
+import {
+  RespondToPollDto,
+  RespondToPollDtoResponseValue,
+} from '../../src/polls/dto/respond-to-poll.dto';
 import { UpdatePollDto } from '../../src/polls/dto/update-poll.dto';
 import { Poll } from '../../src/polls/repositories/poll.repository';
 
@@ -236,3 +240,39 @@ export const adminPollListFixture: AdminPoll[] = [
     respondents: [],
   },
 ];
+
+export const respondToPollDtoFixture: RespondToPollDto = {
+  respondentName: 'Bob',
+  responses: [
+    {
+      choiceId: 9,
+      value: RespondToPollDtoResponseValue.MAYBE,
+    },
+  ],
+};
+
+export const unknownIdRespondToPollDtoFixture: RespondToPollDto = {
+  respondentName: 'Bob',
+  responses: [
+    {
+      // Unknown choice id
+      choiceId: -123,
+      value: RespondToPollDtoResponseValue.MAYBE,
+    },
+  ],
+};
+
+export const duplicateIdRespondToPollDtoFixture: RespondToPollDto = {
+  respondentName: 'Bob',
+  responses: [
+    {
+      choiceId: 9,
+      value: RespondToPollDtoResponseValue.MAYBE,
+    },
+    {
+      // Same id
+      choiceId: 9,
+      value: RespondToPollDtoResponseValue.NO,
+    },
+  ],
+};
