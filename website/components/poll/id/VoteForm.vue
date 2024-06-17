@@ -1,10 +1,26 @@
 <script setup lang="ts">
 import { Response } from "~/types/poll";
 
+// FIXME: temp types
+interface RespondentResponse {
+  id: number;
+  choiceId: number;
+  value: Response;
+}
+
+// FIXME: temp types
+interface Respondent {
+  id: number;
+  name: string;
+  responses: RespondentResponse[];
+}
+
+// FIXME: temp types
 interface PublicPoll {
   title: string;
   description?: string;
-  choices: { date: string; respondents: string[] }[];
+  choices: { id: number; date: string }[];
+  respondents: Respondent[];
   hideVotes: boolean;
   endDate: string | null;
   adminName: string | null;
@@ -28,6 +44,23 @@ const choices = ref(
   }),
 );
 
+function getRespondentsForDate(choiceId: number) {
+  const res: { name: string; value: string }[] = [];
+
+  props.poll.respondents.forEach((respondent) => {
+    return respondent.responses.forEach((response) => {
+      if (
+        response.choiceId === choiceId &&
+        [Response.YES, Response.MAYBE].includes(response.value)
+      ) {
+        res.push({ name: respondent.name, value: response.value });
+      }
+    });
+  });
+
+  return res;
+}
+
 // TODO: submit form
 function submitVote() {
   emit("submit", {});
@@ -44,7 +77,10 @@ function submitVote() {
     <ul>
       <li v-for="choice in choices" :key="choice.date">
         <fieldset>
-          <legend>{{ formatDate(choice.date) }}</legend>
+          <legend>
+            {{ formatDate(choice.date) }} {{ $t("pages.poll.id.form.at") }}
+            {{ formatTime(choice.date) }}
+          </legend>
           <template
             v-for="option in [Response.YES, Response.MAYBE, Response.NO]"
             :key="`${option}-${choice.date}`"
@@ -61,13 +97,32 @@ function submitVote() {
           </template>
         </fieldset>
         <ul v-if="!poll.hideVotes">
-          <li v-for="respondent in choice.respondents" :key="respondent">
-            {{ respondent }}
-          </li>
-          <li v-if="[Response.YES, Response.MAYBE].includes(choice.presence)">
-            {{ $t("pages.poll.id.form.you") }}
-            <template v-if="choice.presence === Response.MAYBE">
+          <li
+            v-for="(respondent, i) in getRespondentsForDate(choice.id)"
+            :key="i"
+          >
+            {{ respondent.name }}
+            <span v-if="respondent.value === Response.MAYBE">
               {{ $t("pages.poll.id.form.maybe") }}
+            </span>
+          </li>
+
+          <li v-if="[Response.YES, Response.MAYBE].includes(choice.presence)">
+            <template v-if="name">
+              <template v-if="choice.presence === Response.MAYBE">
+                {{ $t("pages.poll.id.form.withName.maybe", { name }) }}
+              </template>
+              <template v-else>
+                {{ $t("pages.poll.id.form.withName.yes", { name }) }}
+              </template>
+            </template>
+            <template v-else>
+              <template v-if="choice.presence === Response.MAYBE">
+                {{ $t("pages.poll.id.form.withoutName.maybe") }}
+              </template>
+              <template v-else>
+                {{ $t("pages.poll.id.form.withoutName.yes") }}
+              </template>
             </template>
           </li>
         </ul>

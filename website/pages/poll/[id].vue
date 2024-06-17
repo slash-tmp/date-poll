@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import VoteForm from "~/components/poll/id/VoteForm.vue";
+import { Response } from "~/types/poll";
 
 /**
  * TODO:
@@ -11,21 +12,81 @@ const poll = ref({
   description:
     "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae rem earum porro nesciunt voluptatum ab ad iure perspiciatis, neque quos commodi? Eligendi saepe amet illum impedit aut voluptate aliquid rerum.",
   choices: [
-    { date: "2024-01-15-10:30", respondents: ["Anna"] },
+    { id: 0, date: "2024-07-27T14:57:00.000Z" },
     {
-      date: "2024-02-15-14:00",
-      respondents: ["Anna", "Benoît", "Jean-Jacques"],
-    },
-    { date: "2024-03-15-16:45", respondents: ["Paul"] },
-    {
-      id: 4,
-      date: "2024-04-15-21:15",
-      respondents: ["Anna", "Pierre-Alexandre"],
+      id: 1,
+      date: "2024-08-03T07:22:00.000Z",
     },
   ],
   hideVotes: false,
-  endDate: "2024-10-02",
+  endDate: "2024-07-20T20:00:00.000Z",
   adminName: "Odette",
+  respondents: [
+    {
+      id: 0,
+      name: "Anna",
+      responses: [
+        {
+          id: 0,
+          choiceId: 0,
+          value: Response.YES,
+        },
+        {
+          id: 1,
+          choiceId: 1,
+          value: Response.NO,
+        },
+      ],
+    },
+    {
+      id: 1,
+      name: "Alexandre",
+      responses: [
+        {
+          id: 2,
+          choiceId: 0,
+          value: Response.MAYBE,
+        },
+        {
+          id: 3,
+          choiceId: 1,
+          value: Response.YES,
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "Jean-Eduardo",
+      responses: [
+        {
+          id: 4,
+          choiceId: 0,
+          value: Response.NO,
+        },
+        {
+          id: 5,
+          choiceId: 1,
+          value: Response.MAYBE,
+        },
+      ],
+    },
+    {
+      id: 3,
+      name: "Véronique",
+      responses: [
+        {
+          id: 6,
+          choiceId: 0,
+          value: Response.YES,
+        },
+        {
+          id: 7,
+          choiceId: 1,
+          value: Response.YES,
+        },
+      ],
+    },
+  ],
 });
 
 // Handle expired poll
@@ -39,8 +100,11 @@ const isExpired = computed(() => {
 
 // Vote submission
 const showConfirmation = ref(false);
-function submitVote() {
+const confirmationRef = ref<HTMLParagraphElement>();
+async function submitVote() {
   showConfirmation.value = true;
+  await nextTick();
+  confirmationRef.value?.focus();
 }
 </script>
 
@@ -61,16 +125,20 @@ function submitVote() {
         {{ $t("pages.poll.id.invitedBy", { adminName: poll.adminName }) }}
       </template>
       <template v-else>{{ $t("pages.poll.id.invited") }}</template>
-      <i18n-t v-if="poll.endDate" keypath="pages.poll.id.expiredOn">
+      <i18n-t v-if="poll.endDate" keypath="pages.poll.id.expireOn">
         <template #endDate>
-          <time :datetime="poll.endDate">{{ formatDate(poll.endDate) }}</time>
+          <time :datetime="poll.endDate">
+            <strong>
+              {{ formatDate(poll.endDate) }}
+            </strong>
+          </time>
         </template>
       </i18n-t>
     </p>
     <br />
-    <div v-if="showConfirmation">
-      <p>{{ $t("pages.poll.id.confirmation") }}</p>
-    </div>
+    <p v-if="showConfirmation" ref="confirmationRef" tabindex="-1">
+      {{ $t("pages.poll.id.confirmation") }}
+    </p>
     <VoteForm v-else :poll="poll" @submit="submitVote" />
   </template>
 </template>

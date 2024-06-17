@@ -1,5 +1,6 @@
 /**
  * Format date: "DD month YYYY"
+ * @param date ISO date string
  * @example "15 mai 2024"
  */
 export function formatDate(date: Date | string) {
@@ -38,4 +39,16 @@ export function toLocalDateString(ISODateString: string) {
   const time = localDate.toTimeString().slice(0, 5);
 
   return `${date}-${time}`;
+}
+
+/*
+ * Format a date to display time "HHhMM"
+ * @param date ISO date string
+ * @example "14h56"
+ */
+export function formatTime(date: string) {
+  return Intl.DateTimeFormat("fr-FR", { timeStyle: "short" })
+    .format(new Date(date))
+    .replace(":", "h")
+    .replace(/^0+/, "");
 }
