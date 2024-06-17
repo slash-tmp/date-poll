@@ -5,7 +5,6 @@ import { Response } from "~/types/poll";
 const props = defineProps<{
   choices: { id: number; date: string }[];
   respondents?: Respondent[];
-  hideVotes: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -85,7 +84,7 @@ function submitVote() {
             />
           </template>
         </fieldset>
-        <ul v-if="!hideVotes">
+        <ul v-if="respondents?.length">
           <li
             v-for="(respondent, i) in getRespondentsForDate(choice.id)"
             :key="i"

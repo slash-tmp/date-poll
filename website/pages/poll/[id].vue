@@ -80,7 +80,6 @@ async function submitVote(payload: VotePollFormData) {
       </p>
       <VoteForm
         v-else
-        :hide-votes="poll.hideVotes"
         :choices="poll.choices"
         :respondents="poll.respondents"
         @submit="submitVote"

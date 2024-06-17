@@ -94,15 +94,17 @@ Lien de partage : ${publicLink}`;
       hideVotes: poll.hideVotes,
       adminName: poll.adminName,
       choices: poll.choices.map((c) => ({ id: c.id, date: c.date })),
-      respondents: poll.respondents.map((respondent) => ({
-        id: respondent.id,
-        name: respondent.name,
-        responses: respondent.responses.map((response) => ({
-          id: response.id,
-          choiceId: response.choiceId,
-          value: response.value,
-        })),
-      })),
+      respondents: poll.hideVotes
+        ? undefined
+        : poll.respondents.map((respondent) => ({
+            id: respondent.id,
+            name: respondent.name,
+            responses: respondent.responses.map((response) => ({
+              id: response.id,
+              choiceId: response.choiceId,
+              value: response.value,
+            })),
+          })),
     };
   }
 
