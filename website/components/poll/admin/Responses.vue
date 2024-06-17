@@ -4,10 +4,14 @@ import { Response } from "~/types/poll";
 
 const props = defineProps<{
   choices: { id: number; date: string }[];
-  respondents: Respondent[];
+  respondents?: Respondent[];
 }>();
 
 function getRespondentsForDate(choiceId: number) {
+  if (!props.respondents?.length) {
+    return [];
+  }
+
   const res: { name: string; value: string }[] = [];
 
   props.respondents.forEach((respondent) => {
@@ -24,8 +28,8 @@ function getRespondentsForDate(choiceId: number) {
   return res;
 }
 
-// TODO: improve how best choice is selected
-const bestChoiceId = computed(() => {
+// Get highest number of votes for a choice
+const mostVotesValue = computed(() => {
   const res = props.choices.map((c) => {
     return {
       id: c.id,
@@ -33,9 +37,11 @@ const bestChoiceId = computed(() => {
     };
   });
 
-  return res.reduce(function (prev, current) {
-    return prev && prev.responses > current.responses ? prev : current;
-  }).id;
+  const sortedRes = res.sort((a, b) => {
+    return b.responses - a.responses;
+  });
+
+  return sortedRes[0].responses;
 });
 </script>
 
@@ -56,9 +62,9 @@ const bestChoiceId = computed(() => {
           )
         }})
 
-        <mark v-if="choice.id === bestChoiceId">{{
-          $t("pages.poll.admin.id.responses.bestChoice")
-        }}</mark>
+        <mark v-if="mostVotesValue === getRespondentsForDate(choice.id).length">
+          {{ $t("pages.poll.admin.id.responses.bestChoice") }}
+        </mark>
       </p>
 
       <ul>
