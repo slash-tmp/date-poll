@@ -12,31 +12,6 @@ export interface CreatePollFormData {
   adminEmail: string;
 }
 
-// FIXME: temp types
-interface RespondentResponse {
-  id: number;
-  choiceId: number;
-  value: Response;
-}
-
-// FIXME: temp types
-export interface Respondent {
-  id: number;
-  name: string;
-  responses: RespondentResponse[];
-}
-
-// FIXME: temp types
-export interface PublicPoll {
-  title: string;
-  description?: string;
-  choices: { id: number; date: string }[];
-  respondents: Respondent[];
-  hideVotes: boolean;
-  endDate: string | null;
-  adminName: string | null;
-}
-
 // Selected properties of `CreatePollFormData`
 export type StepPayload = Partial<CreatePollFormData>;
 
@@ -50,9 +25,18 @@ export interface UpdatePollFormData {
   adminName: string | null;
 }
 
+export interface VotePollFormData {
+  respondentName: string;
+  responses: { choiceId: number; value: Response }[];
+}
+
 // GET /polls/admin/<admin_uid>
 export type AdminPollApiResponse =
   paths["/polls/admin/{admin_uid}"]["get"]["responses"]["200"]["content"]["application/json"];
+
+// GET /polls/<public_uid>
+export type PollApiResponse =
+  paths["/polls/{public_uid}"]["get"]["responses"]["200"]["content"]["application/json"];
 
 // POST /polls
 export type CreatePollApiRequest =
@@ -67,8 +51,14 @@ export type UpdatePollApiResponse =
 
 // Misc
 export enum Response {
-  YES = "Oui",
-  MAYBE = "Peut-être",
-  NO = "Non",
-  UNKNOWN = "Unkownn",
+  YES = "YES",
+  MAYBE = "MAYBE",
+  NO = "NO",
+  UNKNOWN = "UNKNOWN",
+}
+
+export interface Respondent {
+  id: number;
+  name: string;
+  responses: { id: number; choiceId: number; value: Response }[];
 }

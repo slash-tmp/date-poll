@@ -204,6 +204,11 @@ export default {
         isExpired:
           "La date limite de participation de ce sondage est dépassée. Il n’est plus possible d’y répondre.",
         form: {
+          choices: {
+            yes: "Oui",
+            maybe: "Peut-être",
+            no: "Non",
+          },
           name: "Votre nom",
           at: "à",
           maybe: "(peut-être)",
@@ -218,6 +223,13 @@ export default {
           submit: "Voter",
         },
         confirmation: "Votre vote a bien été pris en compte !",
+        error: {
+          404: {
+            title: "Sondage introuvable",
+            description:
+              "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
+          },
+        },
       },
     },
   },

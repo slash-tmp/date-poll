@@ -6,6 +6,7 @@ import type {
   UpdatePollApiRequest,
   UpdatePollApiResponse,
   UpdatePollFormData,
+  VotePollFormData,
 } from "~/types/poll";
 
 /** Send a request to the API to create a new poll and return the result. */
@@ -91,5 +92,12 @@ export async function findPoll(adminEmail: string) {
     body: {
       adminEmail,
     },
+  });
+}
+
+export async function votePoll(publicUid: string, formData: VotePollFormData) {
+  await $fetch(`/api/polls/${publicUid}/responses`, {
+    method: "POST",
+    body: formData,
   });
 }

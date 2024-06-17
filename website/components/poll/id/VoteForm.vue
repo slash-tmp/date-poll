@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import type { PublicPoll } from "~/types/poll";
+import type { Respondent, VotePollFormData } from "~/types/poll";
 import { Response } from "~/types/poll";
 
 const props = defineProps<{
-  poll: PublicPoll;
+  choices: { id: number; date: string }[];
+  respondents?: Respondent[];
+  hideVotes: boolean;
 }>();
 
 const emit = defineEmits<{
-  (e: "submit", payload: any): void;
+  (e: "submit", payload: VotePollFormData): void;
 }>();
 
 const name = ref("");
 const choices = ref(
-  props.poll.choices.map((c) => {
+  props.choices.map((c) => {
     return {
       ...c,
       presence: Response.UNKNOWN,
@@ -21,9 +23,13 @@ const choices = ref(
 );
 
 function getRespondentsForDate(choiceId: number) {
+  if (!props.respondents?.length) {
+    return [];
+  }
+
   const res: { name: string; value: string }[] = [];
 
-  props.poll.respondents.forEach((respondent) => {
+  props.respondents.forEach((respondent) => {
     return respondent.responses.forEach((response) => {
       if (
         response.choiceId === choiceId &&
@@ -37,9 +43,14 @@ function getRespondentsForDate(choiceId: number) {
   return res;
 }
 
-// TODO: submit form
 function submitVote() {
-  emit("submit", {});
+  emit("submit", {
+    respondentName: name.value,
+    responses: choices.value.map((c) => ({
+      choiceId: c.id,
+      value: c.presence,
+    })),
+  });
 }
 </script>
 
@@ -61,7 +72,9 @@ function submitVote() {
             v-for="option in [Response.YES, Response.MAYBE, Response.NO]"
             :key="`${option}-${choice.date}`"
           >
-            <label :for="`choice-${choice.date}-${option}`">{{ option }}</label>
+            <label :for="`choice-${choice.date}-${option}`">
+              {{ $t(`pages.poll.id.form.choices.${option.toLowerCase()}`) }}
+            </label>
             <input
               :id="`choice-${choice.date}-${option}`"
               v-model="choice.presence"
@@ -72,7 +85,7 @@ function submitVote() {
             />
           </template>
         </fieldset>
-        <ul v-if="!poll.hideVotes">
+        <ul v-if="!hideVotes">
           <li
             v-for="(respondent, i) in getRespondentsForDate(choice.id)"
             :key="i"
