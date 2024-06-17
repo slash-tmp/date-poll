@@ -39,3 +39,11 @@ export type UpdatePollApiRequest =
   paths["/polls/admin/{admin_uid}"]["put"]["requestBody"]["content"]["application/json"];
 export type UpdatePollApiResponse =
   paths["/polls/admin/{admin_uid}"]["put"]["responses"]["200"]["content"]["application/json"];
+
+// Misc
+export enum Response {
+  YES = "Oui",
+  MAYBE = "Peut-être",
+  NO = "Non",
+  UNKNOWN = "Unkownn",
+}
