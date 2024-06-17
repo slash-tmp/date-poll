@@ -221,7 +221,7 @@ describe("Poll edition page", () => {
     cy.getByLabel("Horaire n°1").should("have.value", "10:30");
 
     cy.getByLabel("Masquer les votes").should("have.value", "on");
-    cy.getByLabel("Date de fin").should("have.value", "2024-05-15");
+    cy.getByLabel("Date de fin").should("have.value", "2029-05-15");
     cy.getByLabel("Recevoir un email pour chaque participation").should(
       "have.value",
       "on",
@@ -304,5 +304,39 @@ describe("Poll edition page", () => {
     // 3rd date is the newly added
     cy.getByLabel("Date n°3").should("have.value", "2024-10-30");
     cy.getByLabel("Horaire n°3").should("have.value", "12:00");
+  });
+});
+
+describe("Poll vote page", () => {
+  beforeEach(() => {
+    cy.fixture("../fixtures/createPollFormData").then((fixture) => {
+      cy.request({
+        method: "POST",
+        url: "http://localhost:4000/api/polls",
+        body: fixture,
+      }).then((data) => {
+        cy.visit(`http://localhost:3000/poll/${data.body.publicUid}`);
+      });
+    });
+  });
+
+  it("submits vote form", () => {
+    cy.contains("Trip to the museum");
+
+    cy.getByLabel("Votre nom").type("Jane");
+
+    cy.get(
+      'fieldset legend:contains("15 mai 2024 à 10h30") ~ [type="radio"]:nth-of-type(1)',
+    ).check();
+    cy.get(
+      'fieldset legend:contains("22 mai 2024 à 13h00") ~ [type="radio"]:nth-of-type(2)',
+    ).check();
+    cy.get(
+      'fieldset legend:contains("29 mai 2024 à 18h50") ~ [type="radio"]:nth-of-type(3)',
+    ).check();
+
+    cy.contains("Voter").click();
+
+    cy.contains("Votre vote a bien été pris en compte !");
   });
 });
