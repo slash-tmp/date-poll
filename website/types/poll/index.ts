@@ -1,4 +1,4 @@
-import type { paths } from "../date-poll-api";
+import type { components, paths } from "../date-poll-api";
 
 // Form data to create a new poll
 export interface CreatePollFormData {
@@ -56,8 +56,4 @@ export enum Response {
   NO = "NO",
 }
 
-export interface Respondent {
-  id: number;
-  name: string;
-  responses: { id: number; choiceId: number; value: Response }[];
-}
+export type Respondent = components["schemas"]["Respondent"];

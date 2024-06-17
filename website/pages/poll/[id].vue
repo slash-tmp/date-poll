@@ -78,7 +78,6 @@ async function submitVote(payload: VotePollFormData) {
       <p v-if="showConfirmation" ref="confirmationRef" tabindex="-1">
         {{ $t("pages.poll.id.confirmation") }}
       </p>
-      <!-- FIXME: type respondents prop -->
       <VoteForm
         v-else
         :hide-votes="poll.hideVotes"

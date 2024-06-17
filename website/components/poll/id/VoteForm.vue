@@ -33,7 +33,7 @@ function getRespondentsForDate(choiceId: number) {
     return respondent.responses.forEach((response) => {
       if (
         response.choiceId === choiceId &&
-        [Response.YES, Response.MAYBE].includes(response.value)
+        ["YES", "MAYBE"].includes(response.value)
       ) {
         res.push({ name: respondent.name, value: response.value });
       }
