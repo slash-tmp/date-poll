@@ -13,7 +13,6 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 2
-    cy.contains("Ajouter une date").click();
     cy.getByLabel("Date n°1").type("2024-03-23");
     cy.getByLabel("Horaire n°1").type("08:30");
 
@@ -24,7 +23,7 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 3
-    cy.getByLabel("Masquer les votes").check();
+    cy.getByLabel("Masquer la liste des participant·es").check();
     cy.getByLabel("Date de fin").type("2023-11-02");
     cy.getByLabel("Recevoir un email pour chaque participation").check();
     cy.contains("Suivant").click();
@@ -53,7 +52,7 @@ describe("Poll creation page /poll/new", () => {
 
     // Step should not change and an error message should be displayed
     cy.contains("Étape 2 sur 4");
-    cy.contains("Vous devez au moins ajouter une date.");
+    cy.focused().should("have.attr", "id", "input-choice-date-0");
   });
 
   it("saves data between steps", () => {
@@ -65,7 +64,6 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 2
-    cy.contains("Ajouter une date").click();
     cy.getByLabel("Date n°1").type("2024-03-23");
     cy.getByLabel("Horaire n°1").type("08:30");
     cy.contains("Précédent").click();
@@ -85,7 +83,7 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 3
-    cy.getByLabel("Masquer les votes").check();
+    cy.getByLabel("Masquer la liste des participant·es").check();
     cy.getByLabel("Date de fin").type("2023-11-02");
     cy.getByLabel("Recevoir un email pour chaque participation").check();
     cy.contains("Suivant").click();
@@ -96,7 +94,10 @@ describe("Poll creation page /poll/new", () => {
 
     // Check step 3 was saved
     cy.contains("Précédent").click();
-    cy.getByLabel("Masquer les votes").should("have.value", "on");
+    cy.getByLabel("Masquer la liste des participant·es").should(
+      "have.value",
+      "on",
+    );
     cy.getByLabel("Date de fin").should("have.value", "2023-11-02");
     cy.getByLabel("Recevoir un email pour chaque participation").should(
       "have.value",

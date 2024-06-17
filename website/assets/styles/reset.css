@@ -68,6 +68,11 @@ textarea,
 select {
   font-family: inherit;
   font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  cursor: pointer;
 }
 
 /* Anything that has been anchored to should have extra scroll margin */

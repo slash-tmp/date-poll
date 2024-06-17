@@ -37,24 +37,31 @@ export default {
         },
       },
       new: {
-        title: "Nouveau sondage",
+        title: "Créer un sondage",
         stepper: "Étape {current} sur {count}",
         navigation: {
+          back: "Retour",
           previous: "Précédent",
           next: "Suivant",
           submit: "Valider",
         },
         titleAndDescription: {
           stepTitle: "Nom et description",
+          intro:
+            "Commencez par présenter votre sondage à vos participant·es. Donnez-lui d’abord un nom sympa puis une brève description si vous le souhaitez.",
           title: {
-            label: "Nom",
+            label: "Nom du sondage",
           },
           description: {
             label: "Description (optionnel)",
+            help: "Vous pouvez par exemple indiquer un lieu, détailler les activités prévues ou ajouter des liens utiles.",
           },
         },
         choices: {
           stepTitle: "Dates et horaires",
+          intro:
+            "Maintenant, faites votre sélection de dates : chaque date doit avoir un horaire associé et votre sondage doit au moins proposer une date (cela va de soi non ?).",
+          noChoiceError: "Vous devez au moins ajouter une date.",
           choice: {
             dateLabel: "Date n°{index}",
             timeLabel: "Horaire n°{index}",
@@ -64,21 +71,29 @@ export default {
         },
         settings: {
           stepTitle: "Paramètres",
+          intro:
+            "Personnalisez maintenant votre sondage en sélectionnant les options souhaitées. Pas de panique, vous pourrez toujours les modifier une fois le sondage créé.",
           hideVotes: {
-            label: "Masquer les votes",
+            label: "Masquer la liste des participant·es",
+            help: "Les noms des participant·es seront cachés aux autres (mais pas à vous, évidemment).",
           },
           endDate: {
-            label: "Date de fin",
+            label: "Date de fin (optionnel)",
+            help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
+            delete: "Supprimer",
           },
           notifyOnResponse: {
             label: "Recevoir un email pour chaque participation",
+            help: "On vous envoie un email dès qu’une personne répond à votre sondage, pratique.",
           },
         },
         adminInfos: {
           stepTitle: "Administrateur",
+          intro:
+            "Dernière étape : il est temps d’indiquer aux participant·es qui vous êtes (mais vous pouvez aussi rester anonyme 🥷). Vous serez ensuite redirigé·e vers la page de gestion de votre sondage que vous n’aurez plus qu’à partager !",
           name: {
-            label: "Nom",
-            hint: "Le nom est utilisé pour indiquer aux participants qui est l’auteur·ice du sondage",
+            label: "Nom (optionnel)",
+            hint: "Le nom est utilisé pour indiquer aux participant·es qui est l’auteur·ice du sondage",
           },
           email: {
             label: "Adresse email",

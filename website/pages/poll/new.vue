@@ -2,6 +2,7 @@
 import AdminInfos from "~/components/poll/new/AdminInfos.vue";
 import Choices from "~/components/poll/new/Choices.vue";
 import Settings from "~/components/poll/new/Settings.vue";
+import Stepper from "~/components/poll/new/Stepper.vue";
 import TitleAndDescription from "~/components/poll/new/TitleAndDescription.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
@@ -17,7 +18,7 @@ const steps = [
 const formData = ref<CreatePollFormData>({
   title: "",
   description: null,
-  choices: [],
+  choices: [{ date: null, time: null }],
   hideVotes: false,
   endDate: null,
   notifyOnResponse: false,
@@ -60,7 +61,8 @@ async function submitLastStep(data: StepPayload) {
 
 const router = useRouter();
 
-const stepperRef = ref<HTMLInputElement>();
+// Focus stepper on step change
+const stepperRef = ref<InstanceType<typeof Stepper>>();
 watch(step, () => {
   stepperRef.value?.focus();
 });
@@ -69,15 +71,12 @@ watch(step, () => {
 <template>
   <h1>{{ $t("pages.poll.new.title") }}</h1>
 
-  <p ref="stepperRef" tabindex="-1">
-    {{
-      $t("pages.poll.new.stepper", { current: step + 1, count: steps.length })
-    }}
-    :
-    {{ steps[step] }}
-  </p>
-
-  <hr />
+  <Stepper
+    ref="stepperRef"
+    class="stepper"
+    :steps-count="steps.length"
+    :current-step="{ index: step + 1, name: steps[step] }"
+  />
 
   <TitleAndDescription
     v-if="step === 0"
@@ -102,8 +101,10 @@ watch(step, () => {
     @submit="submitLastStep"
     @previous="goToPreviousStep"
   />
-
-  <hr />
-
-  <pre><code>{{ JSON.stringify(formData, null, 2) }}</code></pre>
 </template>
+
+<style scoped>
+.stepper {
+  margin-block-end: 2rem;
+}
+</style>
