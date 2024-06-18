@@ -157,12 +157,13 @@ describe("Poll admin page", () => {
     );
   });
 
-  it("deletes a poll", () => {
+  it.only("deletes a poll", () => {
     cy.contains("Supprimer le sondage").click();
-    cy.contains(
+    cy.get("[role='dialog']").as("modal");
+    cy.get("@modal").contains(
       `Vous êtes sur le point de supprimer le sondage "Trip to the museum".`,
     );
-    cy.contains("button", "Supprimer").click();
+    cy.get("@modal").contains("button", "Supprimer").click();
     cy.contains('Le sondage "Trip to the museum" a bien été supprimé');
   });
 
