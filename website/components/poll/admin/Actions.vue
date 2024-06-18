@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Modal from "~/components/Modal.vue";
+
 defineProps<{
   title: string;
 }>();
@@ -38,32 +40,26 @@ function confirmDelete() {
       {{ $t("pages.poll.admin.id.actions.delete") }}
     </button>
 
-    <Teleport to="body">
-      <div
-        v-if="showDeleteModal"
-        ref="deleteModalRef"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="dialog-heading"
-        tabindex="-1"
-      >
-        <h2 id="dialog-heading">
-          {{ $t("pages.poll.admin.id.actions.deleteModal.title") }}
-        </h2>
-        <p>
-          {{
-            $t("pages.poll.admin.id.actions.deleteModal.description", { title })
-          }}
-        </p>
+    <Modal
+      v-if="showDeleteModal"
+      :title="$t('pages.poll.admin.id.actions.deleteModal.title')"
+      @close="cancelDelete"
+    >
+      <p>
+        {{
+          $t("pages.poll.admin.id.actions.deleteModal.description", { title })
+        }}
+      </p>
 
-        <button type="button" @click="cancelDelete">
+      <template #actions>
+        <Button variant="secondary" @click="cancelDelete">
           {{ $t("pages.poll.admin.id.actions.deleteModal.cancel") }}
-        </button>
-        <button type="button" @click="confirmDelete">
+        </Button>
+        <Button @click="confirmDelete">
           {{ $t("pages.poll.admin.id.actions.deleteModal.confirm") }}
-        </button>
-      </div>
-    </Teleport>
+        </Button>
+      </template>
+    </Modal>
   </div>
 </template>
 
