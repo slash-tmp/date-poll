@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Alert from "~/components/Alert.vue";
 import Actions from "~/components/poll/admin/Actions.vue";
 import Intro from "~/components/poll/admin/Intro.vue";
 import Responses from "~/components/poll/admin/Responses.vue";
@@ -12,7 +13,7 @@ const route = useRoute();
 const id = route.params.id;
 
 // Display poll update confirmation alert
-const updatedPollAlertRef = ref<HTMLDivElement>();
+const updatedPollAlertRef = ref<InstanceType<typeof Alert>>();
 const updatedPoll = ref(false);
 
 onMounted(async () => {
@@ -64,26 +65,23 @@ async function confirmDelete() {
   <template v-if="poll">
     <h1 ref="headingRef" tabindex="-1">{{ poll.title }}</h1>
 
-    <div
+    <Alert
       v-if="updatedPoll"
       ref="updatedPollAlertRef"
-      role="alert"
-      tabindex="-1"
+      type="success"
+      is-closable
+      @close="hideUpdatedPollAlert"
     >
       {{
         $t("pages.poll.admin.edit.updatedPollAlert.description", {
           title: poll.title,
         })
       }}
-
-      <button @click="hideUpdatedPollAlert">
-        {{ $t("pages.poll.admin.edit.updatedPollAlert.close") }}
-      </button>
-    </div>
+    </Alert>
 
     <Actions :title="poll.title" @delete="confirmDelete" />
 
-    <div>
+    <div class="grid">
       <Intro
         :admin-name="poll.adminName"
         :description="poll.description"
@@ -99,3 +97,17 @@ async function confirmDelete() {
     </div>
   </template>
 </template>
+
+<style scoped>
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-block-end: 4rem;
+
+  @media (width < 50rem) {
+    grid-template-columns: 1fr;
+    margin-block-end: 2rem;
+  }
+}
+</style>

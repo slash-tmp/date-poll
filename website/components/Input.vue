@@ -2,7 +2,7 @@
 defineProps<{
   id: string;
   label: string;
-  type?: "text" | "email" | "date" | "time";
+  type?: "text" | "email" | "date" | "time" | "url";
   help?: string;
   required?: boolean;
 }>();
@@ -49,6 +49,7 @@ const model = defineModel<string | null>();
     border: 1px solid var(--color-grey-3);
     font-size: var(--font-size-1);
     padding: 0.5rem 1rem;
+    width: 100%;
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease;

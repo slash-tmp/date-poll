@@ -29,11 +29,11 @@ function confirmDelete() {
 </script>
 
 <template>
-  <div>
+  <div class="actions">
     <NuxtLink :to="{ name: 'poll-admin-id-edit' }">
       {{ $t("pages.poll.admin.id.actions.edit") }}
     </NuxtLink>
-    <br />
+
     <button ref="deleteButtonRef" @click="openDeleteModal">
       {{ $t("pages.poll.admin.id.actions.delete") }}
     </button>
@@ -66,3 +66,11 @@ function confirmDelete() {
     </Teleport>
   </div>
 </template>
+
+<style scoped>
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-block: 2rem;
+}
+</style>
