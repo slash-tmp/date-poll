@@ -31,6 +31,7 @@ const iconComponent = {
 
 <template>
   <div
+    ref="alertRef"
     :class="`alert alert-${type}`"
     tabindex="-1"
     aria-live="polite"
