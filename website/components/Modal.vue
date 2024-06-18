@@ -10,9 +10,39 @@ defineEmits<{
 }>();
 
 // Focus modal on mounted
-const modalRef = ref<HTMLHeadingElement>();
+const modalRef = ref<HTMLDivElement>();
 onMounted(() => {
+  document.body.classList.add("no-scroll");
   modalRef.value?.focus();
+});
+
+onUnmounted(() => {
+  document.body.classList.remove("no-scroll");
+});
+
+// Trap focus when tabbing
+onMounted(() => {
+  const focusableElsSelector =
+    'a[href]:not([disabled]), button:not([disabled]), textarea:not([disabled]), input[type="text"]:not([disabled]), input[type="radio"]:not([disabled]), input[type="checkbox"]:not([disabled]), select:not([disabled])';
+  const focusableEls = modalRef.value?.querySelectorAll(focusableElsSelector);
+  const firstFocusableEl = focusableEls?.[0];
+  const lastFocusableEl = focusableEls?.[focusableEls.length - 1];
+
+  modalRef.value?.addEventListener("keydown", function (e) {
+    if (e.key === "Tab") {
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusableEl) {
+          (lastFocusableEl as HTMLElement)?.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastFocusableEl) {
+          (firstFocusableEl as HTMLElement)?.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  });
 });
 </script>
 
@@ -25,6 +55,8 @@ onMounted(() => {
       aria-modal="true"
       aria-labelledby="modal-heading"
       tabindex="-1"
+      @keydown.esc="$emit('close')"
+      @click.self="$emit('close')"
     >
       <div class="content">
         <div class="header">
