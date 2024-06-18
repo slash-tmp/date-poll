@@ -2,21 +2,32 @@
 import { type RouteLocationRaw, RouterLink } from "vue-router";
 
 const props = defineProps<{
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "tertiary";
   type?: "button" | "submit";
   to?: RouteLocationRaw;
 }>();
 
+defineExpose({
+  focus: focusRoot,
+});
+
 const tag = props.to ? RouterLink : "button";
 const type = props.to ? undefined : props.type ?? "button";
+
+const rootRef = ref<HTMLButtonElement | HTMLAnchorElement>();
+function focusRoot() {
+  rootRef.value?.focus();
+}
 </script>
 
 <template>
   <component
     :is="tag"
+    ref="rootRef"
     class="button"
     :class="{
       'button-secondary': variant === 'secondary',
+      'button-tertiary': variant === 'tertiary',
     }"
     :to="to ?? undefined"
     :type="type"
@@ -47,8 +58,8 @@ const type = props.to ? undefined : props.type ?? "button";
     color 0.2s ease;
 
   &:hover {
-    background-color: var(--color-primary-dark);
-    border-color: var(--color-primary-dark);
+    background-color: var(--color-primary-darker);
+    border-color: var(--color-primary-darker);
   }
 
   &:focus-visible {
@@ -64,6 +75,19 @@ const type = props.to ? undefined : props.type ?? "button";
     &:hover {
       background-color: var(--color-primary);
       color: var(--color-white);
+    }
+  }
+
+  &.button-tertiary {
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--color-primary);
+    text-decoration: underline;
+    padding: 0;
+
+    &:hover {
+      color: var(--color-primary-darker);
     }
   }
 }

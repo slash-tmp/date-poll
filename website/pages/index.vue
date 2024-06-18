@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Alert from "~/components/Alert.vue";
+
 // Display poll deletion confirmation alert
 const deletedPollAlertRef = ref<HTMLDivElement>();
 const deletedPoll = ref<string>();
@@ -22,13 +24,15 @@ async function hideDeletedPollAlert() {
 <template>
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.index.title") }}</h1>
 
-  <div v-if="deletedPoll" ref="deletedPollAlertRef" role="alert" tabindex="-1">
+  <Alert
+    v-if="deletedPoll"
+    ref="deletedPollAlertRef"
+    type="info"
+    is-closable
+    @close="hideDeletedPollAlert"
+  >
     {{ $t("pages.index.deletedPollAlert.description", { title: deletedPoll }) }}
-
-    <button @click="hideDeletedPollAlert">
-      {{ $t("pages.index.deletedPollAlert.close") }}
-    </button>
-  </div>
+  </Alert>
 
   <RouterLink :to="{ name: 'poll-new' }">
     {{ $t("pages.index.newPoll") }}

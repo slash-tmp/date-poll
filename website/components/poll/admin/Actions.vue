@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Button from "~/components/Button.vue";
 import Modal from "~/components/Modal.vue";
 
 defineProps<{
@@ -32,13 +33,13 @@ function confirmDelete() {
 
 <template>
   <div class="actions">
-    <NuxtLink :to="{ name: 'poll-admin-id-edit' }">
+    <Button variant="tertiary" :to="{ name: 'poll-admin-id-edit' }">
       {{ $t("pages.poll.admin.id.actions.edit") }}
-    </NuxtLink>
+    </Button>
 
-    <button ref="deleteButtonRef" @click="openDeleteModal">
+    <Button ref="deleteButtonRef" variant="tertiary" @click="openDeleteModal">
       {{ $t("pages.poll.admin.id.actions.delete") }}
-    </button>
+    </Button>
 
     <Modal
       v-if="showDeleteModal"
@@ -66,7 +67,8 @@ function confirmDelete() {
 <style scoped>
 .actions {
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem 1rem;
+  flex-wrap: wrap;
   margin-block: 2rem;
 }
 </style>

@@ -94,6 +94,11 @@ onMounted(() => {
   border: 1px solid var(--color-grey-3);
   position: relative;
   max-width: var(--modal-width);
+  width: 100%;
+
+  @media (width < 50rem) {
+    padding: 1rem;
+  }
 }
 
 .header {
@@ -116,6 +121,7 @@ onMounted(() => {
   display: flex;
   gap: 1rem;
   justify-content: end;
+  flex-wrap: wrap;
   margin-block-start: 4rem;
 }
 </style>
