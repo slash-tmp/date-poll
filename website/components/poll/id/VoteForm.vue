@@ -84,7 +84,7 @@ function submitVote() {
             />
           </template>
         </fieldset>
-        <ul v-if="respondents?.length">
+        <ul v-if="respondents">
           <li
             v-for="(respondent, i) in getRespondentsForDate(choice.id)"
             :key="i"
