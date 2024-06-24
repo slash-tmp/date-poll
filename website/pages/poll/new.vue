@@ -69,6 +69,15 @@ watch(step, () => {
 </script>
 
 <template>
+  <Title>
+    {{
+      $t("pages.poll.new.meta.title", {
+        currentStep: step + 1,
+        count: steps.length,
+      })
+    }}
+  </Title>
+
   <h1>{{ $t("pages.poll.new.title") }}</h1>
 
   <Stepper

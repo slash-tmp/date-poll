@@ -32,6 +32,8 @@ async function closeAlert() {
 </script>
 
 <template>
+  <Title>{{ $t("pages.poll.find.meta.title") }}</Title>
+
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.poll.find.title") }}</h1>
 
   <p class="intro">{{ $t("pages.poll.find.description") }}</p>

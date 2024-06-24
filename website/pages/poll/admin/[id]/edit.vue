@@ -50,6 +50,14 @@ async function submitEditForm(data: UpdatePollFormData) {
 </script>
 
 <template>
+  <Title>
+    {{
+      $t("pages.poll.admin.edit.meta.title", {
+        pollName: poll?.title,
+      })
+    }}
+  </Title>
+
   <NuxtLink :to="{ name: 'poll-admin-id' }">
     {{ $t("pages.poll.admin.edit.back") }}
   </NuxtLink>

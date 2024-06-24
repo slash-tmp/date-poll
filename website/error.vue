@@ -24,6 +24,7 @@ const errorMessage = computed(() => {
 </script>
 
 <template>
+  <Title>{{ $t("pages.error.meta.title") }}</Title>
   <NuxtLayout>
     <h1>{{ errorTitle }}</h1>
     <p class="error-message">{{ errorMessage }}</p>

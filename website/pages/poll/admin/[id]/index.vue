@@ -63,6 +63,13 @@ async function confirmDelete() {
 
 <template>
   <template v-if="poll">
+    <Title>
+      {{
+        $t("pages.poll.admin.id.meta.title", {
+          pollName: poll.title,
+        })
+      }}
+    </Title>
     <h1 ref="headingRef" tabindex="-1">{{ poll.title }}</h1>
 
     <Alert

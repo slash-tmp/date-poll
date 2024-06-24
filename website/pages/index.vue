@@ -22,6 +22,8 @@ async function hideDeletedPollAlert() {
 </script>
 
 <template>
+  <Title>{{ $t("pages.index.meta.title") }}</Title>
+
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.index.title") }}</h1>
 
   <Alert

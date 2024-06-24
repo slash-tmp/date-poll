@@ -48,6 +48,14 @@ async function submitVote(payload: VotePollFormData) {
 
 <template>
   <template v-if="poll">
+    <Title>
+      {{
+        $t("pages.poll.id.meta.title", {
+          pollName: poll.title,
+        })
+      }}
+    </Title>
+
     <h1>{{ poll.title }}</h1>
 
     <p v-if="poll.description">{{ poll.description }}</p>

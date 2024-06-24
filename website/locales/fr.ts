@@ -12,6 +12,9 @@ export default {
 
   pages: {
     error: {
+      meta: {
+        title: "Erreur - date-poll",
+      },
       homeLink: "Retourner à la page d’accueil",
       404: {
         title: "Page introuvable",
@@ -20,6 +23,9 @@ export default {
       },
     },
     index: {
+      meta: {
+        title: "Trouvez facilement une date pour votre prochain événement",
+      },
       title: "date poll",
       deletedPollAlert: {
         description: 'Le sondage "{title}" a bien été supprimé',
@@ -30,6 +36,9 @@ export default {
     },
     poll: {
       find: {
+        meta: {
+          title: "Rechercher un sondage",
+        },
         title: "Rechercher un sondage",
         description:
           "Pour retrouver des sondages existants, entrez l’adresse email que vous avez utilisée les créer. Si l’adresse existe, un email avec la liste de vos sondages vous sera envoyé.",
@@ -44,6 +53,9 @@ export default {
         },
       },
       new: {
+        meta: {
+          title: "Créer un sondage, étape {currentStep} sur {count}",
+        },
         title: "Créer un sondage",
         stepper: "Étape {current} sur {count}",
         navigation: {
@@ -110,6 +122,9 @@ export default {
       },
       admin: {
         id: {
+          meta: {
+            title: 'Administration du sondage "{pollName}"',
+          },
           actions: {
             edit: "Modifier le sondage",
             delete: "Supprimer le sondage",
@@ -150,6 +165,9 @@ export default {
           },
         },
         edit: {
+          meta: {
+            title: 'Édition du sondage "{pollName}"',
+          },
           title: "Modifier le sondage",
           back: "Retour au sondage",
           updatedPollAlert: {
@@ -203,6 +221,9 @@ export default {
         },
       },
       id: {
+        meta: {
+          title: 'Sondage "{pollName}"',
+        },
         invited: "Vous avez été invité·e à participer à ce sondage.",
         invitedBy:
           "Vous avez été invité·e par {adminName} à participer à ce sondage.",
