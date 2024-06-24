@@ -49,8 +49,6 @@ const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
   });
 });
 
-console.log(choicesWithRespondents.value);
-
 // Get the highest number of votes for a choice
 const maxVotesValue = computed(() => {
   return Math.max(
@@ -94,6 +92,11 @@ const maxVotesValue = computed(() => {
               v-for="(respondent, k) in time.respondents"
               :key="k"
               class="respondent"
+              :data-cy="
+                respondent.value === 'MAYBE'
+                  ? 'respondent-maybe'
+                  : 'respondent-yes'
+              "
             >
               {{ respondent.name }}
               <template v-if="respondent.value === 'MAYBE'">
