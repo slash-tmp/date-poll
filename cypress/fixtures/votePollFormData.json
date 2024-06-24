@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Alice",
+    "responses": [
+      {
+        "value": "YES"
+      },
+      {
+        "value": "NO"
+      },
+      {
+        "value": "MAYBE"
+      }
+    ]
+  },
+  {
+    "name": "Jean",
+    "responses": [
+      {
+        "value": "MAYBE"
+      },
+      {
+        "value": "NO"
+      },
+      {
+        "value": "NO"
+      }
+    ]
+  },
+  {
+    "name": "Michel",
+    "responses": [
+      {
+        "value": "NO"
+      },
+      {
+        "value": "YES"
+      },
+      {
+        "value": "MAYBE"
+      }
+    ]
+  }
+]

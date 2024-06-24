@@ -128,7 +128,12 @@ export default {
               "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",
           },
           responses: {
-            title: "Participations (TODO)",
+            title: "Réponses et participations",
+            at: "à",
+            vote: "vote",
+            votes: "votes",
+            maybe: "(peut-être)",
+            bestChoice: "Meilleur choix",
           },
           error: {
             404: {
@@ -189,6 +194,41 @@ export default {
             },
           },
           submit: "Mettre à jour",
+        },
+      },
+      id: {
+        invited: "Vous avez été invité·e à participer à ce sondage.",
+        invitedBy:
+          "Vous avez été invité·e par {adminName} à participer à ce sondage.",
+        expireOn: "Vous avez jusqu’au {endDate} pour y participer.",
+        isExpired:
+          "La date limite de participation de ce sondage est dépassée. Il n’est plus possible d’y répondre.",
+        form: {
+          choices: {
+            yes: "Oui",
+            maybe: "Peut-être",
+            no: "Non",
+          },
+          name: "Votre nom",
+          at: "à",
+          maybe: "(peut-être)",
+          withName: {
+            yes: "{name} (vous)",
+            maybe: "{name} (vous, peut-être)",
+          },
+          withoutName: {
+            yes: "Vous",
+            maybe: "Vous (peut-être)",
+          },
+          submit: "Voter",
+        },
+        confirmation: "Votre vote a bien été pris en compte !",
+        error: {
+          404: {
+            title: "Sondage introuvable",
+            description:
+              "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
+          },
         },
       },
     },

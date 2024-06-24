@@ -1,3 +1,5 @@
+import { IsIn } from 'class-validator';
+
 class Choice {
   id: number;
   date: Date;
@@ -6,6 +8,8 @@ class Choice {
 class Response {
   id: number;
   choiceId: number;
+
+  @IsIn(['YES', 'MAYBE', 'NO'])
   value: 'YES' | 'MAYBE' | 'NO';
 }
 
@@ -21,6 +25,7 @@ export class PublicPoll {
   title: string;
   description: string | null;
   endDate: Date | null;
+  hideVotes: boolean;
   adminName: string | null;
 
   choices: Choice[];

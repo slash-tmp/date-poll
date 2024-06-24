@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Actions from "~/components/poll/admin/Actions.vue";
 import Intro from "~/components/poll/admin/Intro.vue";
+import Responses from "~/components/poll/admin/Responses.vue";
 import Share from "~/components/poll/admin/Share.vue";
 import type { AdminPollApiResponse } from "~/types/poll";
 
@@ -93,6 +94,8 @@ async function confirmDelete() {
     </div>
     <div>
       <h2>{{ $t("pages.poll.admin.id.responses.title") }}</h2>
+      <!-- FIXME: type respondents prop -->
+      <Responses :choices="poll.choices" :respondents="poll.respondents" />
     </div>
   </template>
 </template>
