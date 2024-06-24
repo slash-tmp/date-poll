@@ -90,11 +90,8 @@ async function confirmDelete() {
 
       <Share :public-uid="poll.publicUid" />
     </div>
-    <div>
-      <h2>{{ $t("pages.poll.admin.id.responses.title") }}</h2>
-      <!-- FIXME: type respondents prop -->
-      <Responses :choices="poll.choices" :respondents="poll.respondents" />
-    </div>
+
+    <Responses :choices="poll.choices" :respondents="poll.respondents" />
   </template>
 </template>
 
