@@ -3,6 +3,13 @@ export default {
     world: "Bonjour monde !",
   },
 
+  layout: {
+    header: {
+      name: "📆 date-poll",
+      about: "À propos",
+    },
+  },
+
   pages: {
     error: {
       homeLink: "Retourner à la page d’accueil",
