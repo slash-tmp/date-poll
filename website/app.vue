@@ -4,9 +4,11 @@ onMounted(() => {
   isHydrated.value = true;
 });
 
+const { t } = useI18n();
+
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - date-poll` : "date-poll";
+    return titleChunk ? `${titleChunk} - ${t("name")}` : t("name");
   },
 });
 </script>

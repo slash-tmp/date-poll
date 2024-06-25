@@ -3,9 +3,11 @@ export default {
     world: "Bonjour monde !",
   },
 
+  name: "date-poll",
+
   layout: {
     header: {
-      name: "📆 date-poll",
+      logo: "📆 @:name",
       about: "À propos",
     },
   },
@@ -26,7 +28,7 @@ export default {
       meta: {
         title: "Trouvez facilement une date pour votre prochain événement",
       },
-      title: "date poll",
+      title: "@:name",
       deletedPollAlert: {
         description: 'Le sondage "{title}" a bien été supprimé',
         close: "Fermer",

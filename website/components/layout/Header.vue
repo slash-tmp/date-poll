@@ -2,7 +2,7 @@
   <header>
     <div class="content">
       <RouterLink :to="{ name: 'index' }">
-        {{ $t("layout.header.name") }}
+        {{ $t("layout.header.logo") }}
       </RouterLink>
       <RouterLink :to="{ name: 'about' }">
         {{ $t("layout.header.about") }}
