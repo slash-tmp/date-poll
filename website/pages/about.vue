@@ -11,10 +11,7 @@
     <li>
       <strong>Éthique</strong> ? Ici vous ne trouverez jamais de pubs. Il y en a
       déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention
-      aux données personnelles que nous collectons. Rien ne sera envoyé aux
-      méchants
-      <abbr title="Google Amazon Facebook Apple Microsoft">GAFAM</abbr> ou tout
-      autre méga corporation mal intentionnée.
+      au peu de données personnelles que nous collectons.
     </li>
     <li>
       <strong>Facile</strong> ? Il y a beaucoup trop d’exemples de produits qui
