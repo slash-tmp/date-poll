@@ -130,8 +130,7 @@ export default {
           responses: {
             title: "Réponses et participations",
             at: "à",
-            vote: "vote",
-            votes: "votes",
+            vote: "vote | votes",
             maybe: "(peut-être)",
             bestChoice: "Meilleur choix",
           },

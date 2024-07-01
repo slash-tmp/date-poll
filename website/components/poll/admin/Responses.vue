@@ -12,6 +12,7 @@ const props = defineProps<{
 type RespondentsPerChoice = {
   date: string;
   times: {
+    id: number;
     time: string;
     respondents?: {
       name: string;
@@ -28,6 +29,7 @@ const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
       date: formatDate(date),
       times: choices.map((c) => {
         return {
+          id: c.id,
           time: formatTime(c.date),
           respondents: props.respondents
             ?.filter((r) => {
@@ -63,25 +65,28 @@ const maxVotesValue = computed(() => {
   <h2>{{ $t("pages.poll.admin.id.responses.title") }}</h2>
 
   <ul class="dates">
-    <li v-for="(choice, i) in choicesWithRespondents" :key="i" class="date">
-      <p class="date-title">{{ choice.date }}</p>
+    <li
+      v-for="choice in choicesWithRespondents"
+      :key="choice.date"
+      class="date"
+    >
+      <time class="date-title">{{ choice.date }}</time>
       <ul class="times">
-        <li v-for="(time, j) in choice.times" :key="j" class="time">
+        <li v-for="time in choice.times" :key="time.id" class="time">
           <mark
-            v-if="maxVotesValue === time.respondents?.length"
+            v-if="maxVotesValue && maxVotesValue === time.respondents?.length"
             class="best-choice"
           >
             <Star />
             {{ $t("pages.poll.admin.id.responses.bestChoice") }}
           </mark>
           <div class="time-header">
-            <p>{{ time.time }}</p>
+            <time>{{ time.time }}</time>
             <p v-if="time.respondents">
               {{ time.respondents.length }}
               {{
-                pluralize(
-                  $t("pages.poll.admin.id.responses.vote"),
-                  $t("pages.poll.admin.id.responses.votes"),
+                $t(
+                  "pages.poll.admin.id.responses.vote",
                   time.respondents.length,
                 )
               }}
@@ -89,8 +94,8 @@ const maxVotesValue = computed(() => {
           </div>
           <ul v-if="time.respondents?.length" class="respondents">
             <li
-              v-for="(respondent, k) in time.respondents"
-              :key="k"
+              v-for="(respondent, i) in time.respondents"
+              :key="i"
               class="respondent"
               :data-cy="
                 respondent.value === 'MAYBE'
@@ -130,6 +135,7 @@ const maxVotesValue = computed(() => {
 .date-title {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-2);
+  display: block;
   margin-block-end: 1rem;
 }
 

@@ -5,6 +5,7 @@ defineProps<{
   type?: "text" | "email" | "date" | "time" | "url";
   help?: string;
   required?: boolean;
+  readonly?: boolean;
 }>();
 
 defineExpose({
@@ -32,6 +33,7 @@ const model = defineModel<string | null>();
       v-model="model"
       class="field"
       :required="required"
+      :readonly="readonly"
       :type="type ?? 'text'"
     />
   </div>
