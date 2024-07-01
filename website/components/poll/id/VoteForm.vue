@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Button from "~/components/Button.vue";
+import Input from "~/components/Input.vue";
 import type { Respondent, VotePollFormData } from "~/types/poll";
 import { Response } from "~/types/poll";
 
@@ -55,10 +57,14 @@ function submitVote() {
 
 <template>
   <form @submit.prevent="submitVote">
-    <div>
-      <label for="name">{{ $t("pages.poll.id.form.name") }}</label>
-      <input id="name" v-model="name" type="text" required />
-    </div>
+    <Input
+      id="name"
+      v-model="name"
+      :label="$t('pages.poll.id.form.name')"
+      type="text"
+      required
+      class="name-input"
+    />
 
     <ul>
       <li v-for="choice in choices" :key="choice.date">
@@ -122,6 +128,19 @@ function submitVote() {
       </li>
     </ul>
 
-    <button type="submit">{{ $t("pages.poll.id.form.submit") }}</button>
+    <Button type="submit" class="submit-button">
+      {{ $t("pages.poll.id.form.submit") }}
+    </Button>
   </form>
 </template>
+
+<style scoped>
+.name-input {
+  max-width: 30rem;
+}
+
+.submit-button {
+  display: block;
+  margin-inline-start: auto;
+}
+</style>
