@@ -20,7 +20,7 @@ async function submit() {
 }
 
 const showSuccessAlert = ref(false);
-const alertRef = ref<HTMLDivElement>();
+const alertRef = ref<InstanceType<typeof Alert>>();
 const headingRef = ref<HTMLHeadingElement>();
 
 async function closeAlert() {
@@ -36,26 +36,20 @@ async function closeAlert() {
 
   <p class="intro">{{ $t("pages.poll.find.description") }}</p>
 
-  <div
+  <Alert
+    v-if="showSuccessAlert"
     ref="alertRef"
-    class="alert"
-    aria-live="polite"
-    role="alert"
-    tabindex="-1"
+    class="find-alert"
+    is-closable
+    type="success"
+    @close="closeAlert"
   >
-    <Alert
-      v-if="showSuccessAlert"
-      is-closable
-      type="success"
-      @close="closeAlert"
-    >
-      {{
-        $t("pages.poll.find.alert.description", {
-          emailAddress: recipientEmail,
-        })
-      }}
-    </Alert>
-  </div>
+    {{
+      $t("pages.poll.find.alert.description", {
+        emailAddress: recipientEmail,
+      })
+    }}
+  </Alert>
 
   <form class="form" @submit.prevent="submit">
     <Input
@@ -77,7 +71,7 @@ async function closeAlert() {
   margin-block-end: 2rem;
 }
 
-.alert {
+.find-alert {
   margin-block-end: 1rem;
 }
 

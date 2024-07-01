@@ -13,6 +13,15 @@ defineEmits<{
   (e: "close"): void;
 }>();
 
+defineExpose({
+  focus: focusAlert,
+});
+
+const alertRef = ref<HTMLDivElement>();
+function focusAlert() {
+  alertRef.value?.focus();
+}
+
 const iconComponent = {
   success: CheckCircle,
   info: Info,
@@ -21,7 +30,13 @@ const iconComponent = {
 </script>
 
 <template>
-  <div :class="`alert alert-${type}`">
+  <div
+    ref="alertRef"
+    :class="`alert alert-${type}`"
+    tabindex="-1"
+    aria-live="polite"
+    role="alert"
+  >
     <component :is="iconComponent[type]" class="icon" aria-hidden="true" />
     <div>
       <slot />

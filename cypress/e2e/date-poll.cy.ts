@@ -159,26 +159,29 @@ describe("Poll admin page", () => {
 
   it("deletes a poll", () => {
     cy.contains("Supprimer le sondage").click();
-    cy.contains(
+    cy.get("[role='dialog']").as("modal");
+    cy.get("@modal").contains(
       `Vous êtes sur le point de supprimer le sondage "Trip to the museum".`,
     );
-    cy.contains("button", "Supprimer").click();
+    cy.get("@modal").contains("button", "Supprimer").click();
     cy.contains('Le sondage "Trip to the museum" a bien été supprimé');
   });
 
   it("displays choices with respondents and best choice(s)", () => {
-    // 3 choices
+    // 2 dates with 3 choices
     cy.get('h2:contains("Réponses et participations") + ul > li')
       .its("length")
-      .should("eq", 3);
+      .should("eq", 2);
 
     // 5 votes in total
-    cy.get('li ul li:contains("Alice")').its("length").should("eq", 2);
-    cy.get('li ul li:contains("Jean")').its("length").should("eq", 1);
-    cy.get('li ul li:contains("Michel")').its("length").should("eq", 2);
+    cy.get('[data-cy^="respondent"]').its("length").should("eq", 5);
+
+    // 2 yes, 3 maybe
+    cy.get('[data-cy="respondent-yes"]').its("length").should("eq", 2);
+    cy.get('[data-cy="respondent-maybe"]').its("length").should("eq", 3);
 
     // 2 best choices
-    cy.get('li:contains("Meilleur choix")').its("length").should("eq", 2);
+    cy.get('mark:contains("Meilleur choix")').its("length").should("eq", 2);
   });
 });
 
@@ -290,12 +293,12 @@ describe("Poll edition page", () => {
     );
 
     // Deleted date is gone
-    cy.getByLabel("Date n°1").should("not.have.value", "2024-05-15");
+    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
     cy.getByLabel("Horaire n°1").should("not.have.value", "10:30");
 
     // Previous 2nd date is now 1st
-    cy.getByLabel("Date n°1").should("have.value", "2024-05-22");
-    cy.getByLabel("Horaire n°1").should("have.value", "13:00");
+    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
+    cy.getByLabel("Horaire n°1").should("have.value", "14:30");
 
     // Previous 3rd date is now 2nd
     cy.getByLabel("Date n°2").should("have.value", "2024-05-29");
@@ -329,7 +332,7 @@ describe("Poll vote page", () => {
       'fieldset legend:contains("15 mai 2024 à 10h30") ~ [type="radio"]:nth-of-type(1)',
     ).check();
     cy.get(
-      'fieldset legend:contains("22 mai 2024 à 13h00") ~ [type="radio"]:nth-of-type(2)',
+      'fieldset legend:contains("15 mai 2024 à 14h30") ~ [type="radio"]:nth-of-type(2)',
     ).check();
     cy.get(
       'fieldset legend:contains("29 mai 2024 à 18h50") ~ [type="radio"]:nth-of-type(3)',

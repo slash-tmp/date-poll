@@ -116,7 +116,7 @@ export default {
             deleteModal: {
               title: "Supprimer le sondage",
               description:
-                'Vous êtes sur le point de supprimer le sondage "{title}".',
+                'Vous êtes sur le point de supprimer le sondage "{title}". Vous n’y aurez plus accès et plus personne ne pourra y participer.',
               cancel: "Annuler",
               confirm: "Supprimer",
             },
@@ -137,8 +137,7 @@ export default {
           responses: {
             title: "Réponses et participations",
             at: "à",
-            vote: "vote",
-            votes: "votes",
+            vote: "vote | votes",
             maybe: "(peut-être)",
             bestChoice: "Meilleur choix",
           },
