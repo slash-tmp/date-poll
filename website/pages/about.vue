@@ -13,13 +13,18 @@
 
   <ol>
     <li>
-      <strong>{{ $t("pages.about.intro.list.ethics.title") }}</strong>
-      {{ $t("pages.about.intro.list.ethics.content") }}
+      <i18n-t keypath="pages.about.intro.list.ethics.content">
+        <template #title>
+          <strong>{{ $t("pages.about.intro.list.ethics.title") }}</strong>
+        </template>
+      </i18n-t>
     </li>
 
     <li>
-      <strong>{{ $t("pages.about.intro.list.easy.title") }}</strong>
       <i18n-t keypath="pages.about.intro.list.easy.content">
+        <template #title>
+          <strong>{{ $t("pages.about.intro.list.easy.title") }}</strong>
+        </template>
         <template #ia>
           <abbr :title="$t('pages.about.intro.list.easy.iaDef')">
             {{ $t("pages.about.intro.list.easy.ia") }}
@@ -29,8 +34,10 @@
     </li>
 
     <li>
-      <strong>{{ $t("pages.about.intro.list.accessible.title") }}</strong>
       <i18n-t keypath="pages.about.intro.list.accessible.content">
+        <template #title>
+          <strong>{{ $t("pages.about.intro.list.accessible.title") }}</strong>
+        </template>
         <template #rgaa>
           <abbr :title="$t('pages.about.intro.list.accessible.rgaaDef')">
             {{ $t("pages.about.intro.list.accessible.rgaa") }}

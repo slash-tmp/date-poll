@@ -36,19 +36,19 @@ export default {
           ethics: {
             title: "Éthique",
             content:
-              " ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention au peu de données personnelles que nous collectons.",
+              "{title} ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention au peu de données personnelles que nous collectons.",
           },
           easy: {
             title: "Facile",
             content:
-              " ? Il y a beaucoup trop d’exemples de produits qui divergent de leur objectif initial pour devenir des usines à gaz. On voulait faire un outil de réservation de créneau : on fait ça et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia} (🤮).",
+              "{title} ? Il y a beaucoup trop d’exemples de produits qui divergent de leur objectif initial pour devenir des usines à gaz. On voulait faire un outil de réservation de créneau : on fait ça et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia} (🤮).",
             ia: "IA",
             iaDef: "Intelligence Artificielle",
           },
           accessible: {
             title: "Accessible",
             content:
-              " ? Ça n’est pas une surprise : le web n’est pas accessible. On a fait un service qui suit les critères du {rgaa} et les recommandations Opquast, utilisable par tout le monde et en toutes conditions (bon il faut une connexion internet quand même).",
+              "{title} ? Ça n’est pas une surprise : le web n’est pas accessible. On a fait un service qui suit les critères du {rgaa} et les recommandations Opquast, utilisable par tout le monde et en toutes conditions (bon il faut une connexion internet quand même).",
             rgaa: "RGAA",
             rgaaDef: "Référentiel Général d’Amélioration de l’Accessibilité",
           },
