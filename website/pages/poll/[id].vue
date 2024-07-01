@@ -74,7 +74,7 @@ async function submitVote(payload: VotePollFormData) {
       </p>
     </Alert>
 
-    <template v-else>
+    <template v-if="!isExpired && !showConfirmation">
       <Alert type="info" class="invitation-alert">
         <p>
           <template v-if="poll.adminName">
@@ -93,16 +93,22 @@ async function submitVote(payload: VotePollFormData) {
         </p>
       </Alert>
 
-      <p v-if="showConfirmation" ref="confirmationRef" tabindex="-1">
-        {{ $t("pages.poll.id.confirmation") }}
-      </p>
       <VoteForm
-        v-else
+        v-if="!showConfirmation"
         :choices="poll.choices"
         :respondents="poll.respondents"
         @submit="submitVote"
       />
     </template>
+
+    <Alert
+      v-if="showConfirmation"
+      ref="confirmationRef"
+      tabindex="-1"
+      type="success"
+    >
+      {{ $t("pages.poll.id.confirmation") }}
+    </Alert>
   </template>
 </template>
 

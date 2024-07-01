@@ -1,0 +1,73 @@
+<script setup lang="ts">
+defineProps<{
+  id: string;
+  name: string;
+  label: string;
+  required?: boolean;
+  value?: string;
+}>();
+
+const model = defineModel<string>();
+</script>
+
+<template>
+  <label :for="id" class="wrapper">
+    <input
+      :id="id"
+      v-model="model"
+      :value="value"
+      class="input"
+      type="radio"
+      :name="name"
+    />
+    {{ label }}
+  </label>
+</template>
+
+<style scoped>
+.wrapper {
+  display: grid;
+  grid-template-columns: 1rem auto;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid var(--color-grey-3);
+  border-radius: var(--border-radius-base);
+  cursor: pointer;
+  box-shadow: var(--shadow-small);
+  font-weight: var(--font-weight-semibold);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-primary-lighter);
+  }
+
+  &:focus-within {
+    outline: 2px solid var(--color-outline);
+    outline-offset: 2px;
+  }
+
+  &:has([type="radio"]:checked) {
+    background-color: var(--color-primary-lighter);
+  }
+
+  .input {
+    border: 1px solid var(--color-grey-3);
+    box-shadow: var(--shadow-small);
+    border-radius: var(--border-radius-base);
+    margin: 0;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:focus-visible {
+      outline: none;
+    }
+
+    &:checked {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+  }
+}
+</style>
