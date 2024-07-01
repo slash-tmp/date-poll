@@ -250,12 +250,16 @@ export default {
             stepTitle: "Paramètres",
             hideVotes: {
               label: "Masquer les votes",
+              help: "Les noms des participant·es seront cachés aux autres (mais pas à vous, évidemment).",
             },
             endDate: {
               label: "Date de fin",
+              help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
+              delete: "Supprimer",
             },
             notifyOnResponse: {
               label: "Recevoir un email pour chaque participation",
+              help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
             },
           },
           adminInfos: {
@@ -266,7 +270,6 @@ export default {
             },
             email: {
               label: "Adresse email",
-              hint: "L’adresse email est utilisée pour vous envoyer un email avec les informations de votre sondage (dont le lien d’administration)",
             },
           },
           submit: "Mettre à jour",

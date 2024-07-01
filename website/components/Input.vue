@@ -6,6 +6,7 @@ defineProps<{
   help?: string;
   required?: boolean;
   readonly?: boolean;
+  disabled?: boolean;
 }>();
 
 defineExpose({
@@ -34,6 +35,7 @@ const model = defineModel<string | null>();
       class="field"
       :required="required"
       :readonly="readonly"
+      :disabled="disabled"
       :type="type ?? 'text'"
     />
   </div>
