@@ -30,8 +30,6 @@ definePageMeta({
 <template>
   <PageMeta :title="$t('pages.index.meta.title')" />
 
-  <h1 ref="headingRef" tabindex="-1">{{ $t("pages.index.title") }}</h1>
-
   <Alert
     v-if="deletedPoll"
     ref="deletedPollAlertRef"
