@@ -3,6 +3,8 @@ import { useRoute } from "vue-router";
 
 import type { NuxtError } from "#app";
 
+import PageMeta from "./components/PageMeta.vue";
+
 const props = defineProps<{
   error: NuxtError;
 }>();
@@ -24,7 +26,8 @@ const errorMessage = computed(() => {
 </script>
 
 <template>
-  <Title>{{ $t("pages.error.meta.title") }}</Title>
+  <PageMeta :title="$t('pages.error.meta.title')" />
+
   <NuxtLayout>
     <h1>{{ errorTitle }}</h1>
     <p class="error-message">{{ errorMessage }}</p>

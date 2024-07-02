@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PageMeta from "~/components/PageMeta.vue";
 import EditPollForm from "~/components/poll/admin/EditPollForm.vue";
 import type { AdminPollApiResponse, UpdatePollFormData } from "~/types/poll";
 
@@ -50,13 +51,13 @@ async function submitEditForm(data: UpdatePollFormData) {
 </script>
 
 <template>
-  <Title>
-    {{
-      $t("pages.poll.admin.edit.meta.title", {
+  <PageMeta
+    :title="
+      $t('pages.poll.admin.edit.meta.title', {
         pollName: poll?.title,
       })
-    }}
-  </Title>
+    "
+  />
 
   <NuxtLink :to="{ name: 'poll-admin-id' }">
     {{ $t("pages.poll.admin.edit.back") }}

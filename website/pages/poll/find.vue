@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Alert from "~/components/Alert.vue";
 import Input from "~/components/Input.vue";
+import PageMeta from "~/components/PageMeta.vue";
 
 const email = ref("");
 const recipientEmail = ref("");
@@ -32,7 +33,7 @@ async function closeAlert() {
 </script>
 
 <template>
-  <Title>{{ $t("pages.poll.find.meta.title") }}</Title>
+  <PageMeta :title="$t('pages.poll.find.meta.title')" />
 
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.poll.find.title") }}</h1>
 

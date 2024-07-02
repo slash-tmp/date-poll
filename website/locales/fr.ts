@@ -13,7 +13,7 @@ export default {
   pages: {
     error: {
       meta: {
-        title: "Erreur - date-poll",
+        title: "Erreur",
       },
       homeLink: "Retourner à la page d’accueil",
       404: {

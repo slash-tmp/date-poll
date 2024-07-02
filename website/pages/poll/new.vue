@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PageMeta from "~/components/PageMeta.vue";
 import AdminInfos from "~/components/poll/new/AdminInfos.vue";
 import Choices from "~/components/poll/new/Choices.vue";
 import Settings from "~/components/poll/new/Settings.vue";
@@ -69,14 +70,14 @@ watch(step, () => {
 </script>
 
 <template>
-  <Title>
-    {{
-      $t("pages.poll.new.meta.title", {
+  <PageMeta
+    :title="
+      $t('pages.poll.new.meta.title', {
         currentStep: step + 1,
         count: steps.length,
       })
-    }}
-  </Title>
+    "
+  />
 
   <h1>{{ $t("pages.poll.new.title") }}</h1>
 
