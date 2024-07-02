@@ -59,9 +59,9 @@ async function submitEditForm(data: UpdatePollFormData) {
     "
   />
 
-  <NuxtLink :to="{ name: 'poll-admin-id' }">
+  <Button variant="tertiary" :to="{ name: 'poll-admin-id' }" class="back-link">
     {{ $t("pages.poll.admin.edit.back") }}
-  </NuxtLink>
+  </Button>
 
   <h1>{{ $t("pages.poll.admin.edit.title") }}</h1>
 
@@ -72,3 +72,9 @@ async function submitEditForm(data: UpdatePollFormData) {
     @submit="submitEditForm"
   />
 </template>
+
+<style scoped>
+.back-link {
+  margin-block-end: 1rem;
+}
+</style>
