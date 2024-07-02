@@ -124,6 +124,10 @@ const maxVotesValue = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (width < 30rem) {
+    gap: 1rem;
+  }
 }
 
 .date {
@@ -131,6 +135,10 @@ const maxVotesValue = computed(() => {
   border: 1px solid var(--color-grey-3);
   background-color: var(--color-primary-lighter);
   padding: 1rem;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
 }
 
 .date-title {
@@ -155,10 +163,16 @@ const maxVotesValue = computed(() => {
   background-color: var(--color-white);
   padding: 1rem;
   position: relative;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
 }
 
 .best-choice {
   align-items: center;
+  background-color: var(--color-primary);
+  color: var(--color-white);
   display: flex;
   gap: 0.25rem;
   font-size: var(--font-size-0);
@@ -168,6 +182,10 @@ const maxVotesValue = computed(() => {
   inset-block-end: 100%;
   inset-inline-start: 1rem;
   transform: translateY(50%);
+
+  @media (width < 30rem) {
+    transform: translateY(40%);
+  }
 
   svg {
     width: 1rem;

@@ -2,10 +2,19 @@
 import { groupBy } from "lodash";
 
 import Button from "~/components/Button.vue";
+import Check from "~/components/icons/Check.vue";
+import QuestionMark from "~/components/icons/QuestionMark.vue";
+import Xmark from "~/components/icons/Xmark.vue";
 import Input from "~/components/Input.vue";
 import Radio from "~/components/Radio.vue";
 import type { Respondent, VotePollFormData } from "~/types/poll";
 import { Response } from "~/types/poll";
+
+const responseIcon = {
+  [Response.YES]: Check,
+  [Response.MAYBE]: QuestionMark,
+  [Response.NO]: Xmark,
+};
 
 const props = defineProps<{
   choices: { id: number; date: string }[];
@@ -124,7 +133,11 @@ function submitVote() {
                   :label="
                     $t(`pages.poll.id.form.choices.${option.toLowerCase()}`)
                   "
-                />
+                >
+                  <template #icon>
+                    <component :is="responseIcon[option]" class="radio-icon" />
+                  </template>
+                </Radio>
               </div>
             </fieldset>
             <ul v-if="time.respondents" class="respondents">
@@ -199,6 +212,11 @@ function submitVote() {
   flex-direction: column;
   gap: 2rem;
   margin-block-end: 2rem;
+
+  @media (width < 30rem) {
+    gap: 1rem;
+    margin-block-end: 1rem;
+  }
 }
 
 .date {
@@ -206,6 +224,10 @@ function submitVote() {
   border: 1px solid var(--color-grey-3);
   background-color: var(--color-primary-lighter);
   padding: 1rem;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
 }
 
 .date-title {
@@ -235,6 +257,10 @@ fieldset {
   background-color: var(--color-white);
   padding: 1rem;
   position: relative;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
 }
 
 .radios {
@@ -243,21 +269,8 @@ fieldset {
   gap: 0.5rem;
 }
 
-.best-choice {
-  align-items: center;
-  display: flex;
-  gap: 0.25rem;
-  font-size: var(--font-size-0);
-  border-radius: var(--border-radius-base);
-  padding-inline: 0.25rem;
-  position: absolute;
-  inset-block-end: 100%;
-  inset-inline-start: 1rem;
-  transform: translateY(50%);
-
-  svg {
-    width: 1rem;
-  }
+.radio-icon {
+  width: 1.5rem;
 }
 
 .time-header {

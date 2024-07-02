@@ -19,7 +19,10 @@ const model = defineModel<string>();
       type="radio"
       :name="name"
     />
-    {{ label }}
+    <span class="label">{{ label }}</span>
+    <span class="icon" :aria-label="label">
+      <slot name="icon" />
+    </span>
   </label>
 </template>
 
@@ -35,6 +38,10 @@ const model = defineModel<string>();
   box-shadow: var(--shadow-small);
   font-weight: var(--font-weight-semibold);
   transition: background-color 0.2s ease;
+
+  @media (width < 30rem) {
+    padding: 0.25rem 0.5rem;
+  }
 
   &:hover {
     background-color: var(--color-primary-lighter);
@@ -67,6 +74,20 @@ const model = defineModel<string>();
     &:checked {
       background-color: var(--color-primary);
       border-color: var(--color-primary);
+    }
+  }
+
+  .label {
+    @media (width < 30rem) {
+      display: none;
+    }
+  }
+
+  .icon {
+    display: none;
+
+    @media (width < 30rem) {
+      display: initial;
     }
   }
 }
