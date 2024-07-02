@@ -2,7 +2,7 @@ const BACKEND_API_URL = process.env.BACKEND_API_URL ?? "http://[::]:4000";
 
 const herokuBaseUrl =
   process.env.HEROKU_APP_NAME &&
-  `https://${process.env.HEROKU_APP_NAME}.herokuapp.com/`;
+  `https://${process.env.HEROKU_APP_NAME}.herokuapp.com`;
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
