@@ -20,6 +20,11 @@ async function hideDeletedPollAlert() {
   await nextTick();
   headingRef.value?.focus();
 }
+
+// Define page layout
+definePageMeta({
+  layout: "home",
+});
 </script>
 
 <template>
@@ -37,13 +42,61 @@ async function hideDeletedPollAlert() {
     {{ $t("pages.index.deletedPollAlert.description", { title: deletedPoll }) }}
   </Alert>
 
-  <RouterLink :to="{ name: 'poll-new' }">
-    {{ $t("pages.index.newPoll") }}
-  </RouterLink>
+  <i18n-t
+    ref="headingRef"
+    tag="h1"
+    class="heading highlighted"
+    tabindex="-1"
+    keypath="pages.index.title"
+  >
+    <template #highlight>
+      <span>{{ $t("pages.index.easily") }}</span>
+    </template>
+  </i18n-t>
 
-  <br />
+  <p class="tagline">
+    {{ $t("pages.index.tagLine") }}
+    <strong>{{ $t("pages.index.arguments") }}</strong>
+  </p>
 
-  <RouterLink :to="{ name: 'poll-find' }">
-    {{ $t("pages.index.findPoll") }}
-  </RouterLink>
+  <div class="actions">
+    <div>
+      <Button :to="{ name: 'poll-new' }" aria-describedby="threeMinutes">
+        {{ $t("pages.index.newPoll") }}
+      </Button>
+      <p id="threeMinutes" class="time-promise">👆 Ça prend 3 minutes</p>
+    </div>
+
+    <Button variant="secondary" :to="{ name: 'poll-find' }">
+      {{ $t("pages.index.findPoll") }}
+    </Button>
+  </div>
 </template>
+
+<style scoped>
+.heading span {
+  color: var(--color-primary);
+}
+
+.tagline {
+  font-size: var(--font-size-2);
+  margin-block-end: 4rem;
+
+  @media (width < 50rem) {
+    margin-block-end: 2rem;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem 1rem;
+}
+
+.time-promise {
+  font-size: var(--font-size-0);
+  margin-block-start: 0.5rem;
+}
+</style>

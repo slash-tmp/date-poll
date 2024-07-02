@@ -9,8 +9,10 @@ h1 {
   line-height: var(--line-height-heading);
   margin-block-end: 2rem;
 
-  &.highlighted {
-    font-size: var(--font-size-6);
+  @media (width > 50rem) {
+    &.highlighted {
+      font-size: var(--font-size-6);
+    }
   }
 }
 
