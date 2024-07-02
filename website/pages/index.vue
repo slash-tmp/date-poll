@@ -40,17 +40,13 @@ definePageMeta({
     {{ $t("pages.index.deletedPollAlert.description", { title: deletedPoll }) }}
   </Alert>
 
-  <i18n-t
-    ref="headingRef"
-    tag="h1"
-    class="heading highlighted"
-    tabindex="-1"
-    keypath="pages.index.title"
-  >
-    <template #highlight>
-      <span>{{ $t("pages.index.easily") }}</span>
-    </template>
-  </i18n-t>
+  <h1 ref="headingRef" tabindex="-1" class="heading">
+    <i18n-t keypath="pages.index.title">
+      <template #highlight>
+        <span>{{ $t("pages.index.easily") }}</span>
+      </template>
+    </i18n-t>
+  </h1>
 
   <p class="tagline">
     {{ $t("pages.index.tagLine") }}
