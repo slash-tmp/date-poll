@@ -4,7 +4,8 @@ import { UidGenerator } from '../../uid-generator';
 import { CreatePollDto } from '../dto/create-poll.dto';
 import { RespondToPollDto } from '../dto/respond-to-poll.dto';
 import { UpdatePollDto } from '../dto/update-poll.dto';
-import { Poll, PollRepository } from './poll.repository';
+import { PublicPollNotFoundError } from '../errors/public-poll-not-found.error';
+import { Poll, PollRepository, Respondent } from './poll.repository';
 
 @Injectable()
 export class InMemoryPollRepository implements PollRepository {
@@ -110,17 +111,17 @@ export class InMemoryPollRepository implements PollRepository {
     return Promise.resolve(pollToUpdate);
   }
 
-  public addResponse(
+  public addRespondent(
     publicUid: string,
     response: RespondToPollDto,
-  ): Promise<Poll | null> {
+  ): Promise<Respondent> {
     const pollToUpdate = this.polls.find((p) => p.publicUid === publicUid);
 
     if (!pollToUpdate) {
-      return Promise.resolve(null);
+      throw new PublicPollNotFoundError(publicUid);
     }
 
-    pollToUpdate.respondents.push({
+    const respondent = {
       id: this.nextId++,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -132,8 +133,10 @@ export class InMemoryPollRepository implements PollRepository {
         choiceId: r.choiceId,
         value: r.value,
       })),
-    });
+    };
 
-    return Promise.resolve(pollToUpdate);
+    pollToUpdate.respondents.push(respondent);
+
+    return Promise.resolve(respondent);
   }
 }

@@ -56,7 +56,13 @@ export class PollsController {
     }
 
     try {
-      await this.pollsService.addResponseToPoll(publicUid, body);
+      const { poll, respondent } = await this.pollsService.addResponseToPoll(
+        publicUid,
+        body,
+      );
+      if (poll.notifyOnResponse) {
+        this.pollsService.sendNewResponseEmail(poll, respondent);
+      }
     } catch (e) {
       if (e instanceof ChoiceDoesNotExistError) {
         throw new BadRequestException(e.message, { cause: e });
