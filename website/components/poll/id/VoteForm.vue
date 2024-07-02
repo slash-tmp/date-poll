@@ -286,13 +286,8 @@ fieldset {
   padding: 0.25rem 0.5rem;
 
   &.maybe {
-    background: repeating-linear-gradient(
-      125deg,
-      var(--color-success-light),
-      var(--color-success-light) 0.25rem,
-      transparent 0.25rem,
-      transparent 0.5rem
-    );
+    border-style: dashed;
+    background-color: var(--color-white);
   }
 }
 

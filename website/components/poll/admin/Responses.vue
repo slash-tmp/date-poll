@@ -97,14 +97,15 @@ const maxVotesValue = computed(() => {
               v-for="(respondent, i) in time.respondents"
               :key="i"
               class="respondent"
+              :class="{ maybe: respondent.value === Response.MAYBE }"
               :data-cy="
-                respondent.value === 'MAYBE'
+                respondent.value === Response.MAYBE
                   ? 'respondent-maybe'
                   : 'respondent-yes'
               "
             >
               {{ respondent.name }}
-              <template v-if="respondent.value === 'MAYBE'">
+              <template v-if="respondent.value === Response.MAYBE">
                 {{ $t("pages.poll.admin.id.responses.maybe") }}
               </template>
             </li>
@@ -196,5 +197,10 @@ const maxVotesValue = computed(() => {
   border: 1px solid var(--color-success);
   background-color: var(--color-success-light);
   padding: 0.25rem 0.5rem;
+
+  &.maybe {
+    border-style: dashed;
+    background-color: var(--color-white);
+  }
 }
 </style>
