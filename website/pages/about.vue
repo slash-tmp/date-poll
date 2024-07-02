@@ -1,92 +1,93 @@
 <template>
-  <h1>À propos</h1>
+  <PageMeta :title="$t('pages.about.meta.title')" />
 
-  <!-- TODO: name -->
-  <p>
-    <code>date-poll</code> c’est quoi ? C’est une sorte de «
-    <strong>Doodle éthique, facile et accessible</strong> ».
-  </p>
+  <h1>{{ $t("pages.about.title") }}</h1>
+
+  <i18n-t tag="p" keypath="pages.about.intro.1">
+    <template #doodleLike>
+      <strong>
+        {{ $t("pages.about.intro.doodleLike") }}
+      </strong>
+    </template>
+  </i18n-t>
 
   <ol>
     <li>
-      <strong>Éthique</strong> ? Ici vous ne trouverez jamais de pubs. Il y en a
-      déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention
-      au peu de données personnelles que nous collectons.
+      <i18n-t keypath="pages.about.intro.list.ethics.content">
+        <template #title>
+          <strong>{{ $t("pages.about.intro.list.ethics.title") }}</strong>
+        </template>
+      </i18n-t>
     </li>
+
     <li>
-      <strong>Facile</strong> ? Il y a beaucoup trop d’exemples de produits qui
-      divergent de leur objectif initial pour devenir des usines à gaz. On
-      voulait faire un outil de réservation de créneau : on fait ça et c’est
-      tout. Pas de fioritures, pas de comptes, pas de synchronisation Google
-      Calendar, d’intégration Teams et encore moins d’<abbr
-        title="intelligence artificielle"
-        >IA</abbr
-      >
-      (🤮).
+      <i18n-t keypath="pages.about.intro.list.easy.content">
+        <template #title>
+          <strong>{{ $t("pages.about.intro.list.easy.title") }}</strong>
+        </template>
+        <template #ia>
+          <abbr :title="$t('pages.about.intro.list.easy.iaDef')">
+            {{ $t("pages.about.intro.list.easy.ia") }}
+          </abbr>
+        </template>
+      </i18n-t>
     </li>
+
     <li>
-      <strong>Accessible</strong> ? Ça n’est pas une surprise : le web n’est pas
-      accessible. On a fait un service qui suit les critères du
-      <abbr title="référentiel général d’amélioration de l’accessibilité"
-        >RGAA</abbr
-      >
-      et les recommandations Opquast, utilisable par tout le monde et en toutes
-      conditions (bon il faut une connexion internet quand même).
+      <i18n-t keypath="pages.about.intro.list.accessible.content">
+        <template #title>
+          <strong>{{ $t("pages.about.intro.list.accessible.title") }}</strong>
+        </template>
+        <template #rgaa>
+          <abbr :title="$t('pages.about.intro.list.accessible.rgaaDef')">
+            {{ $t("pages.about.intro.list.accessible.rgaa") }}
+          </abbr>
+        </template>
+      </i18n-t>
     </li>
   </ol>
 
-  <p>
-    C’est ensuite un
-    <strong>projet de développement web réalisé dans les règles de l’art</strong
-    >. Adrien au back-end (les fondations), Quentin au front-end (la peinture),
-    on apprécie faire les choses bien : un produit performant, testé, simple,
-    accessible et qui apporte de la valeur.
-  </p>
+  <i18n-t tag="p" keypath="pages.about.intro.2">
+    <template #webProject>
+      <strong>
+        {{ $t("pages.about.intro.webProject") }}
+      </strong>
+    </template>
+  </i18n-t>
 
-  <p>
-    Si ce sont des choses qui vous parlent, on s’appelle
-    <a href="https://slash-tmp.dev" aria-label="site de slash tmp">/tmp</a> et
-    on peut peut-être travailler ensemble.
-  </p>
+  <i18n-t tag="p" keypath="pages.about.intro.3">
+    <template #slashTmp>
+      <a href="https://slash-tmp.dev" target="_blank">
+        {{ $t("pages.about.intro.slashTmp") }}
+      </a>
+    </template>
+  </i18n-t>
 
-  <h2>Données personnelles</h2>
+  <h2>{{ $t("pages.about.privacy.title") }}</h2>
 
-  <p>
-    Les données personnelles que nous collections (à savoir votre adresse email
-    quand vous créez un sondage et votre nom, optionnel) servent uniquement au
-    fonctionnement de l’outil. On garde tout chez nous et on ne partage rien à
-    personne.
-  </p>
+  <p>{{ $t("pages.about.privacy.1") }}</p>
+  <p>{{ $t("pages.about.privacy.2") }}</p>
+  <p>{{ $t("pages.about.privacy.3") }}</p>
 
-  <p>
-    Après un laps de temps, les sondages sont auto-supprimés. A priori, une fois
-    la date passée, ils n’ont plus vraiment d’utilité et ça ne sert à rien de
-    les stocker inutilement.
-  </p>
+  <h2 id="contact">{{ $t("pages.about.contact.title") }}</h2>
 
-  <p>
-    Si vous avez une demande particulière à propos de vos données, vous pouvez
-    <a href="#contact">nous contacter</a>.
-  </p>
+  <i18n-t tag="p" keypath="pages.about.contact.1">
+    <template #gitHub>
+      <a href="https://github.com/slash-tmp/date-poll">
+        {{ $t("pages.about.contact.gitHub") }}
+      </a>
+    </template>
 
-  <h2 id="contact">Contact</h2>
+    <template #contactEmail>
+      <a :href="`mailto:${$t('pages.about.contact.contactEmail')}`">
+        {{ $t("pages.about.contact.contactEmail") }}
+      </a>
+    </template>
+  </i18n-t>
 
-  <p>
-    A priori on code plutôt bien mais personne n’est infaillible : il se peut
-    que vous trouviez des bugs ou rencontriez des difficultés à naviguer sur le
-    site. N’hésitez pas à nous les remonter sur le
-    <a href="#">dépôt GitHub</a> ou par mail à l’adresse suivante :
-    <a href="mailto:contact@slash-tmp.dev">contact@slash-tmp.dev</a>.
-  </p>
+  <p>{{ $t("pages.about.contact.2") }}</p>
 
-  <p>
-    Comme on veut que cet outil reste très simple et fasse bien une et une seule
-    chose, il est très peu probable que nous prenions en compte les suggestions
-    de nouvelles fonctionnalités.
-  </p>
-
-  <!-- TODO: name -->
-  <p>Merci à vous d’utiliser <code>date-poll</code> ❤️.</p>
+  <p>{{ $t("pages.about.contact.3") }}</p>
 </template>
 
 <style scoped>

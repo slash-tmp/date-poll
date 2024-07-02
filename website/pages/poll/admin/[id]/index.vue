@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Alert from "~/components/Alert.vue";
+import PageMeta from "~/components/PageMeta.vue";
 import Actions from "~/components/poll/admin/Actions.vue";
 import Intro from "~/components/poll/admin/Intro.vue";
 import Responses from "~/components/poll/admin/Responses.vue";
@@ -63,6 +64,14 @@ async function confirmDelete() {
 
 <template>
   <template v-if="poll">
+    <PageMeta
+      :title="
+        $t('pages.poll.admin.id.meta.title', {
+          pollName: poll.title,
+        })
+      "
+    />
+
     <h1 ref="headingRef" tabindex="-1">{{ poll.title }}</h1>
 
     <Alert

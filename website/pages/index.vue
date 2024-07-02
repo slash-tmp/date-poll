@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Alert from "~/components/Alert.vue";
+import PageMeta from "~/components/PageMeta.vue";
 
 // Display poll deletion confirmation alert
 const deletedPollAlertRef = ref<HTMLDivElement>();
@@ -22,6 +23,8 @@ async function hideDeletedPollAlert() {
 </script>
 
 <template>
+  <PageMeta :title="$t('pages.index.meta.title')" />
+
   <h1 ref="headingRef" tabindex="-1">{{ $t("pages.index.title") }}</h1>
 
   <Alert

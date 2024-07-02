@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PageMeta from "~/components/PageMeta.vue";
 import VoteForm from "~/components/poll/id/VoteForm.vue";
 import { type PollApiResponse, type VotePollFormData } from "~/types/poll";
 
@@ -48,6 +49,14 @@ async function submitVote(payload: VotePollFormData) {
 
 <template>
   <template v-if="poll">
+    <PageMeta
+      :title="
+        $t('pages.poll.id.meta.title', {
+          pollName: poll.title,
+        })
+      "
+    />
+
     <h1>{{ poll.title }}</h1>
 
     <p v-if="poll.description">{{ poll.description }}</p>

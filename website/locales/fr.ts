@@ -3,15 +3,20 @@ export default {
     world: "Bonjour monde !",
   },
 
+  name: "date-poll",
+
   layout: {
     header: {
-      name: "📆 date-poll",
+      logo: "📆 @:name",
       about: "À propos",
     },
   },
 
   pages: {
     error: {
+      meta: {
+        title: "Erreur",
+      },
       homeLink: "Retourner à la page d’accueil",
       404: {
         title: "Page introuvable",
@@ -19,8 +24,61 @@ export default {
           "La page que vous cherchez n’existe pas ou a été supprimée.",
       },
     },
+    about: {
+      meta: {
+        title: "À propos",
+      },
+      title: "À propos",
+      intro: {
+        1: "@:name c’est quoi ? C’est une sorte de « {doodleLike} ».",
+        doodleLike: "Doodle éthique, facile et accessible",
+        list: {
+          ethics: {
+            title: "Éthique",
+            content:
+              "{title} ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention au peu de données personnelles que nous collectons.",
+          },
+          easy: {
+            title: "Facile",
+            content:
+              "{title} ? Il y a beaucoup trop d’exemples de produits qui divergent de leur objectif initial pour devenir des usines à gaz. On voulait faire un outil de réservation de créneau : on fait ça et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia} (🤮).",
+            ia: "IA",
+            iaDef: "Intelligence Artificielle",
+          },
+          accessible: {
+            title: "Accessible",
+            content:
+              "{title} ? Ça n’est pas une surprise : le web n’est pas accessible. On a fait un service qui suit les critères du {rgaa} et les recommandations Opquast, utilisable par tout le monde et en toutes conditions (bon il faut une connexion internet quand même).",
+            rgaa: "RGAA",
+            rgaaDef: "Référentiel Général d’Amélioration de l’Accessibilité",
+          },
+        },
+        2: "C’est ensuite un {webProject}. Adrien au back-end (les fondations), Quentin au front-end (la peinture), on apprécie faire les choses bien : un produit performant, testé, simple, accessible et qui apporte de la valeur.",
+        webProject:
+          "projet de développement web réalisé dans les règles de l’art",
+        3: "Si ce sont des choses qui vous parlent, on s’appelle {slashTmp} et on peut peut-être travailler ensemble.",
+        slashTmp: "/tmp",
+      },
+      privacy: {
+        title: "Données personnelles",
+        1: "Les données personnelles que nous collections (à savoir votre adresse email quand vous créez un sondage et votre nom, optionnel) servent uniquement au fonctionnement de l’outil. On garde tout chez nous et on ne partage rien à personne.",
+        2: "Après un laps de temps, les sondages sont auto-supprimés. A priori, une fois la date passée, ils n’ont plus vraiment d’utilité et ça ne sert à rien de les stocker inutilement.",
+        3: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter.",
+      },
+      contact: {
+        title: "Contact",
+        1: "A priori on code plutôt bien mais personne n’est infaillible : il se peut que vous trouviez des bugs ou rencontriez des difficultés à naviguer sur le site. N’hésitez pas à nous les remonter sur le {gitHub} ou par mail à l’adresse suivante : {contactEmail}.",
+        gitHub: "dépôt GitHub",
+        contactEmail: "contact{'@'}slash-tmp.dev",
+        2: "Comme on veut que cet outil reste très simple et fasse bien une et une seule chose, il est très peu probable que nous prenions en compte les suggestions de nouvelles fonctionnalités.",
+        3: "Merci à vous d’utiliser @:name ❤️.",
+      },
+    },
     index: {
-      title: "date poll",
+      meta: {
+        title: "Trouvez facilement une date pour votre prochain événement",
+      },
+      title: "@:name",
       deletedPollAlert: {
         description: 'Le sondage "{title}" a bien été supprimé',
         close: "Fermer",
@@ -30,6 +88,9 @@ export default {
     },
     poll: {
       find: {
+        meta: {
+          title: "Rechercher un sondage",
+        },
         title: "Rechercher un sondage",
         description:
           "Pour retrouver des sondages existants, entrez l’adresse email que vous avez utilisée les créer. Si l’adresse existe, un email avec la liste de vos sondages vous sera envoyé.",
@@ -44,6 +105,9 @@ export default {
         },
       },
       new: {
+        meta: {
+          title: "Créer un sondage, étape {currentStep} sur {count}",
+        },
         title: "Créer un sondage",
         stepper: "Étape {current} sur {count}",
         navigation: {
@@ -110,6 +174,9 @@ export default {
       },
       admin: {
         id: {
+          meta: {
+            title: 'Administration du sondage "{pollName}"',
+          },
           actions: {
             edit: "Modifier le sondage",
             delete: "Supprimer le sondage",
@@ -150,6 +217,9 @@ export default {
           },
         },
         edit: {
+          meta: {
+            title: 'Édition du sondage "{pollName}"',
+          },
           title: "Modifier le sondage",
           back: "Retour au sondage",
           updatedPollAlert: {
@@ -203,6 +273,9 @@ export default {
         },
       },
       id: {
+        meta: {
+          title: 'Sondage "{pollName}"',
+        },
         invited: "Vous avez été invité·e à participer à ce sondage.",
         invitedBy:
           "Vous avez été invité·e par {adminName} à participer à ce sondage.",
