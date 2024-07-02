@@ -35,6 +35,7 @@ definePageMeta({
     ref="deletedPollAlertRef"
     type="info"
     is-closable
+    class="deleted-alert"
     @close="hideDeletedPollAlert"
   >
     {{ $t("pages.index.deletedPollAlert.description", { title: deletedPoll }) }}
@@ -68,6 +69,10 @@ definePageMeta({
 </template>
 
 <style scoped>
+.deleted-alert {
+  margin-block-end: 1rem;
+}
+
 .heading span {
   color: var(--color-primary);
 }
