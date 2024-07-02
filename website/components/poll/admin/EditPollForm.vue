@@ -19,6 +19,7 @@ const adminEmailValue = props.adminEmail;
 
 // Choices management
 const dateRefs = ref<HTMLInputElement[]>([]);
+const addChoiceRef = ref<HTMLButtonElement>();
 
 async function addChoice() {
   poll.value.choices.push({ id: undefined, date: "", time: "" });
@@ -29,7 +30,7 @@ async function addChoice() {
 async function deleteChoice(index: number) {
   poll.value.choices = poll.value.choices.filter((_, i) => i !== index);
   await nextTick();
-  dateRefs.value[index - 1].focus();
+  addChoiceRef.value?.focus();
 }
 
 // Submission
@@ -134,6 +135,7 @@ async function deleteEndDate() {
       </div>
 
       <Button
+        ref="addChoiceRef"
         class="add-choice"
         variant="secondary"
         type="button"
