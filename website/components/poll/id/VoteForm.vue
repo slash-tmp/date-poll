@@ -68,14 +68,9 @@ const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
   });
 });
 
-// Get the highest number of votes for a choice
-// const maxVotesValue = computed(() => {
-//   return Math.max(
-//     ...choicesWithRespondents.value
-//       .flatMap(({ times }) => times)
-//       .map(({ respondents }) => respondents?.length || 0),
-//   );
-// });
+function getAttendanceForDate(id: number) {
+  return attendances.value.find((a) => a.id === id)!.attendance;
+}
 
 function submitVote() {
   emit("submit", {
@@ -105,13 +100,15 @@ function submitVote() {
         :key="choice.date"
         class="date"
       >
-        <p class="date-title">{{ choice.date }}</p>
+        <time class="date-title">{{ choice.date }}</time>
         <ul class="times">
           <li v-for="(time, j) in choice.times" :key="j" class="time">
             <fieldset>
               <legend class="time-header">
-                <span class="visually-hidden">{{ choice.date }}</span>
-                {{ time.time }}
+                <time>
+                  <span class="visually-hidden">{{ choice.date }}</span>
+                  {{ time.time }}
+                </time>
               </legend>
               <div class="radios">
                 <Radio
@@ -124,7 +121,6 @@ function submitVote() {
                   :value="option"
                   type="radio"
                   :name="`choice-${time.time}`"
-                  required
                   :label="
                     $t(`pages.poll.id.form.choices.${option.toLowerCase()}`)
                   "
@@ -136,6 +132,9 @@ function submitVote() {
                 v-for="(respondent, i) in time.respondents"
                 :key="i"
                 class="respondent"
+                :class="{
+                  maybe: respondent.value === Response.MAYBE,
+                }"
               >
                 {{ respondent.name }}
                 <span v-if="respondent.value === Response.MAYBE">
@@ -143,14 +142,20 @@ function submitVote() {
                 </span>
               </li>
 
-              <!-- <li
+              <li
                 v-if="
-                  time.presence &&
-                  [Response.YES, Response.MAYBE].includes(time.presence)
+                  getAttendanceForDate(time.id) &&
+                  getAttendanceForDate(time.id) !== Response.NO
                 "
+                class="respondent"
+                :class="{
+                  maybe: getAttendanceForDate(time.id) === Response.MAYBE,
+                }"
               >
                 <template v-if="name">
-                  <template v-if="time.presence === Response.MAYBE">
+                  <template
+                    v-if="getAttendanceForDate(time.id) === Response.MAYBE"
+                  >
                     {{ $t("pages.poll.id.form.withName.maybe", { name }) }}
                   </template>
                   <template v-else>
@@ -158,14 +163,16 @@ function submitVote() {
                   </template>
                 </template>
                 <template v-else>
-                  <template v-if="time.presence === Response.MAYBE">
+                  <template
+                    v-if="getAttendanceForDate(time.id) === Response.MAYBE"
+                  >
                     {{ $t("pages.poll.id.form.withoutName.maybe") }}
                   </template>
                   <template v-else>
                     {{ $t("pages.poll.id.form.withoutName.yes") }}
                   </template>
                 </template>
-              </li> -->
+              </li>
             </ul>
           </li>
         </ul>
@@ -204,6 +211,7 @@ function submitVote() {
 .date-title {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-2);
+  display: block;
   margin-block-end: 1rem;
 }
 
@@ -258,6 +266,7 @@ fieldset {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  margin-block-end: 0.5rem;
 }
 
 .respondents {
@@ -275,6 +284,16 @@ fieldset {
   border: 1px solid var(--color-success);
   background-color: var(--color-success-light);
   padding: 0.25rem 0.5rem;
+
+  &.maybe {
+    background: repeating-linear-gradient(
+      125deg,
+      var(--color-success-light),
+      var(--color-success-light) 0.25rem,
+      transparent 0.25rem,
+      transparent 0.5rem
+    );
+  }
 }
 
 .submit-button {

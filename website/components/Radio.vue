@@ -3,7 +3,6 @@ defineProps<{
   id: string;
   name: string;
   label: string;
-  required?: boolean;
   value?: string;
 }>();
 
@@ -51,6 +50,7 @@ const model = defineModel<string>();
   }
 
   .input {
+    accent-color: var(--color-primary);
     border: 1px solid var(--color-grey-3);
     box-shadow: var(--shadow-small);
     border-radius: var(--border-radius-base);
