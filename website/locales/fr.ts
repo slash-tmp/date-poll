@@ -78,7 +78,11 @@ export default {
       meta: {
         title: "Trouvez facilement une date pour votre prochain événement",
       },
-      title: "@:name",
+      title: "Trouvez {highlight} une date pour votre prochain événement.",
+      easily: "facilement",
+      tagLine:
+        "Créez un sondage, invitez vos participant·es et choisissez la date optimale.",
+      arguments: "Pas de publicité. Pas de compte. Pas de fioritures.",
       deletedPollAlert: {
         description: 'Le sondage "{title}" a bien été supprimé',
         close: "Fermer",
