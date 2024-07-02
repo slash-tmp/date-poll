@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Alert from "~/components/Alert.vue";
 import PageMeta from "~/components/PageMeta.vue";
 import VoteForm from "~/components/poll/id/VoteForm.vue";
 import { type PollApiResponse, type VotePollFormData } from "~/types/poll";
@@ -65,31 +66,33 @@ async function submitVote(payload: VotePollFormData) {
 
     <h1>{{ poll.title }}</h1>
 
-    <p v-if="poll.description">{{ poll.description }}</p>
+    <p v-if="poll.description" class="description">{{ poll.description }}</p>
 
-    <div v-if="isExpired">
+    <Alert v-if="isExpired" type="error">
       <p>
         {{ $t("pages.poll.id.isExpired") }}
       </p>
-    </div>
+    </Alert>
 
     <template v-else>
-      <p>
-        <template v-if="poll.adminName">
-          {{ $t("pages.poll.id.invitedBy", { adminName: poll.adminName }) }}
-        </template>
-        <template v-else>{{ $t("pages.poll.id.invited") }}</template>
-        <i18n-t v-if="poll.endDate" keypath="pages.poll.id.expireOn">
-          <template #endDate>
-            <time :datetime="poll.endDate">
-              <strong>
-                {{ formatDate(poll.endDate) }}
-              </strong>
-            </time>
+      <Alert type="info" class="invitation-alert">
+        <p>
+          <template v-if="poll.adminName">
+            {{ $t("pages.poll.id.invitedBy", { adminName: poll.adminName }) }}
           </template>
-        </i18n-t>
-      </p>
-      <br />
+          <template v-else>{{ $t("pages.poll.id.invited") }}</template>
+          <i18n-t v-if="poll.endDate" keypath="pages.poll.id.expireOn">
+            <template #endDate>
+              <time :datetime="poll.endDate">
+                <strong>
+                  {{ formatDate(poll.endDate) }}
+                </strong>
+              </time>
+            </template>
+          </i18n-t>
+        </p>
+      </Alert>
+
       <p v-if="showConfirmation" ref="confirmationRef" tabindex="-1">
         {{ $t("pages.poll.id.confirmation") }}
       </p>
@@ -102,3 +105,13 @@ async function submitVote(payload: VotePollFormData) {
     </template>
   </template>
 </template>
+
+<style scoped>
+.description {
+  margin-block-end: 1rem;
+}
+
+.invitation-alert {
+  margin-block-end: 2rem;
+}
+</style>
