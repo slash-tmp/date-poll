@@ -52,8 +52,8 @@ export abstract class PollRepository {
     uid: string,
     data: UpdatePollDto,
   ): Promise<Poll | null>;
-  public abstract addResponse(
+  public abstract addRespondent(
     publicUid: string,
     response: RespondToPollDto,
-  ): Promise<Poll | null>;
+  ): Promise<Respondent>;
 }

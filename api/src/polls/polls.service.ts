@@ -15,6 +15,7 @@ import { DuplicateChoiceResponseError } from './errors/duplicate-choice-response
 import {
   Poll as RawPoll,
   PollRepository,
+  Respondent,
 } from './repositories/poll.repository';
 
 @Injectable()
@@ -179,7 +180,10 @@ ${sortedPolls.map(getPollLine).join('\n')}`;
     await this.mailerService.sendEmail(to, subject, text);
   }
 
-  async addResponseToPoll(publicUid: string, body: RespondToPollDto) {
+  async addResponseToPoll(
+    publicUid: string,
+    body: RespondToPollDto,
+  ): Promise<{ poll: RawPoll; respondent: Respondent }> {
     const poll = await this.pollRepository.findByPublicUid(publicUid);
     if (!poll) {
       throw new Error('Poll not found');
@@ -198,6 +202,21 @@ ${sortedPolls.map(getPollLine).join('\n')}`;
       throw new DuplicateChoiceResponseError();
     }
 
-    await this.pollRepository.addResponse(publicUid, body);
+    const respondent = await this.pollRepository.addRespondent(publicUid, body);
+
+    return { poll, respondent };
+  }
+
+  async sendNewResponseEmail(poll: RawPoll, respondent: Respondent) {
+    const websiteBaseUrl = this.config.get('WEBSITE_BASE_URL');
+
+    const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
+
+    const subject = `Nouveau vote sur votre sondage "${poll.title}"`;
+    const text = `Un nouveau vote a été soumis de la part de ${respondent.name}.
+
+Retrouvez-le ici : ${adminLink}`;
+
+    await this.mailerService.sendEmail(poll.adminEmail, subject, text);
   }
 }

@@ -6,6 +6,7 @@ import {
   adminPollFixture,
   adminPollListFixture,
   createPollDtoFixture,
+  databasePollFixture,
   publicPollFixture,
   respondToPollDtoFixture,
   unknownIdRespondToPollDtoFixture,
@@ -66,16 +67,35 @@ describe('PollsController', () => {
   });
 
   describe('respondToPoll', () => {
-    it('adds the response to the poll', async () => {
+    it('adds the response to the poll and sends email', async () => {
       pollsService.getPublicPoll.mockResolvedValue(publicPollFixture);
-      await controller.respondToPoll(
-        'some-poll',
-        unknownIdRespondToPollDtoFixture,
-      );
+      pollsService.addResponseToPoll.mockResolvedValue({
+        poll: databasePollFixture,
+        respondent: databasePollFixture.respondents[0],
+      });
+      await controller.respondToPoll('some-poll', respondToPollDtoFixture);
       expect(pollsService.addResponseToPoll).toHaveBeenCalledWith(
         'some-poll',
-        unknownIdRespondToPollDtoFixture,
+        respondToPollDtoFixture,
       );
+      expect(pollsService.sendNewResponseEmail).toHaveBeenCalledWith(
+        databasePollFixture,
+        databasePollFixture.respondents[0],
+      );
+    });
+
+    it('adds the response to the poll and does not send email', async () => {
+      pollsService.getPublicPoll.mockResolvedValue(publicPollFixture);
+      pollsService.addResponseToPoll.mockResolvedValue({
+        poll: { ...databasePollFixture, notifyOnResponse: false },
+        respondent: databasePollFixture.respondents[0],
+      });
+      await controller.respondToPoll('some-poll', respondToPollDtoFixture);
+      expect(pollsService.addResponseToPoll).toHaveBeenCalledWith(
+        'some-poll',
+        respondToPollDtoFixture,
+      );
+      expect(pollsService.sendNewResponseEmail).not.toHaveBeenCalled();
     });
 
     it('throws when poll is not found', async () => {

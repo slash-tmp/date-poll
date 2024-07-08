@@ -242,7 +242,7 @@ Lien de partage : http://localhost:3000/poll/-WSaWDoushkIFEWJqg_1Q/trip-to-the-m
         'some-poll-id',
         respondToPollDtoFixture,
       );
-      expect(pollRepository.addResponse).toHaveBeenCalledWith(
+      expect(pollRepository.addRespondent).toHaveBeenCalledWith(
         'some-poll-id',
         respondToPollDtoFixture,
       );
