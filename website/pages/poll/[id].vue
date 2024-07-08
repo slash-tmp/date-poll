@@ -32,6 +32,8 @@ const isExpired = computed(() => {
 const showConfirmation = ref(false);
 const confirmationRef = ref<HTMLParagraphElement>();
 
+const { setToast } = useToast();
+
 async function submitVote(payload: VotePollFormData) {
   try {
     if (poll.value) {
@@ -41,7 +43,11 @@ async function submitVote(payload: VotePollFormData) {
       confirmationRef.value?.focus();
     }
   } catch (e) {
-    // TODO: handle error with toast
+    setToast({
+      title: t("pages.poll.id.errorAlert"),
+      type: "error",
+      isClosable: true,
+    });
     console.error(e);
   }
 }

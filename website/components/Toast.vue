@@ -34,6 +34,7 @@ function onClose() {
   inset-block-end: 1rem;
   inset-inline-end: 1rem;
   max-width: 25rem;
+  z-index: 1;
 
   @media (width < 50rem) {
     max-width: none;

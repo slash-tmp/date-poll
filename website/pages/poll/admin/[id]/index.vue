@@ -5,6 +5,7 @@ import Actions from "~/components/poll/admin/Actions.vue";
 import Intro from "~/components/poll/admin/Intro.vue";
 import Responses from "~/components/poll/admin/Responses.vue";
 import Share from "~/components/poll/admin/Share.vue";
+import useToast from "~/composables/useToast";
 import type { AdminPollApiResponse } from "~/types/poll";
 
 const { t } = useI18n();
@@ -49,6 +50,8 @@ if (!poll.value) {
 }
 
 // Delete poll
+const { setToast } = useToast();
+
 async function confirmDelete() {
   try {
     if (poll.value) {
@@ -56,7 +59,11 @@ async function confirmDelete() {
       router.push({ name: "index", state: { deletedPoll: poll.value.title } });
     }
   } catch (e) {
-    // TODO: handle error with toast
+    setToast({
+      title: t("pages.poll.admin.id.actions.deleteModal.errorAlert"),
+      type: "error",
+      isClosable: true,
+    });
     console.error(e);
   }
 }

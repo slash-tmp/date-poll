@@ -5,10 +5,12 @@ import Choices from "~/components/poll/new/Choices.vue";
 import Settings from "~/components/poll/new/Settings.vue";
 import Stepper from "~/components/poll/new/Stepper.vue";
 import TitleAndDescription from "~/components/poll/new/TitleAndDescription.vue";
+import useToast from "~/composables/useToast";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 const step = ref(0);
 const { t } = useI18n();
+const { setToast } = useToast();
 const steps = [
   t("pages.poll.new.titleAndDescription.stepTitle"),
   t("pages.poll.new.choices.stepTitle"),
@@ -55,7 +57,11 @@ async function submitLastStep(data: StepPayload) {
     const data = await createPoll(formData.value);
     router.push({ name: "poll-admin-id", params: { id: data.adminUid } });
   } catch (e) {
-    // TODO: handle error with toast
+    setToast({
+      title: t("pages.poll.new.errorAlert"),
+      type: "error",
+      isClosable: true,
+    });
     console.error(e);
   }
 }
