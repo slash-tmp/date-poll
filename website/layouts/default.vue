@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import Toast from "~/components/Toast.vue";
+</script>
+
 <template>
   <LayoutHeader />
 
@@ -5,6 +9,8 @@
     <div class="content">
       <slot />
     </div>
+
+    <Toast />
   </main>
 </template>
 
