@@ -1,4 +1,6 @@
 <script setup>
+import Toast from "./components/Toast.vue";
+
 const isHydrated = ref(false);
 onMounted(() => {
   isHydrated.value = true;
@@ -19,4 +21,6 @@ useHead({
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
+
+  <Toast />
 </template>

@@ -5,9 +5,7 @@ import Alert from "./Alert.vue";
 
 const { toast } = useToast();
 
-// TODO: focus page h1 on close?
 function onClose() {
-  console.log("close toast");
   toast.value = null;
 }
 </script>
