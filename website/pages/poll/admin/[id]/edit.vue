@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PageMeta from "~/components/PageMeta.vue";
 import EditPollForm from "~/components/poll/admin/EditPollForm.vue";
+import useToast from "~/composables/useToast";
 import type { AdminPollApiResponse, UpdatePollFormData } from "~/types/poll";
 
 const router = useRouter();
@@ -37,6 +38,9 @@ const defaultFormData = computed(() => {
 });
 
 // Submit edit
+const { setToast } = useToast();
+const { t } = useI18n();
+
 async function submitEditForm(data: UpdatePollFormData) {
   try {
     if (poll.value) {
@@ -44,7 +48,11 @@ async function submitEditForm(data: UpdatePollFormData) {
       router.push({ name: "poll-admin-id", state: { updatedPoll: true } });
     }
   } catch (e) {
-    // TODO: handle error with toast
+    setToast({
+      title: t("pages.poll.admin.edit.errorAlert"),
+      type: "error",
+      isClosable: true,
+    });
     console.error(e);
   }
 }

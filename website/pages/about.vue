@@ -79,8 +79,8 @@
     </template>
 
     <template #contactEmail>
-      <a :href="`mailto:${$t('pages.about.contact.contactEmail')}`">
-        {{ $t("pages.about.contact.contactEmail") }}
+      <a :href="`mailto:${$t('email')}`">
+        {{ $t("email") }}
       </a>
     </template>
   </i18n-t>

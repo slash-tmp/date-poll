@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Button from "~/components/Button.vue";
 import Input from "~/components/Input.vue";
+import useToast from "~/composables/useToast";
+
 const props = defineProps<{
   publicUid: string;
 }>();
@@ -11,15 +13,25 @@ const shareUrl = computed(() => {
   return `${config.public.baseUrl}/poll/${props.publicUid}`;
 });
 
-const showCopySuccess = ref(false);
+const { setToast } = useToast();
+const { t } = useI18n();
 
 async function copyLink() {
-  await navigator.clipboard.writeText(shareUrl.value);
-  showCopySuccess.value = true;
+  try {
+    await navigator.clipboard.writeText(shareUrl.value);
 
-  setTimeout(() => {
-    showCopySuccess.value = false;
-  }, 5000);
+    setToast({
+      title: t("pages.poll.admin.id.share.successAlert"),
+      type: "success",
+      timeout: 5000,
+    });
+  } catch (e) {
+    setToast({
+      title: t("pages.poll.admin.id.share.errorAlert"),
+      type: "error",
+      isClosable: true,
+    });
+  }
 }
 </script>
 
@@ -43,11 +55,6 @@ async function copyLink() {
       <Button @click="copyLink">
         {{ $t("pages.poll.admin.id.share.button") }}
       </Button>
-
-      <!-- TODO: handle this with toast -->
-      <p v-if="showCopySuccess">
-        {{ $t("pages.poll.admin.id.share.successAlert") }}
-      </p>
     </div>
   </div>
 </template>

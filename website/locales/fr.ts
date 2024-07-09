@@ -4,6 +4,7 @@ export default {
   },
 
   name: "date-poll",
+  email: "contact{'@'}slash-tmp.dev",
 
   layout: {
     header: {
@@ -69,7 +70,6 @@ export default {
         title: "Contact",
         1: "A priori on code plutôt bien mais personne n’est infaillible : il se peut que vous trouviez des bugs ou rencontriez des difficultés à naviguer sur le site. N’hésitez pas à nous les remonter sur le {gitHub} ou par mail à l’adresse suivante : {contactEmail}.",
         gitHub: "dépôt GitHub",
-        contactEmail: "contact{'@'}slash-tmp.dev",
         2: "Comme on veut que cet outil reste très simple et fasse bien une et une seule chose, il est très peu probable que nous prenions en compte les suggestions de nouvelles fonctionnalités.",
         3: "Merci à vous d’utiliser @:name ❤️.",
       },
@@ -107,6 +107,8 @@ export default {
           label: "Adresse email",
           submit: "Rechercher",
         },
+        errorAlert:
+          "Un problème empêche la recherche de sondages. Contactez-nous à l’adresse @:email si le problème persiste.",
       },
       new: {
         meta: {
@@ -175,6 +177,8 @@ export default {
             hint: "L’adresse email est utilisée pour vous envoyer un email avec les informations de votre sondage (dont le lien d’administration)",
           },
         },
+        errorAlert:
+          "Un problème empêche la création de votre sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
       },
       admin: {
         id: {
@@ -190,6 +194,8 @@ export default {
                 'Vous êtes sur le point de supprimer le sondage "{title}". Vous n’y aurez plus accès et plus personne ne pourra y participer.',
               cancel: "Annuler",
               confirm: "Supprimer",
+              errorAlert:
+                "Un problème empêche la suppression de votre sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
             },
           },
           intro: {
@@ -204,6 +210,8 @@ export default {
             button: "Copier",
             successAlert:
               "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",
+            errorAlert:
+              "Un problème empêche la copie du lien de participation. Contactez-nous à l’adresse @:email si le problème persiste.",
           },
           responses: {
             title: "Réponses et participations",
@@ -277,6 +285,8 @@ export default {
             },
           },
           submit: "Mettre à jour",
+          errorAlert:
+            "Un problème empêche la mise à jour de votre sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
         },
       },
       id: {
@@ -316,6 +326,8 @@ export default {
               "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
           },
         },
+        errorAlert:
+          "Un problème empêche la soumission du sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
       },
     },
   },

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { groupBy } from "lodash";
+import { groupBy } from "lodash-es";
 
 import Star from "~/components/icons/Star.vue";
 import { type Respondent, Response } from "~/types/poll";

@@ -3,6 +3,9 @@ import Alert from "~/components/Alert.vue";
 import Input from "~/components/Input.vue";
 import PageMeta from "~/components/PageMeta.vue";
 
+const { setToast } = useToast();
+const { t } = useI18n();
+
 const email = ref("");
 const recipientEmail = ref("");
 
@@ -15,7 +18,11 @@ async function submit() {
     alertRef.value?.focus();
     email.value = "";
   } catch (e) {
-    // TODO: handle error with toast
+    setToast({
+      title: t("pages.poll.find.errorAlert"),
+      type: "error",
+      isClosable: true,
+    });
     console.error(e);
   }
 }
