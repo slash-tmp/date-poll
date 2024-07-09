@@ -177,7 +177,7 @@ const maxVotesValue = computed(() => {
   gap: 0.25rem;
   font-size: var(--font-size-0);
   border-radius: var(--border-radius-base);
-  padding-inline: 0.25rem;
+  padding: 0.125rem 0.5rem;
   position: absolute;
   inset-block-end: 100%;
   inset-inline-start: 1rem;
