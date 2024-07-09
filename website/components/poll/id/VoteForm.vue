@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { groupBy } from "lodash";
+import { groupBy } from "lodash-es";
 
 import Button from "~/components/Button.vue";
 import Check from "~/components/icons/Check.vue";
