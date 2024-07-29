@@ -1,6 +1,20 @@
 <script setup lang="ts">
+import { groupBy } from "lodash-es";
+
+import Button from "~/components/Button.vue";
+import Check from "~/components/icons/Check.vue";
+import QuestionMark from "~/components/icons/QuestionMark.vue";
+import Xmark from "~/components/icons/Xmark.vue";
+import Input from "~/components/Input.vue";
+import Radio from "~/components/Radio.vue";
 import type { Respondent, VotePollFormData } from "~/types/poll";
 import { Response } from "~/types/poll";
+
+const responseIcon = {
+  [Response.YES]: Check,
+  [Response.MAYBE]: QuestionMark,
+  [Response.NO]: Xmark,
+};
 
 const props = defineProps<{
   choices: { id: number; date: string }[];
@@ -12,42 +26,67 @@ const emit = defineEmits<{
 }>();
 
 const name = ref("");
-const choices = ref(
+const attendances = ref(
   props.choices.map((c) => {
     return {
-      ...c,
-      presence: null,
+      id: c.id,
+      attendance: undefined,
     };
   }),
 );
 
-function getRespondentsForDate(choiceId: number) {
-  if (!props.respondents?.length) {
-    return [];
-  }
+type RespondentsPerChoice = {
+  date: string;
+  times: {
+    id: number;
+    time: string;
+    respondents?: {
+      name: string;
+      value?: string;
+    }[];
+  }[];
+};
 
-  const res: { name: string; value: string }[] = [];
+const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
+  return Object.entries(
+    groupBy(props.choices, (item) => item.date.split("T")[0]),
+  ).map(([date, choices]) => {
+    return {
+      date: formatDate(date),
+      times: choices.map((c) => {
+        return {
+          id: c.id,
+          time: formatTime(c.date),
+          respondents: props.respondents
+            ?.filter((r) => {
+              const response = r.responses.find(
+                (r) => r.choiceId === c.id,
+              )?.value;
 
-  props.respondents.forEach((respondent) => {
-    return respondent.responses.forEach((response) => {
-      if (
-        response.choiceId === choiceId &&
-        ["YES", "MAYBE"].includes(response.value)
-      ) {
-        res.push({ name: respondent.name, value: response.value });
-      }
-    });
+              return response === Response.YES || response === Response.MAYBE;
+            })
+            .map((r) => {
+              return {
+                name: r.name,
+                value: r.responses.find((r) => r.choiceId === c.id)?.value,
+              };
+            }),
+        };
+      }),
+    };
   });
+});
 
-  return res;
+function getAttendanceForDate(id: number) {
+  return attendances.value.find((a) => a.id === id)!.attendance;
 }
 
 function submitVote() {
   emit("submit", {
     respondentName: name.value,
-    responses: choices.value.map((c) => ({
-      choiceId: c.id,
-      value: c.presence ?? Response.NO,
+    responses: attendances.value.map((a) => ({
+      choiceId: a.id,
+      value: a.attendance ?? Response.NO,
     })),
   });
 }
@@ -55,73 +94,218 @@ function submitVote() {
 
 <template>
   <form @submit.prevent="submitVote">
-    <div>
-      <label for="name">{{ $t("pages.poll.id.form.name") }}</label>
-      <input id="name" v-model="name" type="text" required />
-    </div>
+    <Input
+      id="name"
+      v-model="name"
+      :label="$t('pages.poll.id.form.name')"
+      type="text"
+      required
+      class="name-input"
+    />
 
-    <ul>
-      <li v-for="choice in choices" :key="choice.date">
-        <fieldset>
-          <legend>
-            {{ formatDate(choice.date) }} {{ $t("pages.poll.id.form.at") }}
-            {{ formatTime(choice.date) }}
-          </legend>
-          <template
-            v-for="option in [Response.YES, Response.MAYBE, Response.NO]"
-            :key="`${option}-${choice.date}`"
-          >
-            <label :for="`choice-${choice.date}-${option}`">
-              {{ $t(`pages.poll.id.form.choices.${option.toLowerCase()}`) }}
-            </label>
-            <input
-              :id="`choice-${choice.date}-${option}`"
-              v-model="choice.presence"
-              :value="option"
-              type="radio"
-              :name="`choice-${choice.date}`"
-              required
-            />
-          </template>
-        </fieldset>
-        <ul v-if="respondents">
-          <li
-            v-for="(respondent, i) in getRespondentsForDate(choice.id)"
-            :key="i"
-          >
-            {{ respondent.name }}
-            <span v-if="respondent.value === Response.MAYBE">
-              {{ $t("pages.poll.id.form.maybe") }}
-            </span>
-          </li>
+    <ul class="dates">
+      <li
+        v-for="choice in choicesWithRespondents"
+        :key="choice.date"
+        class="date"
+      >
+        <time class="date-title">{{ choice.date }}</time>
+        <ul class="times">
+          <li v-for="(time, j) in choice.times" :key="j" class="time">
+            <fieldset>
+              <legend class="time-header">
+                <time>
+                  <span class="visually-hidden">{{ choice.date }}</span>
+                  {{ time.time }}
+                </time>
+              </legend>
+              <div class="radios">
+                <Radio
+                  v-for="option in [Response.YES, Response.MAYBE, Response.NO]"
+                  :id="`choice-${time.time}-${option}`"
+                  :key="`${option}-${time.time}`"
+                  v-model="
+                    attendances.find((a) => a.id === time.id)!.attendance
+                  "
+                  :value="option"
+                  type="radio"
+                  :name="`choice-${time.time}`"
+                  :label="
+                    $t(`pages.poll.id.form.choices.${option.toLowerCase()}`)
+                  "
+                >
+                  <template #icon>
+                    <component :is="responseIcon[option]" class="radio-icon" />
+                  </template>
+                </Radio>
+              </div>
+            </fieldset>
+            <ul v-if="time.respondents" class="respondents">
+              <li
+                v-for="(respondent, i) in time.respondents"
+                :key="i"
+                class="respondent"
+                :class="{
+                  maybe: respondent.value === Response.MAYBE,
+                }"
+              >
+                {{ respondent.name }}
+                <span v-if="respondent.value === Response.MAYBE">
+                  {{ $t("pages.poll.id.form.maybe") }}
+                </span>
+              </li>
 
-          <li
-            v-if="
-              choice.presence &&
-              [Response.YES, Response.MAYBE].includes(choice.presence)
-            "
-          >
-            <template v-if="name">
-              <template v-if="choice.presence === Response.MAYBE">
-                {{ $t("pages.poll.id.form.withName.maybe", { name }) }}
-              </template>
-              <template v-else>
-                {{ $t("pages.poll.id.form.withName.yes", { name }) }}
-              </template>
-            </template>
-            <template v-else>
-              <template v-if="choice.presence === Response.MAYBE">
-                {{ $t("pages.poll.id.form.withoutName.maybe") }}
-              </template>
-              <template v-else>
-                {{ $t("pages.poll.id.form.withoutName.yes") }}
-              </template>
-            </template>
+              <li
+                v-if="
+                  getAttendanceForDate(time.id) &&
+                  getAttendanceForDate(time.id) !== Response.NO
+                "
+                class="respondent"
+                :class="{
+                  maybe: getAttendanceForDate(time.id) === Response.MAYBE,
+                }"
+              >
+                <template v-if="name">
+                  <template
+                    v-if="getAttendanceForDate(time.id) === Response.MAYBE"
+                  >
+                    {{ $t("pages.poll.id.form.withName.maybe", { name }) }}
+                  </template>
+                  <template v-else>
+                    {{ $t("pages.poll.id.form.withName.yes", { name }) }}
+                  </template>
+                </template>
+                <template v-else>
+                  <template
+                    v-if="getAttendanceForDate(time.id) === Response.MAYBE"
+                  >
+                    {{ $t("pages.poll.id.form.withoutName.maybe") }}
+                  </template>
+                  <template v-else>
+                    {{ $t("pages.poll.id.form.withoutName.yes") }}
+                  </template>
+                </template>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
     </ul>
 
-    <button type="submit">{{ $t("pages.poll.id.form.submit") }}</button>
+    <Button type="submit" class="submit-button">
+      {{ $t("pages.poll.id.form.submit") }}
+    </Button>
   </form>
 </template>
+
+<style scoped>
+.name-input {
+  max-width: 22rem;
+  margin-block-end: 2rem;
+}
+
+.dates {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-block-end: 2rem;
+
+  @media (width < 30rem) {
+    gap: 1rem;
+    margin-block-end: 1rem;
+  }
+}
+
+.date {
+  border-radius: var(--border-radius-base);
+  border: 1px solid var(--color-grey-3);
+  background-color: var(--color-primary-lighter);
+  padding: 1rem;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
+}
+
+.date-title {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-2);
+  display: block;
+  margin-block-end: 1rem;
+}
+
+.times {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+.time {
+  border-radius: var(--border-radius-base);
+  border: 1px solid var(--color-grey-3);
+  background-color: var(--color-white);
+  padding: 1rem;
+  position: relative;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
+}
+
+.radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.radio-icon {
+  width: 1.5rem;
+}
+
+.time-header {
+  font-weight: var(--font-weight-bold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 0.5rem;
+}
+
+.respondents {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.5rem;
+}
+
+.respondent {
+  border-radius: var(--border-radius-base);
+  border: 1px solid var(--color-success);
+  background-color: var(--color-success-light);
+  padding: 0.25rem 0.5rem;
+
+  &.maybe {
+    border-style: dashed;
+    background-color: var(--color-white);
+  }
+}
+
+.submit-button {
+  display: block;
+  margin-inline-start: auto;
+}
+</style>

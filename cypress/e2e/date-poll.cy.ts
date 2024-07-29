@@ -329,13 +329,13 @@ describe("Poll vote page", () => {
     cy.getByLabel("Votre nom").type("Jane");
 
     cy.get(
-      'fieldset legend:contains("15 mai 2024 à 10h30") ~ [type="radio"]:nth-of-type(1)',
+      '.time-header:contains("10h30") + .radios label:nth-of-type(1) [type="radio"]',
     ).check();
     cy.get(
-      'fieldset legend:contains("15 mai 2024 à 14h30") ~ [type="radio"]:nth-of-type(2)',
+      '.time-header:contains("14h30") + .radios label:nth-of-type(2) [type="radio"]',
     ).check();
     cy.get(
-      'fieldset legend:contains("29 mai 2024 à 18h50") ~ [type="radio"]:nth-of-type(3)',
+      '.time-header:contains("18h50") + .radios label:nth-of-type(3) [type="radio"]',
     ).check();
 
     cy.contains("Voter").click();

@@ -97,14 +97,15 @@ const maxVotesValue = computed(() => {
               v-for="(respondent, i) in time.respondents"
               :key="i"
               class="respondent"
+              :class="{ maybe: respondent.value === Response.MAYBE }"
               :data-cy="
-                respondent.value === 'MAYBE'
+                respondent.value === Response.MAYBE
                   ? 'respondent-maybe'
                   : 'respondent-yes'
               "
             >
               {{ respondent.name }}
-              <template v-if="respondent.value === 'MAYBE'">
+              <template v-if="respondent.value === Response.MAYBE">
                 {{ $t("pages.poll.admin.id.responses.maybe") }}
               </template>
             </li>
@@ -123,6 +124,10 @@ const maxVotesValue = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  @media (width < 30rem) {
+    gap: 1rem;
+  }
 }
 
 .date {
@@ -130,6 +135,10 @@ const maxVotesValue = computed(() => {
   border: 1px solid var(--color-grey-3);
   background-color: var(--color-primary-lighter);
   padding: 1rem;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
 }
 
 .date-title {
@@ -154,19 +163,29 @@ const maxVotesValue = computed(() => {
   background-color: var(--color-white);
   padding: 1rem;
   position: relative;
+
+  @media (width < 30rem) {
+    padding: 0.5rem;
+  }
 }
 
 .best-choice {
   align-items: center;
+  background-color: var(--color-primary);
+  color: var(--color-white);
   display: flex;
   gap: 0.25rem;
   font-size: var(--font-size-0);
   border-radius: var(--border-radius-base);
-  padding-inline: 0.25rem;
+  padding: 0.125rem 0.5rem;
   position: absolute;
   inset-block-end: 100%;
   inset-inline-start: 1rem;
   transform: translateY(50%);
+
+  @media (width < 30rem) {
+    transform: translateY(40%);
+  }
 
   svg {
     width: 1rem;
@@ -196,5 +215,10 @@ const maxVotesValue = computed(() => {
   border: 1px solid var(--color-success);
   background-color: var(--color-success-light);
   padding: 0.25rem 0.5rem;
+
+  &.maybe {
+    border-style: dashed;
+    background-color: var(--color-white);
+  }
 }
 </style>
