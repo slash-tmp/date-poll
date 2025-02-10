@@ -3,21 +3,22 @@
  * TODO:
  * - select multiple dates ✅
  * - add time to date ✅
- * - handle pre-registered dates (edit page)
  * - fix iso dates problem (-1 day)
  * - add multiple times to dates ✅
  * - show dates before/after current month ✅
+ * - filter duplicates when submitting ✅
  * - handle errors (missing field value)
  * - add icon to button
  * - test things out
- * - translate strings
+ * - translate strings ✅
  * - ensure a11y (focus, labels...)
+ * - handle pre-registered dates (edit page)
  * - mobile styles
  * - clean CSS
  * - clean file
  */
 
-import { sortBy, uniqBy } from "lodash-es";
+import { isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
 
 import Button from "~/components/Button.vue";
 import Input from "~/components/Input.vue";
@@ -212,7 +213,8 @@ async function submit() {
     return;
   }
 
-  emit("submit", { choices: choices.value });
+  // Filter duplicates and submit
+  emit("submit", { choices: uniqWith(choices.value, isEqual) });
 }
 
 function previous() {
@@ -251,7 +253,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
               :badge="prevDatesCount"
               @click="goToPreviousMonth"
             >
-              Précédent
+              {{ $t("pages.poll.new.choices.previous") }}
             </Button>
             <Button
               variant="secondary"
@@ -259,19 +261,15 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
               :badge="nextDatesCount"
               @click="goToNextMonth"
             >
-              Suivant
+              {{ $t("pages.poll.new.choices.next") }}
             </Button>
           </div>
         </div>
 
         <table class="table">
-          <caption class="visually-hidden">
-            Jours du mois de
+          <caption class="visually-hidden" aria-live="polite">
             {{
-              monthsNames[selectedMonth]
-            }}
-            {{
-              selectedYear
+              `${monthsNames[selectedMonth]} ${selectedYear}`
             }}
           </caption>
           <thead>
@@ -314,14 +312,16 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
               :key="j"
               v-model="time.time"
               type="time"
-              :label="`Horaire ${j + 1}`"
+              :label="
+                $t('pages.poll.new.choices.choice.timeLabel', { index: j + 1 })
+              "
             />
             <Button
               type="button"
               variant="tertiary"
               @click="addTime(choice.date!)"
             >
-              Ajouter un horaire
+              {{ $t("pages.poll.new.choices.choice.addTime") }}
             </Button>
           </fieldset>
         </li>
@@ -410,7 +410,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 .day-button {
   --button-size: 3rem;
 
-  font-size: var(--font-size-lg);
+  /* font-size: var(--font-size-lg); */
   background: none;
   border: 1px solid transparent;
   border-radius: 0.25rem;
@@ -424,11 +424,6 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 
   &:hover {
     border-color: var(--color-grey);
-  }
-
-  &:focus {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
   }
 
   &[aria-pressed="true"] {
