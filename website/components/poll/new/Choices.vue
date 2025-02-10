@@ -6,7 +6,7 @@
  * - handle pre-registered dates (edit page)
  * - fix iso dates problem (-1 day)
  * - add multiple times to dates ✅
- * - show dates before/after current month
+ * - show dates before/after current month ✅
  * - handle errors (missing field value)
  * - add icon to button
  * - test things out
@@ -163,6 +163,43 @@ function addTime(d: string) {
   });
 }
 
+// Previous and next dates
+const prevDatesCount = computed((): string => {
+  if (choices.value.length) {
+    const length = uniqBy(choices.value, "date").filter((c) => {
+      if (c.date) {
+        const dateMonth = new Date(c.date).getMonth();
+
+        return dateMonth < selectedMonth.value;
+      }
+    }).length;
+
+    if (length) {
+      return `+${length}`;
+    }
+  }
+
+  return "";
+});
+
+const nextDatesCount = computed((): string => {
+  if (choices.value.length) {
+    const length = uniqBy(choices.value, "date").filter((c) => {
+      if (c.date) {
+        const dateMonth = new Date(c.date).getMonth();
+
+        return dateMonth > selectedMonth.value;
+      }
+    }).length;
+
+    if (length) {
+      return `+${length}`;
+    }
+  }
+
+  return "";
+});
+
 // Step navigation
 async function submit() {
   showNoChoiceError.value = false;
@@ -211,10 +248,19 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
               "
               variant="secondary"
               type="button"
+              :badge="prevDatesCount"
               @click="goToPreviousMonth"
-              >prev</Button
             >
-            <Button variant="secondary" @click="goToNextMonth">next</Button>
+              Précédent
+            </Button>
+            <Button
+              variant="secondary"
+              type="button"
+              :badge="nextDatesCount"
+              @click="goToNextMonth"
+            >
+              Suivant
+            </Button>
           </div>
         </div>
 
@@ -326,7 +372,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 
 .calendar {
   position: sticky;
-  top: 0.5rem;
+  top: 1rem;
 
   .header {
     display: flex;
@@ -342,7 +388,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 
     .header-nav {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
       margin-inline-start: auto;
     }
   }
