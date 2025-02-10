@@ -1,4 +1,24 @@
 <script setup lang="ts">
+/**
+ * TODO:
+ * - select multiple dates ✅
+ * - add time to date ✅
+ * - handle pre-registered dates (edit page)
+ * - fix iso dates problem (-1 day)
+ * - add multiple times to dates ✅
+ * - show dates before/after current month
+ * - handle errors (missing field value)
+ * - add icon to button
+ * - test things out
+ * - translate strings
+ * - ensure a11y (focus, labels...)
+ * - mobile styles
+ * - clean CSS
+ * - clean file
+ */
+
+import { sortBy, uniqBy } from "lodash-es";
+
 import Button from "~/components/Button.vue";
 import Input from "~/components/Input.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
@@ -14,22 +34,136 @@ const emit = defineEmits<{
   (e: "previous", payload: StepPayload): void;
 }>();
 
+// Calendar data
+const daysNames = ref(["L", "M", "M", "J", "V", "S", "D"]);
+const monthsNames = [
+  "Janvier",
+  "Février",
+  "Mars",
+  "Avril",
+  "Mai",
+  "Juin",
+  "Juillet",
+  "Août",
+  "Septembre",
+  "Octobre",
+  "Novembre",
+  "Décembre",
+];
+
+const today = new Date();
+const selectedYear = ref(today.getFullYear());
+const selectedMonth = ref(today.getMonth());
+
+// Months navigation
+function goToPreviousMonth() {
+  selectedYear.value =
+    selectedMonth.value === 0 ? selectedYear.value - 1 : selectedYear.value;
+
+  selectedMonth.value =
+    selectedMonth.value === 0 ? 11 : selectedMonth.value - 1;
+}
+
+function goToNextMonth() {
+  selectedYear.value =
+    selectedMonth.value === 11 ? selectedYear.value + 1 : selectedYear.value;
+
+  selectedMonth.value =
+    selectedMonth.value === 11 ? 0 : selectedMonth.value + 1;
+}
+
+// Build calendar days
+const daysCountInMonth = computed(() => {
+  return 32 - new Date(selectedYear.value, selectedMonth.value, 32).getDate();
+});
+
+const firstDayOfMonth = computed(() => {
+  return new Date(selectedYear.value, selectedMonth.value).getDay();
+});
+
+const monthDays = computed(() => {
+  const result = [];
+
+  let date = 1;
+
+  // Loop on 6 week per month to be safe
+  for (let i = 0; i < 6; i++) {
+    const week = [];
+
+    // Loop on every day of the week
+    for (let j = 0; j < 7; j++) {
+      if (i === 0 && j < firstDayOfMonth.value - 1) {
+        week.push(null);
+      } else if (date > daysCountInMonth.value) {
+        break;
+      } else {
+        week.push(date);
+        date++;
+      }
+    }
+    if (week.length) {
+      result.push(week);
+    }
+  }
+
+  return result;
+});
+
+// Handle selected dates
 const choices = ref([...props.defaultFormData.choices]);
+const sortedChoices = computed(() => {
+  return sortBy(choices.value, (c) => new Date(c.date!));
+});
 
-const dateRefs = ref<InstanceType<typeof Input>[]>([]);
+function toggleSelectedDay(day: number) {
+  const date = new Date(
+    selectedYear.value,
+    selectedMonth.value,
+    day,
+  ).toISOString();
+  const selectedDate = toLocalDateString(date).substring(0, 10);
+  const selectedTime = toLocalDateString(date).substring(11);
 
-async function addChoice() {
-  choices.value.push({ date: null, time: null });
-  await nextTick();
-  dateRefs.value[choices.value.length - 1].focus();
+  // Check if date is already selected
+  const duplicate = choices.value.find((d) => {
+    return d.date === selectedDate;
+  });
+
+  if (duplicate) {
+    choices.value = choices.value.filter((d) => {
+      return d.date !== selectedDate;
+    });
+  } else {
+    choices.value.push({
+      date: selectedDate,
+      time: selectedTime,
+    });
+  }
 }
 
-async function deleteChoice(index: number) {
-  choices.value = choices.value.filter((_, i) => i !== index);
-  await nextTick();
-  dateRefs.value[index - 1].focus();
+// Check if a date is selected
+function dateIsSelected(day: number) {
+  return choices.value.some((d) => {
+    return (
+      d.date &&
+      new Date(d.date).getFullYear() === selectedYear.value &&
+      new Date(d.date).getMonth() === selectedMonth.value &&
+      new Date(d.date).getDate() === day
+    );
+  });
 }
 
+// Add a time to an existing date (=== add new date)
+function addTime(d: string) {
+  const date = new Date(d);
+
+  choices.value.push({
+    date: date.toISOString().substring(0, 10),
+    time: "00:00",
+  });
+}
+
+// Step navigation
 async function submit() {
   showNoChoiceError.value = false;
 
@@ -60,36 +194,93 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
     <p v-if="showNoChoiceError" ref="noChoiceErrorRef" tabindex="-1">
       {{ $t("pages.poll.new.choices.noChoiceError") }}
     </p>
-    <div v-for="(choice, i) in choices" :key="i" class="choice">
-      <Input
-        :id="`choice-date-${i}`"
-        ref="dateRefs"
-        v-model="choice.date"
-        type="date"
-        :label="$t('pages.poll.new.choices.choice.dateLabel', { index: i + 1 })"
-        required
-      />
 
-      <Input
-        :id="`choice-time-${i}`"
-        v-model="choice.time"
-        type="time"
-        :label="$t('pages.poll.new.choices.choice.timeLabel', { index: i + 1 })"
-        required
-      />
+    <div class="choices-wrapper">
+      <!-- Choices -->
+      <div class="calendar">
+        <div class="header">
+          <p class="header-current">
+            {{ monthsNames[selectedMonth] }}
+            {{ selectedYear }}
+          </p>
+          <div class="header-nav">
+            <Button
+              v-if="
+                selectedMonth !== today.getMonth() ||
+                selectedYear !== today.getFullYear()
+              "
+              variant="secondary"
+              type="button"
+              @click="goToPreviousMonth"
+              >prev</Button
+            >
+            <Button variant="secondary" @click="goToNextMonth">next</Button>
+          </div>
+        </div>
 
-      <Button
-        v-if="choices.length > 1"
-        variant="secondary"
-        @click="deleteChoice(i)"
-      >
-        {{ $t("pages.poll.new.choices.choice.deleteChoice") }}
-      </Button>
+        <table class="table">
+          <caption class="visually-hidden">
+            Jours du mois de
+            {{
+              monthsNames[selectedMonth]
+            }}
+            {{
+              selectedYear
+            }}
+          </caption>
+          <thead>
+            <tr>
+              <th v-for="(d, i) in daysNames" :key="i">
+                {{ d }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(days, i) in monthDays" :key="i">
+              <td v-for="(d, j) in days" :key="j">
+                <button
+                  v-if="d"
+                  :aria-pressed="dateIsSelected(d)"
+                  class="day-button"
+                  type="button"
+                  @click="toggleSelectedDay(d)"
+                >
+                  {{ d }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Times -->
+      <ul class="times">
+        <li
+          v-for="(choice, i) in uniqBy(sortedChoices, 'date')"
+          :key="i"
+          class="time-container"
+        >
+          <fieldset>
+            <legend>{{ formatDate(choice.date!) }}</legend>
+            <Input
+              v-for="(time, j) in choices.filter((c) => c.date === choice.date)"
+              :id="`time-${i}`"
+              :key="j"
+              v-model="time.time"
+              type="time"
+              :label="`Horaire ${j + 1}`"
+            />
+            <Button
+              type="button"
+              variant="tertiary"
+              @click="addTime(choice.date!)"
+            >
+              Ajouter un horaire
+            </Button>
+          </fieldset>
+        </li>
+      </ul>
     </div>
-
-    <Button class="add-choice" variant="secondary" @click="addChoice">
-      {{ $t("pages.poll.new.choices.addNewChoice") }}
-    </Button>
 
     <Actions>
       <template #prev>
@@ -131,5 +322,126 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 
 .add-choice {
   align-self: start;
+}
+
+.calendar {
+  position: sticky;
+  top: 0.5rem;
+
+  .header {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-block-end: 1rem;
+
+    .header-current {
+      font-weight: var(--font-weight-semibold);
+      font-size: var(--font-size-xl);
+      margin: 0;
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-inline-start: auto;
+    }
+  }
+
+  .table {
+    width: 100%;
+
+    th {
+      font-size: var(--font-size-lg);
+      padding: 0.25rem;
+    }
+
+    td {
+      text-align: center;
+    }
+  }
+}
+
+.day-button {
+  --button-size: 3rem;
+
+  font-size: var(--font-size-lg);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  width: var(--button-size);
+  height: var(--button-size);
+
+  @media (width <= 50rem) {
+    --button-size: 2rem;
+  }
+
+  &:hover {
+    border-color: var(--color-grey);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  &[aria-pressed="true"] {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+
+    &:hover {
+      background-color: var(--color-primary-dark);
+      border-color: var(--color-primary-dark);
+    }
+  }
+}
+
+.choices-wrapper {
+  align-items: start;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1rem;
+  margin-block-end: 4rem;
+  position: relative;
+
+  @media (width <= 37.5rem) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.times {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  .time-container {
+    padding: 1rem;
+    border: 1px solid var(--color-grey-3);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow-form-input);
+    transition: background-color 0.2s ease;
+
+    fieldset {
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      gap: 1rem;
+    }
+
+    legend {
+      font-size: var(--font-size-2);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+
+  .time {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+  }
 }
 </style>
