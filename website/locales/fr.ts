@@ -139,12 +139,13 @@ export default {
           intro:
             "Maintenant, faites votre sélection de dates : chaque date doit avoir un horaire associé et votre sondage doit au moins proposer une date (cela va de soi non ?).",
           noChoiceError: "Vous devez au moins ajouter une date.",
-          previous: "Précédent",
-          next: "Suivant",
+          previous: "Mois précédent",
+          next: "Mois suivant",
           choice: {
             timeLabel: "Horaire n°{index}",
             deleteChoice: "Supprimer",
             addTime: "Ajouter un horaire",
+            forTheDate: "pour le {date}",
           },
         },
         settings: {

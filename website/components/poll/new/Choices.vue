@@ -8,12 +8,15 @@
  * - show dates before/after current month ✅
  * - filter duplicates when submitting ✅
  * - handle errors (missing field value)
- * - add icon to button
- * - test things out
+ * - add icon to button on small device ✅
+ * - e2e tests
  * - translate strings ✅
- * - ensure a11y (focus, labels...)
+ * - ensure a11y
+ *    - move focus when adding time
+ *    - check VO on days
+ *    - add badge label on buttons
  * - handle pre-registered dates (edit page)
- * - mobile styles
+ * - mobile styles ✅
  * - clean CSS
  * - clean file
  */
@@ -21,6 +24,8 @@
 import { isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
 
 import Button from "~/components/Button.vue";
+import ChevronLeft from "~/components/icons/ChevronLeft.vue";
+import ChevronRight from "~/components/icons/ChevronRight.vue";
 import Input from "~/components/Input.vue";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
@@ -251,17 +256,26 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
               variant="secondary"
               type="button"
               :badge="prevDatesCount"
+              class="nav-button"
               @click="goToPreviousMonth"
             >
-              {{ $t("pages.poll.new.choices.previous") }}
+              <ChevronLeft />
+              <span class="visually-hidden">
+                {{ $t("pages.poll.new.choices.previous") }}
+              </span>
             </Button>
+
             <Button
               variant="secondary"
               type="button"
               :badge="nextDatesCount"
+              class="nav-button"
               @click="goToNextMonth"
             >
-              {{ $t("pages.poll.new.choices.next") }}
+              <ChevronRight />
+              <span class="visually-hidden">
+                {{ $t("pages.poll.new.choices.next") }}
+              </span>
             </Button>
           </div>
         </div>
@@ -322,6 +336,13 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
               @click="addTime(choice.date!)"
             >
               {{ $t("pages.poll.new.choices.choice.addTime") }}
+              <span class="visually-hidden">
+                {{
+                  $t("pages.poll.new.choices.choice.forTheDate", {
+                    date: formatDate(choice.date!),
+                  })
+                }}
+              </span>
             </Button>
           </fieldset>
         </li>
@@ -374,10 +395,15 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
   position: sticky;
   top: 1rem;
 
+  @media (width <= 37.5rem) {
+    position: initial;
+  }
+
   .header {
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    justify-content: space-between;
     margin-block-end: 1rem;
 
     .header-current {
@@ -389,7 +415,14 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
     .header-nav {
       display: flex;
       gap: 1rem;
-      margin-inline-start: auto;
+
+      .nav-button {
+        --nav-button-size: 2.5rem;
+
+        padding: 0.5rem;
+        width: var(--nav-button-size);
+        height: var(--nav-button-size);
+      }
     }
   }
 
@@ -408,18 +441,17 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 }
 
 .day-button {
-  --button-size: 3rem;
+  --day-button-size: 3rem;
 
-  /* font-size: var(--font-size-lg); */
   background: none;
   border: 1px solid transparent;
   border-radius: 0.25rem;
   cursor: pointer;
-  width: var(--button-size);
-  height: var(--button-size);
+  width: var(--day-button-size);
+  height: var(--day-button-size);
 
   @media (width <= 50rem) {
-    --button-size: 2rem;
+    --day-button-size: 2rem;
   }
 
   &:hover {
@@ -442,7 +474,6 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
   display: grid;
   grid-template-columns: 1.5fr 1fr;
   gap: 1rem;
-  margin-block-end: 4rem;
   position: relative;
 
   @media (width <= 37.5rem) {
