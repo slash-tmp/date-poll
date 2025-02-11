@@ -13,7 +13,7 @@
  * - translate strings ✅
  * - ensure a11y
  *    - move focus when adding time
- *    - check VO on days
+ *    - check VO on days ✅
  *    - add badge label on buttons
  * - handle pre-registered dates (edit page)
  * - mobile styles ✅
@@ -44,7 +44,15 @@ const emit = defineEmits<{
 const { t } = useI18n();
 
 // Calendar data
-const daysNames = ref(["L", "M", "M", "J", "V", "S", "D"]);
+const daysNames = [
+  { short: "L", long: "Lundi" },
+  { short: "M", long: "Mardi" },
+  { short: "M", long: "Mercredi" },
+  { short: "J", long: "Jeudi" },
+  { short: "V", long: "Vendredi" },
+  { short: "S", long: "Samedi" },
+  { short: "D", long: "Dimanche" },
+];
 const monthsNames = [
   "Janvier",
   "Février",
@@ -287,8 +295,8 @@ const { setToast } = useToast();
           </caption>
           <thead>
             <tr>
-              <th v-for="(d, i) in daysNames" :key="i">
-                {{ d }}
+              <th v-for="(d, i) in daysNames" :key="i" scope="col">
+                <span :aria-label="d.long">{{ d.short }}</span>
               </th>
             </tr>
           </thead>
@@ -302,6 +310,7 @@ const { setToast } = useToast();
                   type="button"
                   @click="toggleSelectedDay(d)"
                 >
+                  <span class="visually-hidden">{{ daysNames[j].long }}</span>
                   {{ d }}
                 </button>
               </td>
