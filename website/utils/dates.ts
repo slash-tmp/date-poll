@@ -49,6 +49,5 @@ export function toLocalDateString(ISODateString: string) {
 export function formatTime(date: string) {
   return Intl.DateTimeFormat("fr-FR", { timeStyle: "short" })
     .format(new Date(date))
-    .replace(":", "h")
-    .replace(/^0+/, "");
+    .replace(":", "h");
 }
