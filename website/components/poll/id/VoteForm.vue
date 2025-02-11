@@ -105,7 +105,7 @@ function submitVote() {
 
     <ul class="dates">
       <li
-        v-for="choice in choicesWithRespondents"
+        v-for="(choice, i) in choicesWithRespondents"
         :key="choice.date"
         class="date"
       >
@@ -122,14 +122,14 @@ function submitVote() {
               <div class="radios">
                 <Radio
                   v-for="option in [Response.YES, Response.MAYBE, Response.NO]"
-                  :id="`choice-${time.time}-${option}`"
+                  :id="`choice-${i}-${j}-${option}`"
                   :key="`${option}-${time.time}`"
                   v-model="
                     attendances.find((a) => a.id === time.id)!.attendance
                   "
                   :value="option"
                   type="radio"
-                  :name="`choice-${time.time}`"
+                  :name="`choice-${i}-${j}`"
                   :label="
                     $t(`pages.poll.id.form.choices.${option.toLowerCase()}`)
                   "
