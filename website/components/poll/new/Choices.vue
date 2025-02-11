@@ -7,7 +7,7 @@
  * - add multiple times to dates ✅
  * - show dates before/after current month ✅
  * - filter duplicates when submitting ✅
- * - handle errors (missing field value)
+ * - handle errors (missing field value) ✅
  * - add icon to button on small device ✅
  * - e2e tests
  * - translate strings ✅
@@ -27,6 +27,7 @@ import Button from "~/components/Button.vue";
 import ChevronLeft from "~/components/icons/ChevronLeft.vue";
 import ChevronRight from "~/components/icons/ChevronRight.vue";
 import Input from "~/components/Input.vue";
+import useToast from "~/composables/useToast";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 import Actions from "./Actions.vue";
@@ -39,6 +40,8 @@ const emit = defineEmits<{
   (e: "submit", payload: StepPayload): void;
   (e: "previous", payload: StepPayload): void;
 }>();
+
+const { t } = useI18n();
 
 // Calendar data
 const daysNames = ref(["L", "M", "M", "J", "V", "S", "D"]);
@@ -208,13 +211,13 @@ const nextDatesCount = computed((): string => {
 
 // Step navigation
 async function submit() {
-  showNoChoiceError.value = false;
-
   // validate number of choices
   if (!choices.value.length) {
-    showNoChoiceError.value = true;
-    await nextTick();
-    noChoiceErrorRef.value?.focus();
+    setToast({
+      title: t("pages.poll.new.choices.noChoiceError"),
+      type: "error",
+      isClosable: true,
+    });
     return;
   }
 
@@ -226,17 +229,13 @@ function previous() {
   emit("previous", { choices: choices.value });
 }
 
-const showNoChoiceError = ref(false);
-const noChoiceErrorRef = ref<HTMLParagraphElement>();
+const { setToast } = useToast();
 </script>
 
 <template>
   <form class="form" @submit.prevent="submit">
     <p class="intro">
       {{ $t("pages.poll.new.choices.intro") }}
-    </p>
-    <p v-if="showNoChoiceError" ref="noChoiceErrorRef" tabindex="-1">
-      {{ $t("pages.poll.new.choices.noChoiceError") }}
     </p>
 
     <div class="choices-wrapper">

@@ -137,8 +137,9 @@ export default {
         choices: {
           stepTitle: "Dates et horaires",
           intro:
-            "Maintenant, faites votre sélection de dates : chaque date doit avoir un horaire associé et votre sondage doit au moins proposer une date (cela va de soi non ?).",
-          noChoiceError: "Vous devez au moins ajouter une date.",
+            "Maintenant, faites votre sélection de dates : chaque date doit avoir au moins un horaire associé et votre sondage doit au moins proposer une date (ça va de soi non ?).",
+          noChoiceError:
+            "Vous devez ajouter au moins une date à votre sondage.",
           previous: "Mois précédent",
           next: "Mois suivant",
           choice: {
