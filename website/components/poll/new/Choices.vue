@@ -9,16 +9,17 @@
  * - filter duplicates when submitting ✅
  * - handle errors (missing field value) ✅
  * - add icon to button on small device ✅
+ * - add button to delete time
  * - e2e tests
  * - translate strings ✅
  * - ensure a11y
  *    - move focus when adding time ✅
  *    - check VO on days ✅
- *    - add badge label on buttons
+ *    - add badge label on buttons ✅
  * - handle pre-registered dates (edit page)
  * - mobile styles ✅
  * - clean CSS
- * - clean file
+ * - clean file ✅
  */
 
 import { findLastIndex, isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
@@ -26,6 +27,7 @@ import { findLastIndex, isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
 import Button from "~/components/Button.vue";
 import ChevronLeft from "~/components/icons/ChevronLeft.vue";
 import ChevronRight from "~/components/icons/ChevronRight.vue";
+import Xmark from "~/components/icons/Xmark.vue";
 import Input from "~/components/Input.vue";
 import useToast from "~/composables/useToast";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
@@ -190,6 +192,14 @@ async function addTime(d: string) {
   inputToFocus?.focus();
 }
 
+// TODO: delete time function
+// function deleteTime(dateIndex: number, timeIndex: number) {
+// const groupedChoices = groupBy(choices.value, 'date')
+// choices.value = choices.value.filter(c => {
+//   return c.
+// })
+// }
+
 // Previous and next dates
 const prevDatesCount = computed((): string => {
   if (choices.value.length) {
@@ -261,14 +271,14 @@ const { setToast } = useToast();
 </script>
 
 <template>
-  <form class="form" @submit.prevent="submit">
+  <form @submit.prevent="submit">
     <p class="intro">
       {{ $t("pages.poll.new.choices.intro") }}
     </p>
 
     <div class="choices-wrapper">
-      <!-- Choices -->
-      <div class="calendar">
+      <div class="choices-dates">
+        <!-- Calendar navigation -->
         <div class="header">
           <p class="header-current">
             {{ monthsNames[selectedMonth] }}
@@ -283,7 +293,7 @@ const { setToast } = useToast();
               variant="secondary"
               type="button"
               :badge="prevDatesCount"
-              class="nav-button"
+              class="header-nav-button"
               @click="goToPreviousMonth"
             >
               <ChevronLeft />
@@ -296,7 +306,7 @@ const { setToast } = useToast();
               variant="secondary"
               type="button"
               :badge="nextDatesCount"
-              class="nav-button"
+              class="header-nav-button"
               @click="goToNextMonth"
             >
               <ChevronRight />
@@ -307,7 +317,8 @@ const { setToast } = useToast();
           </div>
         </div>
 
-        <table class="table">
+        <!-- Calendar -->
+        <table class="calendar">
           <caption class="visually-hidden" aria-live="polite">
             {{
               `${monthsNames[selectedMonth]} ${selectedYear}`
@@ -326,7 +337,7 @@ const { setToast } = useToast();
                 <button
                   v-if="d"
                   :aria-pressed="dateIsSelected(d)"
-                  class="day-button"
+                  class="calendar-day-button"
                   type="button"
                   @click="toggleSelectedDay(d)"
                 >
@@ -340,7 +351,7 @@ const { setToast } = useToast();
       </div>
 
       <!-- Times -->
-      <ul class="times">
+      <ul class="choices-times">
         <li
           v-for="(choice, i) in uniqBy(sortedChoices, 'date')"
           :key="i"
@@ -348,17 +359,31 @@ const { setToast } = useToast();
         >
           <fieldset>
             <legend>{{ formatDate(choice.date!) }}</legend>
-            <Input
+            <div
               v-for="(time, j) in choices.filter((c) => c.date === choice.date)"
-              :id="`time-${i.toString().padStart(2, '0')}-${j.toString().padStart(2, '0')}`"
-              ref="timeInputRefs"
               :key="j"
-              v-model="time.time"
-              type="time"
-              :label="
-                $t('pages.poll.new.choices.choice.timeLabel', { index: j + 1 })
-              "
-            />
+              class="time-input-wrapper"
+            >
+              <Input
+                :id="`time-${i.toString().padStart(2, '0')}-${j.toString().padStart(2, '0')}`"
+                ref="timeInputRefs"
+                v-model="time.time"
+                type="time"
+                :label="
+                  $t('pages.poll.new.choices.choice.timeLabel', {
+                    index: j + 1,
+                  })
+                "
+              />
+              <Button
+                v-if="choices.filter((c) => c.date === choice.date).length > 1"
+                variant="secondary"
+                class="time-delete-button"
+              >
+                <Xmark />
+                <span class="visually-hidden">Supprimer</span>
+              </Button>
+            </div>
             <Button
               type="button"
               variant="tertiary"
@@ -394,33 +419,23 @@ const { setToast } = useToast();
 </template>
 
 <style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .intro {
-  margin-block-end: 1rem;
+  margin-block-end: 2rem;
 }
 
-.choice {
+.choices-wrapper {
+  align-items: start;
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 1.5fr 1fr;
   gap: 1rem;
-  align-items: end;
-  margin-block-end: 1rem;
+  position: relative;
 
-  @media (width < 50rem) {
+  @media (width <= 37.5rem) {
     grid-template-columns: 1fr;
   }
 }
 
-.add-choice {
-  align-self: start;
-}
-
-.calendar {
+.choices-dates {
   position: sticky;
   top: 1rem;
 
@@ -445,17 +460,17 @@ const { setToast } = useToast();
       display: flex;
       gap: 1rem;
 
-      .nav-button {
-        --nav-button-size: 2.5rem;
+      .header-nav-button {
+        --header-nav-button-size: 2.5rem;
 
         padding: 0.5rem;
-        width: var(--nav-button-size);
-        height: var(--nav-button-size);
+        width: var(--header-nav-button-size);
+        height: var(--header-nav-button-size);
       }
     }
   }
 
-  .table {
+  .calendar {
     width: 100%;
 
     th {
@@ -466,51 +481,39 @@ const { setToast } = useToast();
     td {
       text-align: center;
     }
-  }
-}
 
-.day-button {
-  --day-button-size: 3rem;
+    .calendar-day-button {
+      --calendar-day-button-size: 3rem;
 
-  background: none;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  width: var(--day-button-size);
-  height: var(--day-button-size);
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      width: var(--calendar-day-button-size);
+      height: var(--calendar-day-button-size);
 
-  @media (width <= 50rem) {
-    --day-button-size: 2rem;
-  }
+      @media (width <= 50rem) {
+        --calendar-day-button-size: 2rem;
+      }
 
-  &:hover {
-    border-color: var(--color-grey);
-  }
+      &:hover {
+        border-color: var(--color-grey);
+      }
 
-  &[aria-pressed="true"] {
-    background-color: var(--color-primary);
-    color: var(--color-white);
+      &[aria-pressed="true"] {
+        background-color: var(--color-primary);
+        color: var(--color-white);
 
-    &:hover {
-      background-color: var(--color-primary-dark);
-      border-color: var(--color-primary-dark);
+        &:hover {
+          background-color: var(--color-primary-dark);
+          border-color: var(--color-primary-dark);
+        }
+      }
     }
   }
 }
 
-.choices-wrapper {
-  align-items: start;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 1rem;
-  position: relative;
-
-  @media (width <= 37.5rem) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.times {
+.choices-times {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -537,12 +540,20 @@ const { setToast } = useToast();
       font-size: var(--font-size-2);
       font-weight: var(--font-weight-semibold);
     }
-  }
 
-  .time {
-    display: flex;
-    gap: 1rem;
-    align-items: end;
+    .time-input-wrapper {
+      display: flex;
+      align-items: end;
+      gap: 0.5rem;
+
+      .time-delete-button {
+        --delete-button-size: 2.5rem;
+
+        padding: 0.5rem;
+        width: var(--delete-button-size);
+        height: var(--delete-button-size);
+      }
+    }
   }
 }
 </style>
