@@ -1,9 +1,3 @@
-/**
- * TODO: test poll creation with calendar with:
- * - 0 dates
- * - 1 date multiple times
- * - multiple dates multiple times (at least 2 times for 1 date)
- */
 describe("Poll creation page /poll/new", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");
@@ -19,12 +13,31 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 2
-    cy.getByLabel("Date n°1").type("2024-03-23");
-    cy.getByLabel("Horaire n°1").type("08:30");
+    cy.contains("button", "7").click();
+    cy.contains("button", "13").click();
+    cy.contains("button", "Mois suivant").click();
+    cy.contains("button", "Mois suivant").click();
+    cy.contains("button", "24").click();
 
-    cy.contains("Ajouter une date").click();
-    cy.getByLabel("Date n°2").type("2022-10-30");
-    cy.getByLabel("Horaire n°2").type("19:45");
+    cy.getByLabel("Horaire n°1").type("10:30");
+    cy.contains("Ajouter un horaire").click();
+    cy.getByLabel("Horaire n°2").type("23:45");
+
+    cy.get(".time-container:nth-child(2)")
+      .contains("Horaire n°1")
+      .type("14:12");
+
+    cy.get(".time-container:nth-child(3)")
+      .contains("Horaire n°1")
+      .type("20:22");
+
+    cy.get(".time-container:nth-child(3)")
+      .contains("button", "Ajouter un horaire")
+      .click();
+
+    cy.get(".time-container:nth-child(3)")
+      .contains("Horaire n°2")
+      .type("00:30");
 
     cy.contains("Suivant").click();
 
@@ -58,7 +71,7 @@ describe("Poll creation page /poll/new", () => {
 
     // Step should not change and an error message should be displayed
     cy.contains("Étape 2 sur 4");
-    cy.focused().should("have.attr", "id", "input-choice-date-0");
+    cy.contains("Vous devez ajouter au moins une date à votre sondage.");
   });
 
   it("saves data between steps", () => {
@@ -70,8 +83,11 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 2
-    cy.getByLabel("Date n°1").type("2024-03-23");
-    cy.getByLabel("Horaire n°1").type("08:30");
+    cy.contains("button", "7").click();
+    cy.getByLabel("Horaire n°1").type("10:30");
+    cy.contains("Ajouter un horaire").click();
+    cy.getByLabel("Horaire n°2").type("23:45");
+
     cy.contains("Précédent").click();
 
     // Check step 1 was saved
@@ -83,8 +99,11 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Check step 2 was saved
-    cy.getByLabel("Date n°1").should("have.value", "2024-03-23");
-    cy.getByLabel("Horaire n°1").should("have.value", "08:30");
+    cy.contains("button", "7")
+      .invoke("attr", "aria-pressed")
+      .should("eq", "true");
+    cy.getByLabel("Horaire n°1").should("have.value", "10:30");
+    cy.getByLabel("Horaire n°2").should("have.value", "23:45");
 
     cy.contains("Suivant").click();
 

@@ -9,17 +9,17 @@
  * - filter duplicates when submitting ✅
  * - handle errors (missing field value) ✅
  * - add icon to button on small device ✅
- * - add button to delete time
- * - e2e tests
+ * - e2e tests ✅
  * - translate strings ✅
- * - ensure a11y
+ * - ensure a11y ✅
  *    - move focus when adding time ✅
  *    - check VO on days ✅
  *    - add badge label on buttons ✅
  * - handle pre-registered dates (edit page)
  * - mobile styles ✅
- * - clean CSS
+ * - clean CSS ✅
  * - clean file ✅
+ * - add button to delete time + e2e test
  */
 
 import { findLastIndex, isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
@@ -525,7 +525,6 @@ const { setToast } = useToast();
     padding: 1rem;
     border: 1px solid var(--color-grey-3);
     border-radius: 0.5rem;
-    box-shadow: var(--shadow-form-input);
     transition: background-color 0.2s ease;
 
     fieldset {
