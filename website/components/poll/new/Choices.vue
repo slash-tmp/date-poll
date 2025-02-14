@@ -350,7 +350,7 @@ const { setToast } = useToast();
             <legend>{{ formatDate(choice.date!) }}</legend>
             <Input
               v-for="(time, j) in choices.filter((c) => c.date === choice.date)"
-              :id="`time-${i}-${j}`"
+              :id="`time-${i.toString().padStart(2, '0')}-${j.toString().padStart(2, '0')}`"
               ref="timeInputRefs"
               :key="j"
               v-model="time.time"
