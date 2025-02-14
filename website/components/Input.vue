@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   id: string;
   label: string;
   type?: "text" | "email" | "date" | "time" | "url";
@@ -11,6 +11,7 @@ defineProps<{
 
 defineExpose({
   focus: focusField,
+  id: props.id,
 });
 
 const fieldRef = ref<HTMLInputElement>();

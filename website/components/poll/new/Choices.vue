@@ -12,7 +12,7 @@
  * - e2e tests
  * - translate strings ✅
  * - ensure a11y
- *    - move focus when adding time
+ *    - move focus when adding time ✅
  *    - check VO on days ✅
  *    - add badge label on buttons
  * - handle pre-registered dates (edit page)
@@ -21,7 +21,7 @@
  * - clean file
  */
 
-import { isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
+import { findLastIndex, isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
 
 import Button from "~/components/Button.vue";
 import ChevronLeft from "~/components/icons/ChevronLeft.vue";
@@ -166,7 +166,7 @@ function dateIsSelected(day: number) {
   });
 }
 
-// const timeInputRefs = ref<HTMLInputElement[]>([]);
+const timeInputRefs = ref<InstanceType<typeof Input>[]>([]);
 // Add a time to an existing date (=== add new date)
 async function addTime(d: string) {
   const date = new Date(d);
@@ -176,17 +176,18 @@ async function addTime(d: string) {
     time: "00:00",
   });
 
-  // TODO: focus last time field of current date
-  // await nextTick();
-  // const index = findLastIndex(sortedChoices.value, (c) => {
-  //   return c.date === d;
-  // });
+  const index = findLastIndex(sortedChoices.value, (c) => {
+    return c.date === d;
+  });
 
-  // console.log(index);
-  // console.log("date: ", d);
-  // await nextTick();
-  // console.log(timeInputRefs.value[index]);
-  // timeInputRefs.value[index].focus();
+  await nextTick();
+
+  const inputToFocus = sortBy(
+    timeInputRefs.value,
+    (inputRef) => inputRef.id,
+  ).at(index);
+
+  inputToFocus?.focus();
 }
 
 // Previous and next dates
@@ -339,7 +340,7 @@ const { setToast } = useToast();
             <legend>{{ formatDate(choice.date!) }}</legend>
             <Input
               v-for="(time, j) in choices.filter((c) => c.date === choice.date)"
-              :id="`time-${i}`"
+              :id="`time-${i}-${j}`"
               ref="timeInputRefs"
               :key="j"
               v-model="time.time"
