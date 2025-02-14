@@ -49,7 +49,9 @@ type RespondentsPerChoice = {
 
 const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
   return Object.entries(
-    groupBy(props.choices, (item) => item.date.split("T")[0]),
+    groupBy(props.choices, (item) =>
+      convertIsoDateToLocalDateString(item.date).slice(0, 10),
+    ),
   ).map(([date, choices]) => {
     return {
       date: formatDate(date),
@@ -142,8 +144,8 @@ function submitVote() {
             </fieldset>
             <ul v-if="time.respondents" class="respondents">
               <li
-                v-for="(respondent, i) in time.respondents"
-                :key="i"
+                v-for="(respondent, k) in time.respondents"
+                :key="k"
                 class="respondent"
                 :class="{
                   maybe: respondent.value === Response.MAYBE,

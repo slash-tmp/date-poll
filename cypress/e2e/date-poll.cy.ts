@@ -1,3 +1,9 @@
+/**
+ * TODO: test poll creation with calendar with:
+ * - 0 dates
+ * - 1 date multiple times
+ * - multiple dates multiple times (at least 2 times for 1 date)
+ */
 describe("Poll creation page /poll/new", () => {
   beforeEach(() => {
     cy.visit("http://localhost:3000");

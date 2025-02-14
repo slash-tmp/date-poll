@@ -29,13 +29,13 @@ export function formatDate(date: Date | string) {
  */
 
 /**
- * Transform an ISO date string into a YYYY-MM-DD-HH-MM string
+ * Transform an ISO date string into a YYYY-MM-DD-HH:MM string
  * "2024-05-15T10:33:00.000Z" => "2024-05-15-12:33"
  */
-export function toLocalDateString(ISODateString: string) {
-  const localDate = new Date(ISODateString);
+export function toLocalDateString(isoDateString: string) {
+  const localDate = new Date(isoDateString);
 
-  const date = ISODateString.split("T")[0];
+  const date = isoDateString.split("T")[0];
   const time = localDate.toTimeString().slice(0, 5);
 
   return `${date}-${time}`;
@@ -50,4 +50,17 @@ export function formatTime(date: string) {
   return Intl.DateTimeFormat("fr-FR", { timeStyle: "short" })
     .format(new Date(date))
     .replace(":", "h");
+}
+
+/**
+ * Transform an ISO date string into a local date string YYYY-MM-DD-HH:MM
+ * "2024-05-15T10:33:00.000Z" => "2024-05-15-12:33"
+ */
+export function convertIsoDateToLocalDateString(dateString: string) {
+  const localDate = new Date(dateString);
+
+  const date = `${localDate.getFullYear().toString().padStart(2, "0")}-${(localDate.getMonth() + 1).toString().padStart(2, "0")}-${localDate.getDate().toString().padStart(2, "0")}`;
+  const time = localDate.toTimeString().slice(0, 5);
+
+  return `${date}-${time}`;
 }

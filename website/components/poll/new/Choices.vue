@@ -3,7 +3,7 @@
  * TODO:
  * - select multiple dates ✅
  * - add time to date ✅
- * - fix iso dates problem (-1 day)
+ * - fix iso dates problem (-1 day) ✅
  * - add multiple times to dates ✅
  * - show dates before/after current month ✅
  * - filter duplicates when submitting ✅
@@ -133,13 +133,9 @@ const sortedChoices = computed(() => {
 });
 
 function toggleSelectedDay(day: number) {
-  const date = new Date(
-    selectedYear.value,
-    selectedMonth.value,
-    day,
-  ).toISOString();
-  const selectedDate = toLocalDateString(date).substring(0, 10);
-  const selectedTime = toLocalDateString(date).substring(11);
+  const date = `${selectedYear.value.toString().padStart(4, "0")}-${selectedMonth.value.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}-00:00`;
+  const selectedDate = date.substring(0, 10);
+  const selectedTime = date.substring(11);
 
   // Check if date is already selected
   const duplicate = choices.value.find((d) => {
@@ -163,21 +159,34 @@ function dateIsSelected(day: number) {
   return choices.value.some((d) => {
     return (
       d.date &&
-      new Date(d.date).getFullYear() === selectedYear.value &&
-      new Date(d.date).getMonth() === selectedMonth.value &&
-      new Date(d.date).getDate() === day
+      +d.date.slice(0, 4) === selectedYear.value &&
+      +d.date.slice(5, 7) === selectedMonth.value &&
+      +d.date.slice(8, 10) === day
     );
   });
 }
 
+// const timeInputRefs = ref<HTMLInputElement[]>([]);
 // Add a time to an existing date (=== add new date)
-function addTime(d: string) {
+async function addTime(d: string) {
   const date = new Date(d);
 
   choices.value.push({
     date: date.toISOString().substring(0, 10),
     time: "00:00",
   });
+
+  // TODO: focus last time field of current date
+  // await nextTick();
+  // const index = findLastIndex(sortedChoices.value, (c) => {
+  //   return c.date === d;
+  // });
+
+  // console.log(index);
+  // console.log("date: ", d);
+  // await nextTick();
+  // console.log(timeInputRefs.value[index]);
+  // timeInputRefs.value[index].focus();
 }
 
 // Previous and next dates
@@ -331,6 +340,7 @@ const { setToast } = useToast();
             <Input
               v-for="(time, j) in choices.filter((c) => c.date === choice.date)"
               :id="`time-${i}`"
+              ref="timeInputRefs"
               :key="j"
               v-model="time.time"
               type="time"
