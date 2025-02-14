@@ -133,7 +133,7 @@ const sortedChoices = computed(() => {
 });
 
 function toggleSelectedDay(day: number) {
-  const date = `${selectedYear.value.toString().padStart(4, "0")}-${selectedMonth.value.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}-00:00`;
+  const date = `${selectedYear.value.toString().padStart(4, "0")}-${(selectedMonth.value + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}-00:00`;
   const selectedDate = date.substring(0, 10);
   const selectedTime = date.substring(11);
 
@@ -160,7 +160,7 @@ function dateIsSelected(day: number) {
     return (
       d.date &&
       +d.date.slice(0, 4) === selectedYear.value &&
-      +d.date.slice(5, 7) === selectedMonth.value &&
+      +d.date.slice(5, 7) === selectedMonth.value + 1 &&
       +d.date.slice(8, 10) === day
     );
   });
@@ -196,8 +196,13 @@ const prevDatesCount = computed((): string => {
     const length = uniqBy(choices.value, "date").filter((c) => {
       if (c.date) {
         const dateMonth = new Date(c.date).getMonth();
+        const dateYear = new Date(c.date).getFullYear();
 
-        return dateMonth < selectedMonth.value;
+        if (dateYear === selectedYear.value) {
+          return dateMonth < selectedMonth.value;
+        } else {
+          return dateYear < selectedYear.value;
+        }
       }
     }).length;
 
@@ -214,8 +219,13 @@ const nextDatesCount = computed((): string => {
     const length = uniqBy(choices.value, "date").filter((c) => {
       if (c.date) {
         const dateMonth = new Date(c.date).getMonth();
+        const dateYear = new Date(c.date).getFullYear();
 
-        return dateMonth > selectedMonth.value;
+        if (dateYear === selectedYear.value) {
+          return dateMonth > selectedMonth.value;
+        } else {
+          return dateYear > selectedYear.value;
+        }
       }
     }).length;
 
