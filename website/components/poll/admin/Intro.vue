@@ -46,6 +46,7 @@ defineProps<{
 .list-item {
   display: flex;
   gap: 0.5rem;
+  white-space: pre-wrap;
 }
 
 .list-icon {

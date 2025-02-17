@@ -115,6 +115,7 @@ async function submitVote(payload: VotePollFormData) {
 <style scoped>
 .description {
   margin-block-end: 1rem;
+  white-space: pre-wrap;
 }
 
 .invitation-alert {
