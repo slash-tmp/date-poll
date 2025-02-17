@@ -22,7 +22,15 @@
  * - add button to delete time + e2e test
  */
 
-import { findLastIndex, isEqual, sortBy, uniqBy, uniqWith } from "lodash-es";
+import {
+  findLastIndex,
+  groupBy,
+  isEqual,
+  sortBy,
+  uniqBy,
+  uniqueId,
+  uniqWith,
+} from "lodash-es";
 
 import Button from "~/components/Button.vue";
 import ChevronLeft from "~/components/icons/ChevronLeft.vue";
@@ -129,10 +137,15 @@ const monthDays = computed(() => {
 });
 
 // Handle selected dates
-const choices = ref([...props.defaultFormData.choices]);
-const sortedChoices = computed(() => {
-  return sortBy(choices.value, (c) => new Date(c.date!));
-});
+const choices = ref(
+  props.defaultFormData.choices.map((choice) => ({
+    date: choice.date,
+    time: choice.time,
+    // local unique identifier to handle deletion
+    localId: uniqueId(),
+  })),
+);
+const sortedChoices = computed(() => sortBy(choices.value, "date"));
 
 function toggleSelectedDay(day: number) {
   const date = `${selectedYear.value.toString().padStart(4, "0")}-${(selectedMonth.value + 1).toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}-00:00`;
@@ -152,6 +165,7 @@ function toggleSelectedDay(day: number) {
     choices.value.push({
       date: selectedDate,
       time: selectedTime,
+      localId: uniqueId(),
     });
   }
 }
@@ -169,6 +183,7 @@ function dateIsSelected(day: number) {
 }
 
 const timeInputRefs = ref<InstanceType<typeof Input>[]>([]);
+
 // Add a time to an existing date (=== add new date)
 async function addTime(d: string) {
   const date = new Date(d);
@@ -176,6 +191,7 @@ async function addTime(d: string) {
   choices.value.push({
     date: date.toISOString().substring(0, 10),
     time: "00:00",
+    localId: uniqueId(),
   });
 
   const index = findLastIndex(sortedChoices.value, (c) => {
@@ -192,13 +208,25 @@ async function addTime(d: string) {
   inputToFocus?.focus();
 }
 
-// TODO: delete time function
-// function deleteTime(dateIndex: number, timeIndex: number) {
-// const groupedChoices = groupBy(choices.value, 'date')
-// choices.value = choices.value.filter(c => {
-//   return c.
-// })
-// }
+async function deleteTime(dateStr: string, choiceId: string) {
+  // list only choices in date group
+  const choicesInGroup = sortedChoices.value.filter((c) => c.date === dateStr);
+  // find index of deleted time in date group
+  const groupIndex = choicesInGroup.findIndex((c) => c.localId === choiceId);
+  // remove time from choices
+  choices.value = choices.value.filter((c) => c.localId !== choiceId);
+
+  // wait for UI to update
+  await nextTick();
+
+  // list only inputs in date group
+  const inputsInGroup = sortBy(
+    timeInputRefs.value.filter((ref) => ref.id.includes(dateStr)),
+    "id",
+  );
+  // focus previous time in the group or the first one
+  inputsInGroup.at(Math.max(groupIndex - 1, 0))?.focus();
+}
 
 // Previous and next dates
 const prevDatesCount = computed((): string => {
@@ -353,21 +381,21 @@ const { setToast } = useToast();
       <!-- Times -->
       <ul class="choices-times">
         <li
-          v-for="(choice, i) in uniqBy(sortedChoices, 'date')"
-          :key="i"
+          v-for="(dateChoices, date) in groupBy(sortedChoices, 'date')"
+          :key="date"
           class="time-container"
         >
           <fieldset>
-            <legend>{{ formatDate(choice.date!) }}</legend>
+            <legend>{{ formatDate(date as string) }}</legend>
             <div
-              v-for="(time, j) in choices.filter((c) => c.date === choice.date)"
-              :key="j"
+              v-for="(choice, j) in dateChoices"
+              :key="choice.localId"
               class="time-input-wrapper"
             >
               <Input
-                :id="`time-${i.toString().padStart(2, '0')}-${j.toString().padStart(2, '0')}`"
+                :id="`time-${date}-${j.toString().padStart(2, '0')}`"
                 ref="timeInputRefs"
-                v-model="time.time"
+                v-model="choice.time"
                 type="time"
                 :label="
                   $t('pages.poll.new.choices.choice.timeLabel', {
@@ -376,9 +404,10 @@ const { setToast } = useToast();
                 "
               />
               <Button
-                v-if="choices.filter((c) => c.date === choice.date).length > 1"
+                v-if="dateChoices.length > 1"
                 variant="secondary"
                 class="time-delete-button"
+                @click="deleteTime(date as string, choice.localId)"
               >
                 <Xmark />
                 <span class="visually-hidden">Supprimer</span>
@@ -387,13 +416,13 @@ const { setToast } = useToast();
             <Button
               type="button"
               variant="tertiary"
-              @click="addTime(choice.date!)"
+              @click="addTime(date as string)"
             >
               {{ $t("pages.poll.new.choices.choice.addTime") }}
               <span class="visually-hidden">
                 {{
                   $t("pages.poll.new.choices.choice.forTheDate", {
-                    date: formatDate(choice.date!),
+                    date: formatDate(date as string),
                   })
                 }}
               </span>
