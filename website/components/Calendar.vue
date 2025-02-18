@@ -429,6 +429,10 @@ const nextDatesCount = computed((): string => {
         padding: 0.5rem;
         width: var(--header-nav-button-size);
         height: var(--header-nav-button-size);
+
+        @media (width <= 22rem) {
+          --header-nav-button-size: 2rem;
+        }
       }
     }
   }
@@ -457,6 +461,12 @@ const nextDatesCount = computed((): string => {
 
       @media (width <= 50rem) {
         --calendar-day-button-size: 2rem;
+      }
+
+      @media (width <= 22rem) {
+        --calendar-day-button-size: 1.5rem;
+
+        font-size: var(--font-size-0);
       }
 
       &:hover {
