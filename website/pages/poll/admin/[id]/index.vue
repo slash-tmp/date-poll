@@ -56,7 +56,10 @@ async function confirmDelete() {
   try {
     if (poll.value) {
       await deletePoll(poll.value.adminUid);
-      router.push({ name: "index", state: { deletedPoll: poll.value.title } });
+      await router.push({
+        name: "index",
+        state: { deletedPoll: poll.value.title },
+      });
     }
   } catch (e) {
     setToast({

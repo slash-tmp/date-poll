@@ -245,8 +245,13 @@ describe("Poll edition page", () => {
       "We are going to the natural history museum.",
     );
 
-    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
-    cy.getByLabel("Horaire n°1").should("have.value", "10:30");
+    cy.contains('15 mai 2024')
+    cy.get(".time-container:nth-child(1)").getByLabel("Horaire n°1").should("have.value", "10:30");
+    cy.get(".time-container:nth-child(1)").getByLabel("Horaire n°2").should("have.value", "14:30");
+
+    cy.contains('29 mai 2024')
+    cy.get(".time-container:nth-child(2)").getByLabel("Horaire n°1").should("have.value", "18:50");
+    
 
     cy.getByLabel("Masquer les votes").should("have.value", "on");
     cy.getByLabel("Date de fin").should("have.value", "2029-05-15");
@@ -261,12 +266,11 @@ describe("Poll edition page", () => {
   });
 
   it("disables existing choices (date and time)", () => {
-    cy.getByLabel("Date n°1").should("have.attr", "disabled");
-    cy.getByLabel("Horaire n°1").should("have.attr", "disabled");
+    cy.getByLabel("Horaire n°1").should("have.attr", "readonly");
+    cy.getByLabel("Horaire n°2").should("have.attr", "readonly");
 
-    cy.contains("Ajouter une date").click();
-    cy.getByLabel("Date n°4").should("not.have.attr", "disabled");
-    cy.getByLabel("Horaire n°4").should("not.have.attr", "disabled");
+    cy.contains("button", "Ajouter un horaire").click();
+    cy.getByLabel("Horaire n°3").should("not.have.attr", "readonly");
   });
 
   it("redirects to index with alert on success", () => {
@@ -301,13 +305,20 @@ describe("Poll edition page", () => {
   });
 
   it("adds and delete new dates and save existing ones", () => {
-    cy.contains("Supprimer").click();
+    // Delete 1 time
+    cy.contains('button', 'Supprimer').click()
 
-    cy.contains("Ajouter une date").click();
+    // Delete 1 date
+    cy.contains('button', '29').click();
 
-    cy.getByLabel("Date n°3").type("2024-10-30");
-    cy.getByLabel("Horaire n°3").type("12:00");
+    // Add one date
+    cy.contains('button', '20').click();
 
+    // Add one time
+    cy.get(".time-container:nth-child(2)").contains('Ajouter un horaire').click()
+    cy.get(".time-container:nth-child(2)").getByLabel('Horaire n°2').type('13:45')
+
+    // Submit and go back to edit page
     cy.contains("Mettre à jour").click();
     cy.location("pathname").should("match", /^\/poll\/admin\/[A-Za-z0-9_-]+$/);
 
@@ -317,21 +328,13 @@ describe("Poll edition page", () => {
       /^\/poll\/admin\/[A-Za-z0-9_-]+\/edit$/,
     );
 
-    // Deleted date is gone
-    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
-    cy.getByLabel("Horaire n°1").should("not.have.value", "10:30");
+    // Check dates are good
+    cy.get(".time-container:nth-child(1)").getByLabel("Horaire n°1").should("have.value", "14:30");
+    cy.get(".time-container:nth-child(2)").getByLabel("Horaire n°1").should("have.value", "00:00");
+    cy.get(".time-container:nth-child(2)").getByLabel("Horaire n°2").should("have.value", "13:45");
 
-    // Previous 2nd date is now 1st
-    cy.getByLabel("Date n°1").should("have.value", "2024-05-15");
-    cy.getByLabel("Horaire n°1").should("have.value", "14:30");
-
-    // Previous 3rd date is now 2nd
-    cy.getByLabel("Date n°2").should("have.value", "2024-05-29");
-    cy.getByLabel("Horaire n°2").should("have.value", "18:50");
-
-    // 3rd date is the newly added
-    cy.getByLabel("Date n°3").should("have.value", "2024-10-30");
-    cy.getByLabel("Horaire n°3").should("have.value", "12:00");
+    cy.contains('button', '15').invoke("attr", "aria-pressed").should("eq", "true");
+    cy.contains('button', '20').invoke("attr", "aria-pressed").should("eq", "true");
   });
 });
 
