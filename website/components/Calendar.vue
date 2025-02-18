@@ -5,9 +5,8 @@ import ChevronLeft from "~/components/icons/ChevronLeft.vue";
 import ChevronRight from "~/components/icons/ChevronRight.vue";
 import Xmark from "~/components/icons/Xmark.vue";
 import Input from "~/components/Input.vue";
-import type { CreatePollFormData } from "~/types/poll";
 
-const modelValue = defineModel<CreatePollFormData["choices"]>({
+const modelValue = defineModel<{ id?: number; date: string; time: string }[]>({
   required: true,
 });
 
@@ -97,6 +96,7 @@ const monthDays = computed(() => {
 // // Handle selected dates
 const choicesWithId = ref(
   modelValue.value.map((choice) => ({
+    id: choice.id,
     date: choice.date,
     time: choice.time,
     // local unique identifier to handle deletion
@@ -109,6 +109,7 @@ watch(
   () => {
     console.log("dans le watch");
     modelValue.value = choicesWithId.value.map((c) => ({
+      id: c.id,
       date: c.date,
       time: c.time,
     }));
@@ -136,6 +137,7 @@ function toggleSelectedDay(day: number) {
     });
   } else {
     choicesWithId.value.push({
+      id: undefined,
       date: selectedDate,
       time: selectedTime,
       localId: uniqueId(),
@@ -162,6 +164,7 @@ async function addTime(d: string) {
   const date = new Date(d);
 
   choicesWithId.value.push({
+    id: undefined,
     date: date.toISOString().substring(0, 10),
     time: "00:00",
     localId: uniqueId(),
@@ -350,6 +353,7 @@ const nextDatesCount = computed((): string => {
                   index: j + 1,
                 })
               "
+              :readonly="!!choice.id"
             />
             <Button
               v-if="dateChoices.length > 1"

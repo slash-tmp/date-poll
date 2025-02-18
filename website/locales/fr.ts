@@ -253,7 +253,7 @@ export default {
           choices: {
             stepTitle: "Dates et horaires",
             stepSubtitle:
-              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer.",
+              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer. Attention : si vous supprimez une date dans le calendrier, cela supprimera tous les horaires associés à cette date.",
             choice: {
               dateLabel: "Date n°{index}",
               timeLabel: "Horaire n°{index}",

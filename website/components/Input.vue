@@ -69,6 +69,11 @@ const model = defineModel<string | null>();
       outline: 2px solid var(--color-outline);
       outline-offset: 2px;
     }
+
+    &[readonly] {
+      background-color: var(--color-grey-1);
+      color: var(--color-grey-3);
+    }
   }
 
   .label {
