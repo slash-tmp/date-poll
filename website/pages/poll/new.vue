@@ -21,7 +21,7 @@ const steps = [
 const formData = ref<CreatePollFormData>({
   title: "",
   description: null,
-  choices: [{ date: null, time: null }],
+  choices: [],
   hideVotes: false,
   endDate: null,
   notifyOnResponse: false,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   id: string;
   label: string;
   type?: "text" | "email" | "date" | "time" | "url";
@@ -11,6 +11,7 @@ defineProps<{
 
 defineExpose({
   focus: focusField,
+  id: props.id,
 });
 
 const fieldRef = ref<HTMLInputElement>();
@@ -67,6 +68,11 @@ const model = defineModel<string | null>();
       background-color: var(--color-primary-lighter);
       outline: 2px solid var(--color-outline);
       outline-offset: 2px;
+    }
+
+    &[readonly] {
+      background-color: var(--color-grey-1);
+      color: var(--color-grey-3);
     }
   }
 

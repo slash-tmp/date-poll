@@ -14,24 +14,8 @@ const emit = defineEmits<{
   (e: "submit", payload: UpdatePollFormData): void;
 }>();
 
-const poll = ref(props.defaultFormData);
+const poll = ref(structuredClone(props.defaultFormData));
 const adminEmailValue = props.adminEmail;
-
-// Choices management
-const dateRefs = ref<HTMLInputElement[]>([]);
-const addChoiceRef = ref<HTMLButtonElement>();
-
-async function addChoice() {
-  poll.value.choices.push({ id: undefined, date: "", time: "" });
-  await nextTick();
-  dateRefs.value[poll.value.choices.length - 1].focus();
-}
-
-async function deleteChoice(index: number) {
-  poll.value.choices = poll.value.choices.filter((_, i) => i !== index);
-  await nextTick();
-  addChoiceRef.value?.focus();
-}
 
 // Submission
 async function submitForm() {
@@ -96,53 +80,7 @@ async function deleteEndDate() {
         {{ $t("pages.poll.admin.edit.choices.stepSubtitle") }}
       </p>
 
-      <div v-for="(choice, i) in poll.choices" :key="i" class="choice">
-        <Input
-          :id="`choice-date-${i}`"
-          ref="dateRefs"
-          v-model="choice.date"
-          type="date"
-          required
-          :label="
-            $t('pages.poll.admin.edit.choices.choice.dateLabel', {
-              index: i + 1,
-            })
-          "
-          :disabled="!!choice.id"
-        />
-
-        <Input
-          :id="`choice-time-${i}`"
-          v-model="choice.time"
-          type="time"
-          required
-          :label="
-            $t('pages.poll.admin.edit.choices.choice.timeLabel', {
-              index: i + 1,
-            })
-          "
-          :disabled="!!choice.id"
-        />
-
-        <Button
-          v-if="poll.choices.length > 1"
-          variant="secondary"
-          type="button"
-          @click="deleteChoice(i)"
-        >
-          {{ $t("pages.poll.admin.edit.choices.choice.deleteChoice") }}
-        </Button>
-      </div>
-
-      <Button
-        ref="addChoiceRef"
-        class="add-choice"
-        variant="secondary"
-        type="button"
-        @click="addChoice"
-      >
-        {{ $t("pages.poll.admin.edit.choices.addNewChoice") }}
-      </Button>
+      <Calendar v-model="poll.choices" />
     </fieldset>
 
     <fieldset>
@@ -228,22 +166,6 @@ fieldset {
 .admin-name,
 .admin-email {
   max-width: 30rem;
-}
-
-.choice {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 1rem;
-  align-items: end;
-  margin-block-end: 1rem;
-
-  @media (width < 50rem) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.add-choice {
-  align-self: start;
 }
 
 .end-date-wrapper {

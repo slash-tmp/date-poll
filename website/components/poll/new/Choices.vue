@@ -1,6 +1,31 @@
 <script setup lang="ts">
+/**
+ * TODO:
+ * - select multiple dates ✅
+ * - add time to date ✅
+ * - fix iso dates problem (-1 day) ✅
+ * - add multiple times to dates ✅
+ * - show dates before/after current month ✅
+ * - filter duplicates when submitting ✅
+ * - handle errors (missing field value) ✅
+ * - add icon to button on small device ✅
+ * - e2e tests ✅
+ * - translate strings ✅
+ * - ensure a11y ✅
+ *    - move focus when adding time ✅
+ *    - check VO on days ✅
+ *    - add badge label on buttons ✅
+ * - handle pre-registered dates (edit page)
+ * - mobile styles ✅
+ * - clean CSS ✅
+ * - clean file ✅
+ * - add button to delete time + e2e test
+ */
+
+import { isEqual, uniqWith } from "lodash-es";
+
 import Button from "~/components/Button.vue";
-import Input from "~/components/Input.vue";
+import useToast from "~/composables/useToast";
 import type { CreatePollFormData, StepPayload } from "~/types/poll";
 
 import Actions from "./Actions.vue";
@@ -14,82 +39,40 @@ const emit = defineEmits<{
   (e: "previous", payload: StepPayload): void;
 }>();
 
-const choices = ref([...props.defaultFormData.choices]);
+const { t } = useI18n();
 
-const dateRefs = ref<InstanceType<typeof Input>[]>([]);
+const choices = ref(structuredClone(props.defaultFormData.choices.map(toRaw)));
 
-async function addChoice() {
-  choices.value.push({ date: null, time: null });
-  await nextTick();
-  dateRefs.value[choices.value.length - 1].focus();
-}
-
-async function deleteChoice(index: number) {
-  choices.value = choices.value.filter((_, i) => i !== index);
-  await nextTick();
-  dateRefs.value[index - 1].focus();
-}
-
+// Step navigation
 async function submit() {
-  showNoChoiceError.value = false;
-
   // validate number of choices
   if (!choices.value.length) {
-    showNoChoiceError.value = true;
-    await nextTick();
-    noChoiceErrorRef.value?.focus();
+    setToast({
+      title: t("pages.poll.new.choices.noChoiceError"),
+      type: "error",
+      isClosable: true,
+    });
     return;
   }
 
-  emit("submit", { choices: choices.value });
+  // Filter duplicates and submit
+  emit("submit", { choices: uniqWith(choices.value, isEqual) });
 }
 
 function previous() {
   emit("previous", { choices: choices.value });
 }
 
-const showNoChoiceError = ref(false);
-const noChoiceErrorRef = ref<HTMLParagraphElement>();
+const { setToast } = useToast();
 </script>
 
 <template>
-  <form class="form" @submit.prevent="submit">
+  <form @submit.prevent="submit">
     <p class="intro">
       {{ $t("pages.poll.new.choices.intro") }}
     </p>
-    <p v-if="showNoChoiceError" ref="noChoiceErrorRef" tabindex="-1">
-      {{ $t("pages.poll.new.choices.noChoiceError") }}
-    </p>
-    <div v-for="(choice, i) in choices" :key="i" class="choice">
-      <Input
-        :id="`choice-date-${i}`"
-        ref="dateRefs"
-        v-model="choice.date"
-        type="date"
-        :label="$t('pages.poll.new.choices.choice.dateLabel', { index: i + 1 })"
-        required
-      />
 
-      <Input
-        :id="`choice-time-${i}`"
-        v-model="choice.time"
-        type="time"
-        :label="$t('pages.poll.new.choices.choice.timeLabel', { index: i + 1 })"
-        required
-      />
-
-      <Button
-        v-if="choices.length > 1"
-        variant="secondary"
-        @click="deleteChoice(i)"
-      >
-        {{ $t("pages.poll.new.choices.choice.deleteChoice") }}
-      </Button>
-    </div>
-
-    <Button class="add-choice" variant="secondary" @click="addChoice">
-      {{ $t("pages.poll.new.choices.addNewChoice") }}
-    </Button>
+    <Calendar v-model="choices" />
 
     <Actions>
       <template #prev>
@@ -107,29 +90,7 @@ const noChoiceErrorRef = ref<HTMLParagraphElement>();
 </template>
 
 <style scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .intro {
-  margin-block-end: 1rem;
-}
-
-.choice {
-  display: grid;
-  grid-template-columns: 1fr 1fr auto;
-  gap: 1rem;
-  align-items: end;
-  margin-block-end: 1rem;
-
-  @media (width < 50rem) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.add-choice {
-  align-self: start;
+  margin-block-end: 2rem;
 }
 </style>

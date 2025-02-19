@@ -24,12 +24,12 @@ const defaultFormData = computed(() => {
           )
           .map((c) => ({
             ...(c.id ? { id: c.id } : {}),
-            date: toLocalDateString(c.date).substring(0, 10),
-            time: toLocalDateString(c.date).substring(11),
+            date: convertIsoDateToLocalDateString(c.date).substring(0, 10),
+            time: convertIsoDateToLocalDateString(c.date).substring(11),
           })),
         hideVotes: poll.value.hideVotes,
         endDate: poll.value.endDate
-          ? toLocalDateString(poll.value.endDate).substring(0, 10)
+          ? convertIsoDateToLocalDateString(poll.value.endDate).substring(0, 10)
           : null,
         notifyOnResponse: poll.value.notifyOnResponse,
         adminName: poll.value.adminName,

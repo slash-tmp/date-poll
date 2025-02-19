@@ -5,6 +5,7 @@ const props = defineProps<{
   variant?: "primary" | "secondary" | "tertiary";
   type?: "button" | "submit";
   to?: RouteLocationRaw;
+  badge?: string;
 }>();
 
 defineExpose({
@@ -33,6 +34,7 @@ function focusRoot() {
     :type="type"
   >
     <slot />
+    <p v-if="badge" class="button-badge">{{ badge }}</p>
   </component>
 </template>
 
@@ -51,6 +53,7 @@ function focusRoot() {
   font-weight: var(--font-weight-semibold);
   padding: 0.5rem 2rem;
   cursor: pointer;
+  position: relative;
   text-decoration: none;
   transition:
     background-color 0.2s ease,
@@ -90,5 +93,18 @@ function focusRoot() {
       color: var(--color-primary-darker);
     }
   }
+}
+
+.button-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  border-radius: var(--border-radius-base);
+  background-color: var(--color-error);
+  color: var(--color-white);
+  font-size: var(--font-size-0);
+  padding: 0.125rem 0.25rem;
+  z-index: 1;
 }
 </style>

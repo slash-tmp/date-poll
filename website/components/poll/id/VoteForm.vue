@@ -49,7 +49,9 @@ type RespondentsPerChoice = {
 
 const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
   return Object.entries(
-    groupBy(props.choices, (item) => item.date.split("T")[0]),
+    groupBy(props.choices, (item) =>
+      convertIsoDateToLocalDateString(item.date).slice(0, 10),
+    ),
   ).map(([date, choices]) => {
     return {
       date: formatDate(date),
@@ -105,7 +107,7 @@ function submitVote() {
 
     <ul class="dates">
       <li
-        v-for="choice in choicesWithRespondents"
+        v-for="(choice, i) in choicesWithRespondents"
         :key="choice.date"
         class="date"
       >
@@ -122,14 +124,14 @@ function submitVote() {
               <div class="radios">
                 <Radio
                   v-for="option in [Response.YES, Response.MAYBE, Response.NO]"
-                  :id="`choice-${time.time}-${option}`"
+                  :id="`choice-${i}-${j}-${option}`"
                   :key="`${option}-${time.time}`"
                   v-model="
                     attendances.find((a) => a.id === time.id)!.attendance
                   "
                   :value="option"
                   type="radio"
-                  :name="`choice-${time.time}`"
+                  :name="`choice-${i}-${j}`"
                   :label="
                     $t(`pages.poll.id.form.choices.${option.toLowerCase()}`)
                   "
@@ -142,8 +144,8 @@ function submitVote() {
             </fieldset>
             <ul v-if="time.respondents" class="respondents">
               <li
-                v-for="(respondent, i) in time.respondents"
-                :key="i"
+                v-for="(respondent, k) in time.respondents"
+                :key="k"
                 class="respondent"
                 :class="{
                   maybe: respondent.value === Response.MAYBE,

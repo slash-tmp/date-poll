@@ -36,9 +36,9 @@ declare global {
   }
 }
 
-
-Cypress.Commands.add('getByLabel', (label: string) => {
-  cy
+Cypress.Commands.add('getByLabel', { prevSubject: "optional" }, (subject, label: string) => {
+  const localCy = subject ? cy.wrap(subject) : cy;
+  localCy
     .contains('label', label)
     .invoke('attr', 'for')
     .then((id) => {

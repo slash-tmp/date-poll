@@ -137,14 +137,17 @@ export default {
         choices: {
           stepTitle: "Dates et horaires",
           intro:
-            "Maintenant, faites votre sélection de dates : chaque date doit avoir un horaire associé et votre sondage doit au moins proposer une date (cela va de soi non ?).",
-          noChoiceError: "Vous devez au moins ajouter une date.",
+            "Maintenant, faites votre sélection de dates : chaque date doit avoir au moins un horaire associé et votre sondage doit au moins proposer une date (ça va de soi non ?).",
+          noChoiceError:
+            "Vous devez ajouter au moins une date à votre sondage.",
+          previous: "Mois précédent",
+          next: "Mois suivant",
           choice: {
-            dateLabel: "Date n°{index}",
             timeLabel: "Horaire n°{index}",
             deleteChoice: "Supprimer",
+            addTime: "Ajouter un horaire",
+            forTheDate: "pour le {date}",
           },
-          addNewChoice: "Ajouter une date",
         },
         settings: {
           stepTitle: "Paramètres",
@@ -250,11 +253,10 @@ export default {
           choices: {
             stepTitle: "Dates et horaires",
             stepSubtitle:
-              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer.",
+              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer. Attention : si vous supprimez une date dans le calendrier, cela supprimera tous les horaires associés à cette date.",
             choice: {
               dateLabel: "Date n°{index}",
               timeLabel: "Horaire n°{index}",
-              deleteChoice: "Supprimer",
             },
             addNewChoice: "Ajouter une date",
           },
