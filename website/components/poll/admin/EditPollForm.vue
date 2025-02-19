@@ -76,7 +76,7 @@ async function deleteEndDate() {
         {{ $t("pages.poll.admin.edit.choices.stepTitle") }}
       </legend>
 
-      <p id="choices-description">
+      <p id="choices-description" class="choices-description">
         {{ $t("pages.poll.admin.edit.choices.stepSubtitle") }}
       </p>
 
@@ -166,6 +166,10 @@ fieldset {
 .admin-name,
 .admin-email {
   max-width: 30rem;
+}
+
+.choices-description {
+  margin-bottom: 1rem;
 }
 
 .end-date-wrapper {
