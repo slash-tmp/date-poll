@@ -37,19 +37,19 @@ export default {
           ethics: {
             title: "Éthique",
             content:
-              "{title} ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention au peu de données personnelles que nous collectons.",
+              "{title} ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, les quelques données personnelles collectées sont gardées à double tour et pour toujours.",
           },
           easy: {
             title: "Facile",
             content:
-              "{title} ? Il y a beaucoup trop d’exemples de produits qui divergent de leur objectif initial pour devenir des usines à gaz. On voulait faire un outil de réservation de créneau : on fait ça et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia} (🤮).",
+              "{title} ? Il y a beaucoup trop de produits qui divergent de leur objectif initial pour devenir des usines à gaz. @:name est un outil de réservation de créneau et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia}.",
             ia: "IA",
             iaDef: "Intelligence Artificielle",
           },
           accessible: {
             title: "Accessible",
             content:
-              "{title} ? Ça n’est pas une surprise : le web n’est pas accessible. On a fait un service qui suit les critères du {rgaa} et les bonnes pratiques Opquast, utilisable par tout le monde et en toutes conditions (bon il faut juste une connexion internet).",
+              "{title} ? Ça n’est pas une surprise : le web n’est, en grand partie, pas accessible à toustes. @:name est un service qui suit les critères du {rgaa} et les bonnes pratiques Opquast. Il est utilisable par tout le monde et en toutes conditions (bon il faut juste une connexion internet).",
             rgaa: "RGAA",
             rgaaDef: "Référentiel Général d’Amélioration de l’Accessibilité",
           },
@@ -62,13 +62,13 @@ export default {
       },
       privacy: {
         title: "Données personnelles",
-        1: "Les données personnelles que nous collections (à savoir votre adresse email quand vous créez un sondage et parfois votre nom) servent uniquement au fonctionnement de l’outil. On garde tout chez nous et on ne partage rien à personne.",
+        1: "Les données personnelles collectées (à savoir votre adresse email quand vous créez un sondage et parfois votre nom) servent uniquement au fonctionnement de l’outil. On garde tout chez nous et on ne partage rien à personne.",
         2: "Après un laps de temps, les sondages sont auto-supprimés. A priori, une fois la date passée, ils n’ont plus vraiment d’utilité et ça ne sert à rien de les stocker inutilement.",
-        3: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter.",
+        3: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter à l’adresse suivante : {contactEmail}.",
       },
       contact: {
         title: "Contact",
-        1: "A priori on code plutôt bien mais personne n’est infaillible : il se peut que vous trouviez des bugs ou rencontriez des difficultés pour utiliser le site. N’hésitez pas à nous les remonter sur le {gitHub} ou par email à l’adresse suivante : {contactEmail}.",
+        1: "A priori le code est plutôt bien fichu mais personne n’est infaillible : il se peut que vous trouviez des bugs ou rencontriez des difficultés pour utiliser le site. N’hésitez pas à nous les remonter sur le {gitHub} ou par email à l’adresse suivante : {contactEmail}.",
         gitHub: "dépôt GitHub",
         2: "Comme on veut que cet outil reste très simple et fasse bien une et une seule chose, il est très peu probable que nous prenions en compte les suggestions de nouvelles fonctionnalités.",
         3: "Merci à vous d’utiliser @:name ❤️.",
