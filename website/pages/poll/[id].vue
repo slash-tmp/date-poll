@@ -66,7 +66,11 @@ async function submitVote(payload: VotePollFormData) {
 
     <h1>{{ poll.title }}</h1>
 
-    <p v-if="poll.description" class="description">{{ poll.description }}</p>
+    <p
+      v-if="poll.description"
+      class="description"
+      v-html="replaceUrlToHtmlAnchor(poll.description)"
+    />
 
     <Alert v-if="isExpired" type="error">
       <p>

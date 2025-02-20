@@ -14,21 +14,21 @@ defineProps<{
   <ul class="list">
     <li v-if="adminName" class="list-item">
       <User class="list-icon" />
-      <span>
+      <p>
         {{ $t("pages.poll.admin.id.intro.createdBy") }}
         <strong>{{ adminName }}</strong>
-      </span>
+      </p>
     </li>
     <li class="list-item">
       <Calendar class="list-icon" />
-      <span>
+      <p>
         {{ $t("pages.poll.admin.id.intro.createdAt") }}
         <strong>{{ formatDate(createdAt) }}</strong>
-      </span>
+      </p>
     </li>
     <li v-if="description" class="list-item">
       <Align class="list-icon" />
-      <span>{{ description }}</span>
+      <p v-html="replaceUrlToHtmlAnchor(description)" />
     </li>
   </ul>
 </template>
