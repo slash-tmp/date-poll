@@ -53,13 +53,47 @@ const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
   });
 });
 
-// Get the highest number of votes for a choice
-const maxVotesValue = computed(() => {
-  return Math.max(
-    ...choicesWithRespondents.value
-      .flatMap(({ times }) => times)
-      .map(({ respondents }) => respondents?.length || 0),
-  );
+// Return ids of responses with the most votes
+const maxVotesResponseIds = computed((): number[] => {
+  const sortedResponses = choicesWithRespondents.value
+    .flatMap(({ times }) => times)
+    .filter((c) => c.respondents?.length)
+    .map((c) => {
+      return {
+        id: c.id,
+        values: c.respondents?.map((r) => {
+          return r.value;
+        }),
+      };
+    })
+    .sort((a, b) => {
+      // First sort by "YES" responses
+      if (
+        a.values.filter((v) => v === Response.YES).length >
+        b.values.filter((v) => v === Response.YES).length
+      ) {
+        return 1;
+      }
+
+      // Then sort by responses length
+      if (a.values.length > b.values.length) {
+        return 1;
+      }
+    });
+
+  // Get all responses matching first sorted one, if any.
+  const lastSortedResponse = sortedResponses.at(-1);
+  const lastMatchingResponses = sortedResponses.filter((s) => {
+    return (
+      s.values.length === lastSortedResponse.values.length &&
+      s.values.filter((v) => v === Response.YES).length ===
+        lastSortedResponse.values.filter((v) => v === Response.YES).length &&
+      s.values.filter((v) => v === Response.MAYBE).length ===
+        lastSortedResponse.values.filter((v) => v === Response.MAYBE).length
+    );
+  });
+
+  return lastMatchingResponses.map((m) => m.id);
 });
 </script>
 
@@ -76,7 +110,7 @@ const maxVotesValue = computed(() => {
       <ul class="times">
         <li v-for="time in choice.times" :key="time.id" class="time">
           <mark
-            v-if="maxVotesValue && maxVotesValue === time.respondents?.length"
+            v-if="maxVotesResponseIds.includes(time.id)"
             class="best-choice"
           >
             <Star />
