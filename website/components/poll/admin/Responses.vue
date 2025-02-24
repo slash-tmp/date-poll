@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { groupBy } from "lodash-es";
+import { groupBy, sortBy } from "lodash-es";
 
 import Star from "~/components/icons/Star.vue";
 import { type Respondent, Response } from "~/types/poll";
 
 const props = defineProps<{
   choices: { id: number; date: string }[];
-  respondents?: Respondent[];
+  respondents: Respondent[];
 }>();
 
 type RespondentsPerChoice = {
@@ -14,7 +14,7 @@ type RespondentsPerChoice = {
   times: {
     id: number;
     time: string;
-    respondents?: {
+    respondents: {
       name: string;
       value?: string;
     }[];
@@ -34,7 +34,7 @@ const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
           id: c.id,
           time: formatTime(c.date),
           respondents: props.respondents
-            ?.filter((r) => {
+            .filter((r) => {
               const response = r.responses.find(
                 (r) => r.choiceId === c.id,
               )?.value;
@@ -53,13 +53,30 @@ const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
   });
 });
 
-// Get the highest number of votes for a choice
-const maxVotesValue = computed(() => {
-  return Math.max(
-    ...choicesWithRespondents.value
-      .flatMap(({ times }) => times)
-      .map(({ respondents }) => respondents?.length || 0),
+// Return ids of responses with the most votes
+const maxVotesResponseIds = computed((): number[] => {
+  if (props.respondents.length === 0) {
+    return [];
+  }
+  const responses = choicesWithRespondents.value
+    .flatMap(({ times }) => times)
+    .map((c) => {
+      return {
+        id: c.id,
+        values: c.respondents.map((r) => r.value),
+        YES: c.respondents.filter((r) => r.value === Response.YES).length,
+        MAYBE: c.respondents.filter((r) => r.value === Response.MAYBE).length,
+      };
+    });
+  const sortedResponses = sortBy(responses, [Response.YES, Response.MAYBE]);
+  const firstBestResponse = sortedResponses.at(-1)!;
+  const bestResponses = sortedResponses.filter((r) =>
+    firstBestResponse["YES"] !== 0
+      ? r["YES"] === firstBestResponse["YES"] &&
+        r["MAYBE"] === firstBestResponse["MAYBE"]
+      : r["MAYBE"] === firstBestResponse["MAYBE"],
   );
+  return bestResponses.map((r) => r.id);
 });
 </script>
 
@@ -76,7 +93,7 @@ const maxVotesValue = computed(() => {
       <ul class="times">
         <li v-for="time in choice.times" :key="time.id" class="time">
           <mark
-            v-if="maxVotesValue && maxVotesValue === time.respondents?.length"
+            v-if="maxVotesResponseIds.includes(time.id)"
             class="best-choice"
           >
             <Star />
