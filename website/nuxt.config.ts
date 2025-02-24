@@ -40,4 +40,6 @@ export default defineNuxtConfig({
       baseUrl: herokuBaseUrl ?? "http://localhost:3000",
     },
   },
+
+  compatibilityDate: "2025-02-24",
 });
