@@ -69,7 +69,7 @@ async function submitVote(payload: VotePollFormData) {
     <p
       v-if="poll.description"
       class="description"
-      v-html="replaceUrlToHtmlAnchor(poll.description)"
+      v-html="$sanitizeHtml(replaceUrlToHtmlAnchor(poll.description))"
     />
 
     <Alert v-if="isExpired" type="error">

@@ -28,7 +28,7 @@ defineProps<{
     </li>
     <li v-if="description" class="list-item">
       <Align class="list-icon" />
-      <p v-html="replaceUrlToHtmlAnchor(description)" />
+      <p v-html="$sanitizeHtml(replaceUrlToHtmlAnchor(description))" />
     </li>
   </ul>
 </template>
