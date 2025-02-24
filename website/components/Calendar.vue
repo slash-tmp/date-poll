@@ -36,8 +36,16 @@ const monthsNames = [
 ];
 
 const today = new Date();
-const selectedYear = ref(today.getFullYear());
-const selectedMonth = ref(today.getMonth());
+const selectedYear = ref(
+  modelValue.value.length
+    ? new Date(modelValue.value[0].date).getFullYear()
+    : today.getFullYear(),
+);
+const selectedMonth = ref(
+  modelValue.value.length
+    ? new Date(modelValue.value[0].date).getMonth()
+    : today.getMonth(),
+);
 
 // Months navigation
 function goToPreviousMonth() {
@@ -107,7 +115,6 @@ const choicesWithId = ref(
 watch(
   choicesWithId,
   () => {
-    console.log("dans le watch");
     modelValue.value = choicesWithId.value.map((c) => ({
       id: c.id,
       date: c.date,
