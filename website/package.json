@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@9.1.1+sha512.14e915759c11f77eac07faba4d019c193ec8637229e62ec99eefb7cf3c3b75c64447882b7c485142451ee3a6b408059cdfb7b7fa0341b975f12d0f7629c71195",
   "engines": {
-    "node": "^20.13"
+    "node": "^22.13.1"
   },
   "scripts": {
     "build": "nuxt build",
@@ -13,12 +13,13 @@
     "start:prod": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "@nuxtjs/i18n": "^8.3.1",
+    "@nuxtjs/i18n": "^9.2.1",
     "dompurify": "^3.2.4",
     "jsdom": "^26.0.0",
-    "nuxt": "^3.11.2",
-    "vue": "^3.4.27",
-    "vue-router": "^4.3.2"
+    "lodash-es": "^4.17.21",
+    "nuxt": "^3.15.4",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.3.12",
@@ -29,7 +30,6 @@
     "eslint-plugin-prettier": "^5.0.0",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "eslint-plugin-unused-imports": "^3.2.0",
-    "lodash-es": "^4.17.21",
     "postcss-html": "^1.7.0",
     "prettier": "^3.0.0",
     "stylelint": "^16.5.0",
