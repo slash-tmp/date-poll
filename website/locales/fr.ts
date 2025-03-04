@@ -37,19 +37,19 @@ export default {
           ethics: {
             title: "Éthique",
             content:
-              "{title} ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, on fait aussi très attention au peu de données personnelles que nous collectons.",
+              "{title} ? Ici vous ne trouverez jamais de pubs. Il y en a déjà bien assez ailleurs sur le web. De plus, les quelques données personnelles collectées sont gardées à double tour et pour toujours.",
           },
           easy: {
             title: "Facile",
             content:
-              "{title} ? Il y a beaucoup trop d’exemples de produits qui divergent de leur objectif initial pour devenir des usines à gaz. On voulait faire un outil de réservation de créneau : on fait ça et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia} (🤮).",
+              "{title} ? Il y a beaucoup trop de produits qui divergent de leur objectif initial pour devenir des usines à gaz. @:name est un outil de réservation de créneau et c’est tout. Pas de fioritures, pas de comptes, pas de synchronisation Google Calendar, d’intégration Teams et encore moins d’{ia}.",
             ia: "IA",
             iaDef: "Intelligence Artificielle",
           },
           accessible: {
             title: "Accessible",
             content:
-              "{title} ? Ça n’est pas une surprise : le web n’est pas accessible. On a fait un service qui suit les critères du {rgaa} et les recommandations Opquast, utilisable par tout le monde et en toutes conditions (bon il faut une connexion internet quand même).",
+              "{title} ? Ça n’est pas une surprise : le web n’est, en grand partie, pas accessible à toustes. @:name est un service qui suit les critères du {rgaa} et les bonnes pratiques Opquast. Il est utilisable par tout le monde et en toutes conditions (bon il faut juste une connexion internet).",
             rgaa: "RGAA",
             rgaaDef: "Référentiel Général d’Amélioration de l’Accessibilité",
           },
@@ -62,13 +62,13 @@ export default {
       },
       privacy: {
         title: "Données personnelles",
-        1: "Les données personnelles que nous collections (à savoir votre adresse email quand vous créez un sondage et votre nom, optionnel) servent uniquement au fonctionnement de l’outil. On garde tout chez nous et on ne partage rien à personne.",
-        2: "Après un laps de temps, les sondages sont auto-supprimés. A priori, une fois la date passée, ils n’ont plus vraiment d’utilité et ça ne sert à rien de les stocker inutilement.",
-        3: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter.",
+        1: "Les données personnelles collectées (à savoir votre adresse email quand vous créez un sondage et parfois votre nom) servent uniquement au fonctionnement de l’outil. L’ensemble des données est hébergé par la société {o2switch} domiciliée au Chemin des Pardiaux, 63000 Clermont-Ferrand. Et on ne partage rien à personne",
+        o2switch: "o2switch",
+        2: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter à l’adresse suivante : {contactEmail}.",
       },
       contact: {
         title: "Contact",
-        1: "A priori on code plutôt bien mais personne n’est infaillible : il se peut que vous trouviez des bugs ou rencontriez des difficultés à naviguer sur le site. N’hésitez pas à nous les remonter sur le {gitHub} ou par mail à l’adresse suivante : {contactEmail}.",
+        1: "A priori le code est plutôt bien fichu mais personne n’est infaillible : il se peut que vous trouviez des bugs ou rencontriez des difficultés pour utiliser le site. N’hésitez pas à nous les remonter sur le {gitHub} ou par email à l’adresse suivante : {contactEmail}.",
         gitHub: "dépôt GitHub",
         2: "Comme on veut que cet outil reste très simple et fasse bien une et une seule chose, il est très peu probable que nous prenions en compte les suggestions de nouvelles fonctionnalités.",
         3: "Merci à vous d’utiliser @:name ❤️.",
@@ -81,7 +81,7 @@ export default {
       title: "Trouvez {highlight} une date pour votre prochain événement.",
       easily: "facilement",
       tagLine:
-        "Créez un sondage, invitez vos participant·es et choisissez la date optimale.",
+        "Créez un sondage, partagez-le à vos invité·es et trouvez la date optimale.",
       arguments: "Pas de publicité. Pas de compte. Pas de fioritures.",
       deletedPollAlert: {
         description: 'Le sondage "{title}" a bien été supprimé',
@@ -97,7 +97,7 @@ export default {
         },
         title: "Rechercher un sondage",
         description:
-          "Pour retrouver des sondages existants, entrez l’adresse email que vous avez utilisée les créer. Si l’adresse existe, un email avec la liste de vos sondages vous sera envoyé.",
+          "Pour retrouver des sondages existants, entrez l’adresse email que vous avez utilisée pour les créer. Si l’adresse existe, un email avec la liste de vos sondages vous sera envoyé.",
         alert: {
           description:
             "Un email a été envoyé à l’adresse {emailAddress} avec la liste de vos sondages.",
@@ -125,7 +125,7 @@ export default {
         titleAndDescription: {
           stepTitle: "Nom et description",
           intro:
-            "Commencez par présenter votre sondage à vos participant·es. Donnez-lui d’abord un nom sympa puis une brève description si vous le souhaitez.",
+            "Commencez par présenter votre sondage à vos invité·es. Donnez-lui d’abord un nom sympa puis une brève description si vous le souhaitez.",
           title: {
             label: "Nom du sondage",
           },
@@ -159,7 +159,7 @@ export default {
           },
           endDate: {
             label: "Date de fin (optionnel)",
-            help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
+            help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date.",
             delete: "Supprimer",
           },
           notifyOnResponse: {
@@ -170,10 +170,10 @@ export default {
         adminInfos: {
           stepTitle: "Administrateur",
           intro:
-            "Dernière étape : il est temps d’indiquer aux participant·es qui vous êtes (mais vous pouvez aussi rester anonyme 🥷). Vous serez ensuite redirigé·e vers la page de gestion de votre sondage que vous n’aurez plus qu’à partager !",
+            "Dernière étape : il est temps d’indiquer aux invité·es qui vous êtes (mais vous pouvez aussi rester anonyme 🥷). Vous serez ensuite redirigé·e vers la page d’administration de votre sondage et vous n’aurez plus qu’à le partager !",
           name: {
             label: "Nom (optionnel)",
-            hint: "Le nom est utilisé pour indiquer aux participant·es qui est l’auteur·ice du sondage",
+            hint: "Le nom est utilisé pour indiquer aux invité·es qui est l’auteur·ice du sondage",
           },
           email: {
             label: "Adresse email",
@@ -253,7 +253,7 @@ export default {
           choices: {
             stepTitle: "Dates et horaires",
             stepSubtitle:
-              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer. Attention : si vous supprimez une date dans le calendrier, cela supprimera tous les horaires associés à cette date.",
+              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer. Attention : si vous supprimez une date, cela supprimera tous les horaires associés à cette date.",
             choice: {
               dateLabel: "Date n°{index}",
               timeLabel: "Horaire n°{index}",
@@ -268,12 +268,12 @@ export default {
             },
             endDate: {
               label: "Date de fin",
-              help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
+              help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date.",
               delete: "Supprimer",
             },
             notifyOnResponse: {
               label: "Recevoir un email pour chaque participation",
-              help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date. C’est comme ça.",
+              help: "On vous envoie un email dès qu’une personne répond à votre sondage, pratique.",
             },
           },
           adminInfos: {

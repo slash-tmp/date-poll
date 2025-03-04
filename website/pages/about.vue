@@ -65,9 +65,19 @@
 
   <h2>{{ $t("pages.about.privacy.title") }}</h2>
 
-  <p>{{ $t("pages.about.privacy.1") }}</p>
-  <p>{{ $t("pages.about.privacy.2") }}</p>
-  <p>{{ $t("pages.about.privacy.3") }}</p>
+  <i18n-t tag="p" keypath="pages.about.privacy.1">
+    <template #o2switch>
+      <strong>{{ $t("pages.about.privacy.o2switch") }}</strong>
+    </template>
+  </i18n-t>
+
+  <i18n-t tag="p" keypath="pages.about.privacy.2">
+    <template #contactEmail>
+      <a :href="`mailto:${$t('email')}`">
+        {{ $t("email") }}
+      </a>
+    </template>
+  </i18n-t>
 
   <h2 id="contact">{{ $t("pages.about.contact.title") }}</h2>
 
