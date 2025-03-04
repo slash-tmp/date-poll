@@ -71,7 +71,7 @@ select {
   line-height: inherit;
 }
 
-button {
+button:not([disabled]) {
   cursor: pointer;
 }
 
