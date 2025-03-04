@@ -1,0 +1,41 @@
+<mjml>
+  <mj-head>
+    <mj-title>date-poll : Liste de vos sondages</mj-title>
+    <mj-attributes>
+      <mj-preview>date-poll : Liste de vos sondages</mj-preview>
+      <mj-include path="./styles.mjml" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body width="800px">
+    <mj-section>
+      <mj-column>
+        <mj-text align="center" font-size="20px">📆 date-poll</mj-text>
+
+        <mj-divider border-width="2px" border-color="#296fe0" padding-bottom="32px"></mj-divider>
+
+        <mj-text font-size="24px" font-weight="bold">Liste de vos sondages</mj-text>
+
+        <mj-text>
+          Vous avez demandé la liste des sondages pour l’adresse email « <strong>{{emailAddress}}</strong> ». Voici la liste des sondages créés avec cette adresse email. Attention, il s’agit des liens d’administration des sondages 🔐 :
+        </mj-text>
+
+        <mj-text>
+          <ul>
+            {{#each polls}}
+            <li>
+              « {{title}} » : <strong><a style="color: #296fe0" href="{{adminUrl}}">{{adminUrl}}</a></strong>
+            </li>
+            {{/each}}
+          </ul>
+        </mj-text>
+
+        <mj-divider border-width="2px" border-color="#296fe0" padding-top="32px"></mj-divider>
+
+        <mj-text font-size="14px" color="#5d5973"
+          >📆 date-poll est un outil développé par l'équipe de <a href="https://slash-tmp.dev" style="color: inherit">slash-tmp</a>. Une question ? Vous pouvez nous contacter à cette adresse email :
+          <a href="contact@slash-tmp.dev" style="color: inherit">contact@slash-tmp.dev</a>.</mj-text
+        >
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
