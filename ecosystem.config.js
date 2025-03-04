@@ -6,7 +6,7 @@ module.exports = {
     },
     {
       name: "Nest API",
-      script: "./api/dist/src/main.js",
+      script: "./api/dist/main.js",
     },
   ],
 };
