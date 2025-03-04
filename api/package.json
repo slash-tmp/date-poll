@@ -11,7 +11,7 @@
     "start:dev": "nest start --watch",
     "start:prod": "node dist/src/main",
     "test": "jest",
-    "generate-api-types": "pnpx @nestjs/cli start --entryFile scripts/generate-api-typings.js"
+    "generate-api-types": "pnpx @nestjs/cli start --entryFile scripts/generate-api-typings.js -p tsconfig.api-typings.json"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.10",
