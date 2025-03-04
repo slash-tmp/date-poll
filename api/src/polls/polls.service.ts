@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { sortBy, uniqBy } from 'lodash';
-import slugify from 'slugify';
 
 import { MailerService } from '../mailer/mailer.service';
 import { AdminPoll } from './dto/admin-poll.dto';
@@ -33,18 +32,17 @@ export class PollsService {
 
   async sendSuccessfulPollCreationEmail(poll: AdminPoll): Promise<void> {
     const websiteBaseUrl = this.config.get('WEBSITE_BASE_URL');
+    const adminUrl = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
 
-    const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
-    const slug = slugify(poll.title, { lower: true, strict: true });
-    const publicLink = `${websiteBaseUrl}/poll/${poll.publicUid}/${slug}`;
+    const subject = 'Accéder à votre sondage';
+    const text = `Vous venez de créer le sondage « ${poll.title} ». Pour y accéder, veuillez utiliser le lien ci-après. Attention, il s’agit du lien d’administration de votre sondage 🔐 : ${adminUrl}`;
 
-    const subject = `Sondage créé : ${poll.title}`;
-    const text = `Le sondage "${poll.title}" a bien été créé.
+    const html = this.mailerService.renderMailTemplate('new-poll', {
+      adminUrl,
+      pollName: poll.title,
+    });
 
-Lien d'administration : ${adminLink}
-Lien de partage : ${publicLink}`;
-
-    await this.mailerService.sendEmail(poll.adminEmail, subject, text);
+    await this.mailerService.sendEmail(poll.adminEmail, subject, text, html);
   }
 
   async getAdminPoll(adminUid: string): Promise<AdminPoll | null> {
@@ -173,11 +171,19 @@ Lien de partage : ${publicLink}`;
 
     const sortedPolls = sortBy(polls, 'createdAt');
 
-    const subject = `Vos sondages`;
-    const text = `Bonjour, vous avez demandé la liste des sondages créés avec l'addresse ${to} :
+    const subject = `Liste de vos sondages`;
+    const text = `Vous avez demandé la liste des sondages pour l’adresse email « ${to} ». Voici la liste des sondages créés avec cette adresse email. Attention, il s’agit des liens d’administration des sondages 🔐 :
 ${sortedPolls.map(getPollLine).join('\n')}`;
 
-    await this.mailerService.sendEmail(to, subject, text);
+    const html = this.mailerService.renderMailTemplate('poll-list', {
+      emailAddress: to,
+      polls: sortedPolls.map((p) => ({
+        title: p.title,
+        adminUrl: `${websiteBaseUrl}/poll/admin/${p.adminUid}`,
+      })),
+    });
+
+    await this.mailerService.sendEmail(to, subject, text, html);
   }
 
   async addResponseToPoll(
@@ -210,13 +216,19 @@ ${sortedPolls.map(getPollLine).join('\n')}`;
   async sendNewResponseEmail(poll: RawPoll, respondent: Respondent) {
     const websiteBaseUrl = this.config.get('WEBSITE_BASE_URL');
 
-    const adminLink = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
+    const adminUrl = `${websiteBaseUrl}/poll/admin/${poll.adminUid}`;
 
-    const subject = `Nouveau vote sur votre sondage "${poll.title}"`;
-    const text = `Un nouveau vote a été soumis de la part de ${respondent.name}.
+    const subject = `Nouvelle réponse à votre sondage "${poll.title}"`;
+    const text = `Une nouvelle réponse a été soumise par ${respondent.name}.
 
-Retrouvez-le ici : ${adminLink}`;
+Pour accéder à toutes les réponses de ce sondage, vous pouvez utiliser le lien ci-après. Attention, il s’agit du lien d’administration de votre sondage 🔐 : ${adminUrl}`;
 
-    await this.mailerService.sendEmail(poll.adminEmail, subject, text);
+    const html = this.mailerService.renderMailTemplate('new-answer', {
+      pollName: poll.title,
+      adminUrl,
+      respondentName: respondent.name,
+    });
+
+    await this.mailerService.sendEmail(poll.adminEmail, subject, text, html);
   }
 }
