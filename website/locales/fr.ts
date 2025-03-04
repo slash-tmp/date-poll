@@ -62,9 +62,9 @@ export default {
       },
       privacy: {
         title: "Données personnelles",
-        1: "Les données personnelles collectées (à savoir votre adresse email quand vous créez un sondage et parfois votre nom) servent uniquement au fonctionnement de l’outil. On garde tout chez nous et on ne partage rien à personne.",
-        2: "Après un laps de temps, les sondages sont auto-supprimés. A priori, une fois la date passée, ils n’ont plus vraiment d’utilité et ça ne sert à rien de les stocker inutilement.",
-        3: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter à l’adresse suivante : {contactEmail}.",
+        1: "Les données personnelles collectées (à savoir votre adresse email quand vous créez un sondage et parfois votre nom) servent uniquement au fonctionnement de l’outil. L’ensemble des données est hébergé par la société {o2switch} domiciliée au Chemin des Pardiaux, 63000 Clermont-Ferrand. Et on ne partage rien à personne",
+        o2switch: "o2switch",
+        2: "Si vous avez une demande particulière à propos de vos données, vous pouvez nous contacter à l’adresse suivante : {contactEmail}.",
       },
       contact: {
         title: "Contact",
