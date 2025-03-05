@@ -13,6 +13,9 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Suivant").click();
 
     // Step 2
+    // 4 first days are disabled
+    cy.get(".calendar-day-button:disabled").its("length").should("eq", 4);
+
     cy.contains("button", "7").click();
     cy.contains("button", "13").click();
     cy.contains("button", "Mois suivant").click();
@@ -192,7 +195,7 @@ describe("Poll admin page", () => {
     cy.contains('Le sondage "Trip to the museum" a bien été supprimé');
   });
 
-  it.only("displays choices with respondents and best choice(s)", () => {
+  it("displays choices with respondents and best choice(s)", () => {
     // 2 dates with 3 choices
     cy.get('h2:contains("Réponses et participations") + ul > li')
       .its("length")
