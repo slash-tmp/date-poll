@@ -14,12 +14,12 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import "./commands";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 
-beforeEach(() =>{
-  // Set browser date to may 1st 2024
-  cy.clock(Date.UTC(2024, 4, 1), ['Date'])
-})
+beforeEach(() => {
+  // Set browser date to may 5th 2024
+  cy.clock(Date.UTC(2024, 4, 5), ["Date"]);
+});
