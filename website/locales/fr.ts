@@ -4,6 +4,8 @@ export default {
   },
 
   name: "Planito",
+  description:
+    "Créez un sondage, partagez-le à vos invité·es et trouvez la date optimale. Pas de publicité. Pas de compte. Pas de fioritures.",
   email: "contact{'@'}slash-tmp.dev",
 
   layout: {
