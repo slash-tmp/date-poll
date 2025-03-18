@@ -62,6 +62,7 @@ async function submitVote(payload: VotePollFormData) {
           pollName: poll.title,
         })
       "
+      :description="poll.description ?? undefined"
     />
 
     <h1>{{ poll.title }}</h1>
