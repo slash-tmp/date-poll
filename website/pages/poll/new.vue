@@ -81,6 +81,7 @@ watch(step, () => {
       $t('pages.poll.new.meta.title', {
         currentStep: step + 1,
         count: steps.length,
+        stepName: steps[step],
       })
     "
   />

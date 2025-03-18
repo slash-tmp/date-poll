@@ -26,7 +26,7 @@ const errorMessage = computed(() => {
 </script>
 
 <template>
-  <PageMeta :title="$t('pages.error.meta.title')" />
+  <PageMeta :title="`${$t('pages.error.meta.title')} - ${$t('name')}`" />
 
   <NuxtLayout>
     <h1>{{ errorTitle }}</h1>
