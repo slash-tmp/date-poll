@@ -1,31 +1,53 @@
 <mjml>
   <mj-head>
-    <mj-title>date-poll : Accéder à votre sondage</mj-title>
+    <mj-title>Planito : accéder à votre sondage</mj-title>
     <mj-attributes>
-      <mj-preview>date-poll : Accéder à votre sondage</mj-preview>
+      <mj-preview>Planito : accéder à votre sondage</mj-preview>
       <mj-include path="./styles.mjml" />
     </mj-attributes>
   </mj-head>
   <mj-body>
     <mj-section>
       <mj-column>
-        <mj-text align="center" font-size="20px">📆 date-poll</mj-text>
+        <mj-text align="center" font-size="20px">📆 Planito</mj-text>
 
-        <mj-divider border-width="2px" border-color="#296fe0" padding-bottom="32px"></mj-divider>
+        <mj-divider
+          border-width="2px"
+          border-color="#296fe0"
+          padding-bottom="32px"
+        ></mj-divider>
 
-        <mj-text font-size="24px" font-weight="bold">Accéder à votre sondage</mj-text>
-
-        <mj-text>Vous venez de créer le sondage « <strong>{{pollName}}</strong> ». Pour y accéder, veuillez utiliser le lien ci-dessous. Attention, il s’agit du lien d’administration de votre sondage 🔐 :</mj-text>
+        <mj-text font-size="24px" font-weight="bold"
+          >Accéder à votre sondage</mj-text
+        >
 
         <mj-text
-          ><strong> <a style="color: #296fe0" href="{{adminUrl}}">{{adminUrl}}</a></strong>
+          >Vous venez de créer le sondage « <strong>{{pollName}}</strong> ».
+          Pour y accéder, veuillez utiliser le lien ci-dessous. Attention, il
+          s’agit du lien d’administration de votre sondage 🔐 :</mj-text
+        >
+
+        <mj-text
+          ><strong>
+            <a style="color: #296fe0" href="{{adminUrl}}"
+              >{{adminUrl}}</a
+            ></strong
+          >
         </mj-text>
 
-        <mj-divider border-width="2px" border-color="#296fe0" padding-top="32px"></mj-divider>
+        <mj-divider
+          border-width="2px"
+          border-color="#296fe0"
+          padding-top="32px"
+        ></mj-divider>
 
         <mj-text font-size="14px" color="#5d5973"
-          >📆 date-poll est un outil développé par l'équipe de <a href="https://slash-tmp.dev" style="color: inherit">slash-tmp</a>. Une question ? Vous pouvez nous contacter à cette adresse email :
-          <a href="mailto:contact@slash-tmp.dev" style="color: inherit">contact@slash-tmp.dev</a>.</mj-text
+          >📆 Planito est un outil développé par l'équipe de
+          <a href="https://slash-tmp.dev" style="color: inherit">slash-tmp</a>.
+          Une question ? Vous pouvez nous contacter à cette adresse email :
+          <a href="mailto:contact@slash-tmp.dev" style="color: inherit"
+            >contact@slash-tmp.dev</a
+          >.</mj-text
         >
       </mj-column>
     </mj-section>

@@ -3,7 +3,7 @@ export default {
     world: "Bonjour monde !",
   },
 
-  name: "date-poll",
+  name: "Planito",
   email: "contact{'@'}slash-tmp.dev",
 
   layout: {

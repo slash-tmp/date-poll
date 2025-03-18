@@ -1,4 +1,4 @@
-# date-poll
+# Planito
 
 ## Installation
 
