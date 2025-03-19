@@ -61,7 +61,8 @@ onMounted(() => {
       <div class="content">
         <div class="header">
           <h2 id="modal-heading" class="h3">{{ title }}</h2>
-          <button aria-label="Fermer" class="close" @click="$emit('close')">
+          <button class="close" @click="$emit('close')">
+            <span class="visually-hidden">Fermer</span>
             <Xmark />
           </button>
         </div>
@@ -111,6 +112,7 @@ onMounted(() => {
   appearance: none;
   border: none;
   background: none;
+  color: var(--color-black);
   padding: 0;
   height: 1.5rem;
   width: 1.5rem;
