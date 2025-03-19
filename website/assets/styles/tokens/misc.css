@@ -9,12 +9,9 @@
   --breakpoint-medium: 50rem; /* 800px */
 
   /* Shadows */
-  --shadow-small: 0.5px 1px 1px hsl(0deg 0% 50% / 70%);
-  --shadow-medium: 1px 2px 2px hsl(0deg 0% 50% / 33.3%),
-    2px 4px 4px hsl(0deg 0% 50% / 33.3%), 3px 6px 6px hsl(0deg 0% 50% / 33.3%);
-  --shadow-large: 1px 2px 2px hsl(0deg 0% 50% / 20%),
-    2px 4px 4px hsl(0deg 0% 50% / 20%), 4px 8px 8px hsl(0deg 0% 50% / 20%),
-    8px 16px 16px hsl(0deg 0% 50% / 20%), 16px 32px 32px hsl(0deg 0% 50% / 20%);
+  --shadow-small: 0 0 0 1px hsl(0deg 0% 0% / 5%),
+    0 0.3px 0.4px hsl(0deg 0% 0% / 2%), 0 0.9px 1.5px hsl(0deg 0% 0% / 4.5%),
+    0 3.5px 6px hsl(0deg 0% 0% / 9%);
 
   /* Border radiuses */
   --border-radius-base: 0.25rem;

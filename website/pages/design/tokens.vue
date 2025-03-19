@@ -25,7 +25,6 @@ const greyScaleSwatch = [
   "--color-grey-1",
   "--color-grey-2",
   "--color-grey-3",
-  "--color-grey-4",
   "--color-black",
 ];
 
@@ -64,7 +63,7 @@ const borderRadiuses = [
   { name: "--border-radius-round", value: "50%" },
 ];
 
-const boxShadows = ["--shadow-small", "--shadow-medium", "--shadow-large"];
+const boxShadows = ["--shadow-small"];
 
 const breakpoints = [{ name: "--breakpoint-medium", value: "50 rem / 800px" }];
 </script>
