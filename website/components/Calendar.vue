@@ -460,6 +460,7 @@ const nextDatesCount = computed((): string => {
       --calendar-day-button-size: 3rem;
 
       background: none;
+      color: var(--color-black);
       border: 1px solid transparent;
       border-radius: 0.25rem;
       cursor: pointer;

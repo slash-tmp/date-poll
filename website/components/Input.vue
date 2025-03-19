@@ -49,6 +49,8 @@ const model = defineModel<string | null>();
   gap: 0.25rem;
 
   .field {
+    background-color: var(--color-white);
+    color: var(--color-black);
     box-shadow: var(--shadow-small);
     border-radius: var(--border-radius-base);
     border: 1px solid var(--color-grey-3);
