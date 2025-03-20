@@ -20,7 +20,8 @@ const model = defineModel<string>();
       :name="name"
     />
     <span class="label">{{ label }}</span>
-    <span class="icon" :aria-label="label">
+    <span class="icon">
+      <span class="visually-hidden">{{ label }}</span>
       <slot name="icon" />
     </span>
   </label>

@@ -1,39 +1,96 @@
 :root {
   /* Grey scale colors */
   --hue-grey: 250;
-  --color-white: hsl(0deg 0% 100%);
+  --color-background: hsl(0deg 0% 100%);
   --color-grey-1: hsl(var(--hue-grey) 14% 95%);
   --color-grey-2: hsl(var(--hue-grey) 11% 75%);
   --color-grey-3: hsl(var(--hue-grey) 13% 40%);
-  --color-grey-4: hsl(var(--hue-grey) 19% 15%);
-  --color-black: hsl(0deg 0% 0%);
+  --color-foreground: hsl(0deg 0% 0%);
 
   /* Primary colors */
   --hue-primary: 217;
   --saturation-primary: 75%;
+
+  /* Luminosity for primary variations */
+  --luminosity-primary-lighter: 95%;
+  --luminosity-primary-light: 75%;
+  --luminosity-primary: 52%;
+  --luminosity-primary-dark: 45%;
+  --luminosity-primary-darker: 35%;
+
+  /* Variations */
   --color-primary-lighter: hsl(
-    var(--hue-primary) var(--saturation-primary) 95%
+    var(--hue-primary) 75% var(--luminosity-primary-lighter)
   );
-  --color-primary-light: hsl(var(--hue-primary) var(--saturation-primary) 75%);
-  --color-primary: hsl(var(--hue-primary) var(--saturation-primary) 52%);
-  --color-primary-dark: hsl(var(--hue-primary) var(--saturation-primary) 45%);
-  --color-primary-darker: hsl(var(--hue-primary) var(--saturation-primary) 35%);
+  --color-primary-light: hsl(
+    var(--hue-primary) 75% var(--luminosity-primary-light)
+  );
+  --color-primary: hsl(var(--hue-primary) 75% var(--luminosity-primary));
+  --color-primary-dark: hsl(
+    var(--hue-primary) 75% var(--luminosity-primary-dark)
+  );
+  --color-primary-darker: hsl(
+    var(--hue-primary) 75% var(--luminosity-primary-darker)
+  );
 
   /* Info color */
   --hue-info: 216;
-  --color-info: hsl(var(--hue-info) 100% 63%);
-  --color-info-light: hsl(var(--hue-info) 100% 90%);
+  --luminosity-info: 63%;
+  --luminosity-info-light: 90%;
+  --color-info: hsl(var(--hue-info) 100% var(--luminosity-info));
+  --color-info-light: hsl(var(--hue-info) 100% var(--luminosity-info-light));
 
   /* Success color */
   --hue-success: 138;
-  --color-success: hsl(var(--hue-success) 100% 31%);
-  --color-success-light: hsl(var(--hue-success) 100% 95%);
+  --luminosity-success: 31%;
+  --luminosity-success-light: 95%;
+  --color-success: hsl(var(--hue-success) 100% var(--luminosity-success));
+  --color-success-light: hsl(
+    var(--hue-success) 100% var(--luminosity-success-light)
+  );
 
   /* Error color */
   --hue-error: 11;
-  --color-error: hsl(var(--hue-error) 100% 42%);
-  --color-error-light: hsl(var(--hue-error) 100% 95%);
+  --luminosity-error: 42%;
+  --luminosity-error-light: 95%;
+  --color-error: hsl(var(--hue-error) 100% var(--luminosity-error));
+  --color-error-light: hsl(var(--hue-error) 100% var(--luminosity-error-light));
 
   /* Utility colors */
-  --color-outline: hsl(var(--hue-primary) var(--saturation-primary) 20%);
+  --luminosity-outline: 20%;
+  --color-outline: hsl(var(--hue-primary) 75% var(--luminosity-outline));
+
+  @media (prefers-color-scheme: dark) {
+    /* Grey scale colors */
+    --color-background: hsl(0deg 0% 10%);
+    --color-grey-1: hsl(var(--hue-grey) 14% 5%);
+    --color-grey-2: hsl(var(--hue-grey) 11% 25%);
+    --color-grey-3: hsl(var(--hue-grey) 13% 65%);
+    --color-foreground: hsl(0deg 0% 100%);
+
+    /* Primary hue */
+    --hue-primary: 200;
+
+    /* Luminosity for primary variations */
+    --luminosity-primary-lighter: 10%;
+    --luminosity-primary-light: 45%;
+    --luminosity-primary: 52%;
+    --luminosity-primary-dark: 75%;
+    --luminosity-primary-darker: 75%;
+
+    /* Info luminosity */
+    --luminosity-info: 45%;
+    --luminosity-info-light: 15%;
+
+    /* Success luminosity */
+    --luminosity-success: 25%;
+    --luminosity-success-light: 10%;
+
+    /* Error luminosity */
+    --luminosity-error: 50%;
+    --luminosity-error-light: 10%;
+
+    /* Utility luminosity */
+    --luminosity-outline: 60%;
+  }
 }

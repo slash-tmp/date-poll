@@ -14,6 +14,8 @@ html {
   -webkit-text-size-adjust: none;
   /* stylelint-enable property-no-vendor-prefix */
   text-size-adjust: none;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
 }
 
 /* Remove default margin in favour of better control in authored CSS */
