@@ -25,11 +25,22 @@ See each project's documentation:
 
 ## Deployment
 
-[Heroku](https://www.heroku.com) is used to handle deployement:
+### Staging environment
 
-- **Preview environment**: each pull request on `main` branch will trigger a new deployment. The URL is available on the GitHub PR page.
+[Heroku](https://www.heroku.com) is used to handle staging deployements:
 
-- **Production environment**: the `main` branch is deployed on [https://date-poll-production-210a482abfed.herokuapp.com](https://date-poll-production-210a482abfed.herokuapp.com).
+- Each pull request on `main` branch will trigger a new deployment. The URL is available on the GitHub PR.
+
+- The `main` branch is deployed on [https://date-poll-production-210a482abfed.herokuapp.com](https://date-poll-production-210a482abfed.herokuapp.com).
+
+### Production environment
+
+[o2switch](https://www.o2switch.fr/) is used to handle production deployments:
+
+1. Connect with SSH to o2switch (`ssh <user_id>@seconde.o2switch.net`).
+2. Go to project folder and `git pull` to get the latest code version.
+3. Build `website` and/or `api` projects with `pnpm run build`.
+4. Restart `website` and/or `api` projects on o2switch cPanel interface.
 
 ## Tests
 
