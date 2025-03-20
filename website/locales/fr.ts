@@ -4,6 +4,8 @@ export default {
   },
 
   name: "Planito",
+  description:
+    "Créez un sondage, partagez-le à vos invité·es et trouvez la date optimale. Pas de publicité. Pas de compte. Pas de fioritures.",
   email: "contact{'@'}slash-tmp.dev",
 
   layout: {
@@ -112,7 +114,8 @@ export default {
       },
       new: {
         meta: {
-          title: "Créer un sondage, étape {currentStep} sur {count}",
+          title:
+            'Créer un sondage, étape {currentStep} sur {count} "{stepName}"',
         },
         title: "Créer un sondage",
         stepper: "Étape {current} sur {count}",
@@ -168,7 +171,7 @@ export default {
           },
         },
         adminInfos: {
-          stepTitle: "Administrateur",
+          stepTitle: "Administrateur·ice",
           intro:
             "Dernière étape : il est temps d’indiquer aux invité·es qui vous êtes (mais vous pouvez aussi rester anonyme 🥷). Vous serez ensuite redirigé·e vers la page d’administration de votre sondage et vous n’aurez plus qu’à le partager !",
           name: {
@@ -277,7 +280,7 @@ export default {
             },
           },
           adminInfos: {
-            stepTitle: "Administrateur",
+            stepTitle: "Administrateur·ice",
             name: {
               label: "Nom",
               hint: "Le nom est utilisé pour indiquer aux participants qui est l’auteur·ice du sondage",
@@ -293,7 +296,7 @@ export default {
       },
       id: {
         meta: {
-          title: 'Sondage "{pollName}"',
+          title: 'Participer au sondage "{pollName}"',
         },
         invited: "Vous avez été invité·e à participer à ce sondage.",
         invitedBy:
