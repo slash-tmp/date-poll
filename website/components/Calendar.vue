@@ -507,7 +507,7 @@ const nextDatesCount = computed((): string => {
         transform: translate(-50%, -50%) rotate(45deg);
         width: 1px;
         height: 1rem;
-        background: var(--color-grey-4);
+        background: var(--color-grey-3);
       }
     }
   }
