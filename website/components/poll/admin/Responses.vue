@@ -179,7 +179,7 @@ const maxVotesResponseIds = computed((): number[] => {
 .time {
   border-radius: var(--border-radius-base);
   border: 1px solid var(--color-grey-3);
-  background-color: var(--color-white);
+  background-color: var(--color-background);
   padding: 1rem;
   position: relative;
 
@@ -191,7 +191,7 @@ const maxVotesResponseIds = computed((): number[] => {
 .best-choice {
   align-items: center;
   background-color: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-background);
   display: flex;
   gap: 0.25rem;
   font-size: var(--font-size-0);
@@ -237,7 +237,7 @@ const maxVotesResponseIds = computed((): number[] => {
 
   &.maybe {
     border-style: dashed;
-    background-color: var(--color-white);
+    background-color: var(--color-background);
   }
 }
 </style>

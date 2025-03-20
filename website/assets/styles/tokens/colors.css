@@ -1,11 +1,11 @@
 :root {
   /* Grey scale colors */
   --hue-grey: 250;
-  --color-white: hsl(0deg 0% 100%);
+  --color-background: hsl(0deg 0% 100%);
   --color-grey-1: hsl(var(--hue-grey) 14% 95%);
   --color-grey-2: hsl(var(--hue-grey) 11% 75%);
   --color-grey-3: hsl(var(--hue-grey) 13% 40%);
-  --color-black: hsl(0deg 0% 0%);
+  --color-foreground: hsl(0deg 0% 0%);
 
   /* Primary colors */
   --hue-primary: 217;
@@ -62,11 +62,11 @@
 
   @media (prefers-color-scheme: dark) {
     /* Grey scale colors */
-    --color-white: hsl(0deg 0% 10%);
+    --color-background: hsl(0deg 0% 10%);
     --color-grey-1: hsl(var(--hue-grey) 14% 5%);
     --color-grey-2: hsl(var(--hue-grey) 11% 25%);
     --color-grey-3: hsl(var(--hue-grey) 13% 65%);
-    --color-black: hsl(0deg 0% 100%);
+    --color-foreground: hsl(0deg 0% 100%);
 
     /* Primary hue */
     --hue-primary: 200;

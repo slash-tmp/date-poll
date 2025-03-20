@@ -19,7 +19,7 @@ main {
   }
 
   .content {
-    background: var(--color-white);
+    background: var(--color-background);
     border-radius: var(--border-radius-base);
     border: 1px solid var(--color-grey-2);
     max-width: var(--content-width);

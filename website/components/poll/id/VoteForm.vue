@@ -256,7 +256,7 @@ fieldset {
 .time {
   border-radius: var(--border-radius-base);
   border: 1px solid var(--color-grey-3);
-  background-color: var(--color-white);
+  background-color: var(--color-background);
   padding: 1rem;
   position: relative;
 
@@ -302,7 +302,7 @@ fieldset {
 
   &.maybe {
     border-style: dashed;
-    background-color: var(--color-white);
+    background-color: var(--color-background);
   }
 }
 

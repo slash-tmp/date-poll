@@ -87,7 +87,7 @@ const iconComponent = {
     appearance: none;
     border: none;
     background: none;
-    color: var(--color-black);
+    color: var(--color-foreground);
     padding: 0;
     height: 1.5rem;
     width: 1.5rem;

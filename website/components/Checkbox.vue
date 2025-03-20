@@ -45,7 +45,7 @@ const model = defineModel<boolean>();
 
   .input-container {
     border-radius: var(--border-radius-base);
-    background-color: var(--color-white);
+    background-color: var(--color-background);
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
     position: relative;
@@ -54,7 +54,7 @@ const model = defineModel<boolean>();
   }
 
   .icon {
-    color: var(--color-white);
+    color: var(--color-background);
     position: absolute;
     inset: 0;
     pointer-events: none;

@@ -21,11 +21,11 @@ const lineHeights = [
 ];
 
 const greyScaleSwatch = [
-  "--color-white",
+  "--color-background",
   "--color-grey-1",
   "--color-grey-2",
   "--color-grey-3",
-  "--color-black",
+  "--color-foreground",
 ];
 
 const brandSwatch = [
@@ -209,7 +209,7 @@ code {
     align-items: center;
 
     span {
-      border: 1px solid var(--color-black);
+      border: 1px solid var(--color-foreground);
       border-radius: var(--border-radius-base);
       width: 2rem;
       height: 2rem;
@@ -228,8 +228,8 @@ code {
     align-items: center;
 
     span:first-child {
-      background-color: var(--color-white);
-      border: 1px solid var(--color-black);
+      background-color: var(--color-background);
+      border: 1px solid var(--color-foreground);
       width: 2rem;
       height: 2rem;
     }
@@ -247,7 +247,7 @@ code {
     align-items: center;
 
     span:first-child {
-      background-color: var(--color-white);
+      background-color: var(--color-background);
       border-radius: var(--border-radius-base);
       width: 8rem;
       height: 2rem;

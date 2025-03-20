@@ -460,7 +460,7 @@ const nextDatesCount = computed((): string => {
       --calendar-day-button-size: 3rem;
 
       background: none;
-      color: var(--color-black);
+      color: var(--color-foreground);
       border: 1px solid transparent;
       border-radius: 0.25rem;
       cursor: pointer;
@@ -483,7 +483,7 @@ const nextDatesCount = computed((): string => {
 
       &[aria-pressed="true"] {
         background-color: var(--color-primary);
-        color: var(--color-white);
+        color: var(--color-background);
 
         &:hover {
           background-color: var(--color-primary-dark);

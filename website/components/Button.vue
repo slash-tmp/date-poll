@@ -44,7 +44,7 @@ function focusRoot() {
   border-radius: var(--border-radius-base);
   box-shadow: var(--shadow-small);
   background-color: var(--color-primary);
-  color: var(--color-white);
+  color: var(--color-background);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -71,13 +71,13 @@ function focusRoot() {
   }
 
   &.button-secondary {
-    background-color: var(--color-white);
+    background-color: var(--color-background);
     border-color: var(--color-primary);
     color: var(--color-primary);
 
     &:hover {
       background-color: var(--color-primary);
-      color: var(--color-white);
+      color: var(--color-background);
     }
   }
 
@@ -102,7 +102,7 @@ function focusRoot() {
   transform: translate(50%, -50%);
   border-radius: var(--border-radius-base);
   background-color: var(--color-error);
-  color: var(--color-white);
+  color: var(--color-background);
   font-size: var(--font-size-0);
   padding: 0.125rem 0.25rem;
   z-index: 1;
