@@ -1,27 +1,4 @@
 <script setup lang="ts">
-/**
- * TODO:
- * - select multiple dates ✅
- * - add time to date ✅
- * - fix iso dates problem (-1 day) ✅
- * - add multiple times to dates ✅
- * - show dates before/after current month ✅
- * - filter duplicates when submitting ✅
- * - handle errors (missing field value) ✅
- * - add icon to button on small device ✅
- * - e2e tests ✅
- * - translate strings ✅
- * - ensure a11y ✅
- *    - move focus when adding time ✅
- *    - check VO on days ✅
- *    - add badge label on buttons ✅
- * - handle pre-registered dates (edit page)
- * - mobile styles ✅
- * - clean CSS ✅
- * - clean file ✅
- * - add button to delete time + e2e test
- */
-
 import { isEqual, uniqWith } from "lodash-es";
 
 import Button from "~/components/Button.vue";
@@ -72,7 +49,9 @@ const { setToast } = useToast();
       {{ $t("pages.poll.new.choices.intro") }}
     </p>
 
-    <Calendar v-model="choices" />
+    <ClientOnly>
+      <Calendar v-model="choices" />
+    </ClientOnly>
 
     <Actions>
       <template #prev>
