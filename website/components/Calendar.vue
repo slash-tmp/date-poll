@@ -499,15 +499,19 @@ const nextDatesCount = computed((): string => {
         }
       }
 
-      &[disabled]::after {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%) rotate(45deg);
-        width: 1px;
-        height: 1rem;
-        background: var(--color-grey-3);
+      &[disabled] {
+        color: var(--color-grey-3);
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(45deg);
+          width: 2px;
+          height: 1.5em;
+          background: currentcolor;
+        }
       }
     }
   }
