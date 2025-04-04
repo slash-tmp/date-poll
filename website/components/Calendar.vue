@@ -164,6 +164,12 @@ function dateIsSelected(day: number) {
   });
 }
 
+// Check if date is in the past (allowing today, hence the +1)
+function dateHasPassed(day: number) {
+  const date = new Date(selectedYear.value, selectedMonth.value, day + 1);
+  return date < today;
+}
+
 const timeInputRefs = ref<InstanceType<typeof Input>[]>([]);
 
 // Add a time to an existing date (=== add new date)
@@ -323,6 +329,7 @@ const nextDatesCount = computed((): string => {
               <button
                 v-if="d"
                 :aria-pressed="dateIsSelected(d)"
+                :disabled="dateHasPassed(d)"
                 class="calendar-day-button"
                 type="button"
                 @click="toggleSelectedDay(d)"
@@ -463,9 +470,9 @@ const nextDatesCount = computed((): string => {
       color: var(--color-foreground);
       border: 1px solid transparent;
       border-radius: 0.25rem;
-      cursor: pointer;
       width: var(--calendar-day-button-size);
       height: var(--calendar-day-button-size);
+      position: relative;
 
       @media (width <= 50rem) {
         --calendar-day-button-size: 2rem;
@@ -477,8 +484,9 @@ const nextDatesCount = computed((): string => {
         font-size: var(--font-size-0);
       }
 
-      &:hover {
-        border-color: var(--color-grey);
+      &:hover:not([disabled]) {
+        border-color: var(--color-grey-4);
+        cursor: pointer;
       }
 
       &[aria-pressed="true"] {
@@ -488,6 +496,21 @@ const nextDatesCount = computed((): string => {
         &:hover {
           background-color: var(--color-primary-dark);
           border-color: var(--color-primary-dark);
+        }
+      }
+
+      &[disabled] {
+        color: var(--color-grey-3);
+
+        &::after {
+          content: "";
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(45deg);
+          width: 2px;
+          height: 2em;
+          background: currentcolor;
         }
       }
     }

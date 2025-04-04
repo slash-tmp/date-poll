@@ -80,7 +80,9 @@ async function deleteEndDate() {
         {{ $t("pages.poll.admin.edit.choices.stepSubtitle") }}
       </p>
 
-      <Calendar v-model="poll.choices" />
+      <ClientOnly>
+        <Calendar v-model="poll.choices" />
+      </ClientOnly>
     </fieldset>
 
     <fieldset>
