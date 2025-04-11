@@ -120,6 +120,7 @@ async function confirmDelete() {
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
   margin-block-end: 4rem;
+  align-items: start;
 
   @media (width < 50rem) {
     grid-template-columns: 1fr;
