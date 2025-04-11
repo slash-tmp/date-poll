@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Alert from "~/components/Alert.vue";
 import PageMeta from "~/components/PageMeta.vue";
+import Responses from "~/components/poll/admin/Responses.vue";
 import VoteForm from "~/components/poll/id/VoteForm.vue";
 import { type PollApiResponse, type VotePollFormData } from "~/types/poll";
 
@@ -111,9 +112,16 @@ async function submitVote(payload: VotePollFormData) {
       ref="confirmationRef"
       tabindex="-1"
       type="success"
+      class="confirmation-alert"
     >
       {{ $t("pages.poll.id.confirmation") }}
     </Alert>
+
+    <Responses
+      v-if="showConfirmation && poll.respondents"
+      :choices="poll.choices"
+      :respondents="poll.respondents"
+    />
   </template>
 </template>
 
@@ -123,7 +131,8 @@ async function submitVote(payload: VotePollFormData) {
   white-space: pre-wrap;
 }
 
-.invitation-alert {
+.invitation-alert,
+.confirmation-alert {
   margin-block-end: 2rem;
 }
 </style>
