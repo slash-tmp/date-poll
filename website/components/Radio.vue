@@ -4,6 +4,7 @@ defineProps<{
   name: string;
   label: string;
   value?: string;
+  required?: boolean;
 }>();
 
 const model = defineModel<string>();
@@ -18,6 +19,7 @@ const model = defineModel<string>();
       class="input"
       type="radio"
       :name="name"
+      :required="required"
     />
     <span class="label">{{ label }}</span>
     <span class="icon">

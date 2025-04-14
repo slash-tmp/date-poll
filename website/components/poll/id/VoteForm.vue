@@ -132,6 +132,7 @@ function submitVote() {
                   :value="option"
                   type="radio"
                   :name="`choice-${i}-${j}`"
+                  required
                   :label="
                     $t(`pages.poll.id.form.choices.${option.toLowerCase()}`)
                   "
