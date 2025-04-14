@@ -112,7 +112,7 @@ async function submitVote(payload: VotePollFormData) {
       ref="confirmationRef"
       tabindex="-1"
       type="success"
-      class="confirmation-alert"
+      :class="{ 'confirmation-alert': poll.respondents }"
     >
       {{ $t("pages.poll.id.confirmation") }}
     </Alert>
