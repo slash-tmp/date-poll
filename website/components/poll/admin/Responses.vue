@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { groupBy, sortBy } from "lodash-es";
+import { sortBy } from "lodash-es";
 
 import Star from "~/components/icons/Star.vue";
 import { type Respondent, Response } from "~/types/poll";
@@ -9,49 +9,9 @@ const props = defineProps<{
   respondents: Respondent[];
 }>();
 
-type RespondentsPerChoice = {
-  date: string;
-  times: {
-    id: number;
-    time: string;
-    respondents: {
-      name: string;
-      value?: string;
-    }[];
-  }[];
-};
-
-const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
-  return Object.entries(
-    groupBy(props.choices, (item) => {
-      return convertIsoDateToLocalDateString(item.date).slice(0, 10);
-    }),
-  ).map(([date, choices]) => {
-    return {
-      date: formatDate(date),
-      times: choices.map((c) => {
-        return {
-          id: c.id,
-          time: formatTime(c.date),
-          respondents: props.respondents
-            .filter((r) => {
-              const response = r.responses.find(
-                (r) => r.choiceId === c.id,
-              )?.value;
-
-              return response === Response.YES || response === Response.MAYBE;
-            })
-            .map((r) => {
-              return {
-                name: r.name,
-                value: r.responses.find((r) => r.choiceId === c.id)?.value,
-              };
-            }),
-        };
-      }),
-    };
-  });
-});
+const choicesWithRespondents = computed(() =>
+  getAdminChoicesWithRespondents(props.choices, props.respondents),
+);
 
 // Return ids of responses with the most votes
 const maxVotesResponseIds = computed((): number[] => {
