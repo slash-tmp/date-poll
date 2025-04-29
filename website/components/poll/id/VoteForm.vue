@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { groupBy } from "lodash-es";
-
 import Button from "~/components/Button.vue";
 import Check from "~/components/icons/Check.vue";
 import QuestionMark from "~/components/icons/QuestionMark.vue";
@@ -35,49 +33,9 @@ const attendances = ref(
   }),
 );
 
-type RespondentsPerChoice = {
-  date: string;
-  times: {
-    id: number;
-    time: string;
-    respondents?: {
-      name: string;
-      value?: string;
-    }[];
-  }[];
-};
-
-const choicesWithRespondents = computed((): RespondentsPerChoice[] => {
-  return Object.entries(
-    groupBy(props.choices, (item) =>
-      convertIsoDateToLocalDateString(item.date).slice(0, 10),
-    ),
-  ).map(([date, choices]) => {
-    return {
-      date: formatDate(date),
-      times: choices.map((c) => {
-        return {
-          id: c.id,
-          time: formatTime(c.date),
-          respondents: props.respondents
-            ?.filter((r) => {
-              const response = r.responses.find(
-                (r) => r.choiceId === c.id,
-              )?.value;
-
-              return response === Response.YES || response === Response.MAYBE;
-            })
-            .map((r) => {
-              return {
-                name: r.name,
-                value: r.responses.find((r) => r.choiceId === c.id)?.value,
-              };
-            }),
-        };
-      }),
-    };
-  });
-});
+const choicesWithRespondents = computed(() =>
+  getPublicChoicesWithRespondents(props.choices, props.respondents),
+);
 
 function getAttendanceForDate(id: number) {
   return attendances.value.find((a) => a.id === id)!.attendance;

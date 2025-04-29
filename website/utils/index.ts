@@ -1,12 +1,20 @@
+import { groupBy, orderBy } from "lodash-es";
+
 import type {
-  AdminPollApiResponse,
-  CreatePollApiRequest,
-  CreatePollApiResponse,
-  CreatePollFormData,
-  UpdatePollApiRequest,
-  UpdatePollApiResponse,
-  UpdatePollFormData,
-  VotePollFormData,
+  AdminRespondentsPerChoice,
+  PublicRespondentsPerChoice,
+} from "~/types";
+import {
+  type AdminPollApiResponse,
+  type CreatePollApiRequest,
+  type CreatePollApiResponse,
+  type CreatePollFormData,
+  type Respondent,
+  Response,
+  type UpdatePollApiRequest,
+  type UpdatePollApiResponse,
+  type UpdatePollFormData,
+  type VotePollFormData,
 } from "~/types/poll";
 
 /** Send a request to the API to create a new poll and return the result. */
@@ -100,4 +108,53 @@ export async function votePoll(publicUid: string, formData: VotePollFormData) {
     method: "POST",
     body: formData,
   });
+}
+
+export function getPublicChoicesWithRespondents(
+  choices: { id: number; date: string }[],
+  respondents?: Respondent[],
+): PublicRespondentsPerChoice[] {
+  return orderBy(
+    Object.entries(
+      groupBy(choices, (item) => {
+        return convertIsoDateToLocalDateString(item.date).slice(0, 10);
+      }),
+    ),
+    ["0"],
+    ["asc"],
+  ).map(([date, choices]) => {
+    return {
+      date: formatDate(date),
+      times: choices.map((c) => {
+        return {
+          id: c.id,
+          time: formatTime(c.date),
+          respondents: respondents
+            ?.filter((r) => {
+              const response = r.responses.find(
+                (r) => r.choiceId === c.id,
+              )?.value;
+
+              return response === Response.YES || response === Response.MAYBE;
+            })
+            .map((r) => {
+              return {
+                name: r.name,
+                value: r.responses.find((r) => r.choiceId === c.id)?.value,
+              };
+            }),
+        };
+      }),
+    };
+  });
+}
+
+export function getAdminChoicesWithRespondents(
+  choices: { id: number; date: string }[],
+  respondents: Respondent[],
+): AdminRespondentsPerChoice[] {
+  return getPublicChoicesWithRespondents(
+    choices,
+    respondents,
+  ) as AdminRespondentsPerChoice[];
 }
