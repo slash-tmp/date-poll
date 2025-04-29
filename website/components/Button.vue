@@ -102,6 +102,7 @@ function focusRoot() {
   &.is-loading {
     background-color: var(--color-grey-2);
     border-color: var(--color-grey-2);
+    cursor: wait;
 
     *:not(.button-spinner) {
       opacity: 0;
@@ -125,14 +126,17 @@ function focusRoot() {
 /* TODO: design disabled button */
 .button-spinner {
   position: absolute;
-  transform: translate(-50%, -50%);
   width: 1.5rem;
   height: 1.5rem;
   border: 0.25rem solid var(--color-primary-lighter);
-  border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
-  animation: rotation 1.5s linear infinite;
+
+  @media (prefers-reduced-motion: no-preference) {
+    border-bottom-color: transparent;
+    transform: translate(-50%, -50%);
+    animation: rotation 1.5s linear infinite;
+  }
 }
 
 @keyframes rotation {
