@@ -125,7 +125,7 @@ export function getPublicChoicesWithRespondents(
   ).map(([date, choices]) => {
     return {
       date: formatDate(date),
-      times: choices.map((c) => {
+      times: orderBy(choices, ["date"], "asc").map((c) => {
         return {
           id: c.id,
           time: formatTime(c.date),
