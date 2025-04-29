@@ -30,7 +30,7 @@ function focusRoot() {
     :class="{
       'button-secondary': variant === 'secondary',
       'button-tertiary': variant === 'tertiary',
-      'is-loading': isLoading,
+      'button-loading': isLoading,
     }"
     :to="to ?? undefined"
     :type="type"
@@ -99,10 +99,15 @@ function focusRoot() {
     }
   }
 
-  &.is-loading {
-    background-color: var(--color-grey-2);
-    border-color: var(--color-grey-2);
+  &.button-loading {
+    opacity: 0.8;
     cursor: wait;
+    pointer-events: none;
+
+    &:hover {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+    }
 
     *:not(.button-spinner) {
       opacity: 0;
@@ -123,12 +128,11 @@ function focusRoot() {
   z-index: 1;
 }
 
-/* TODO: design disabled button */
 .button-spinner {
   position: absolute;
   width: 1.5rem;
   height: 1.5rem;
-  border: 0.25rem solid var(--color-primary-lighter);
+  border: 0.25rem solid currentcolor;
   border-radius: 50%;
   display: inline-block;
 
