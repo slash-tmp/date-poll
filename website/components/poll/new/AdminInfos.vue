@@ -7,6 +7,7 @@ import Actions from "./Actions.vue";
 
 const props = defineProps<{
   defaultFormData: CreatePollFormData;
+  isLoading: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -57,7 +58,7 @@ function previous() {
         </Button>
       </template>
       <template #next>
-        <Button type="submit">
+        <Button type="submit" :is-loading="isLoading">
           {{ $t("pages.poll.new.navigation.submit") }}
         </Button>
       </template>

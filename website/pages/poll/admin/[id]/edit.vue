@@ -41,13 +41,18 @@ const defaultFormData = computed(() => {
 const { setToast } = useToast();
 const { t } = useI18n();
 
+const isLoading = ref(false);
+
 async function submitEditForm(data: UpdatePollFormData) {
+  isLoading.value = true;
+
   try {
     if (poll.value) {
       await updatePoll(poll.value.adminUid, data);
       router.push({ name: "poll-admin-id", state: { updatedPoll: true } });
     }
   } catch (e) {
+    isLoading.value = false;
     setToast({
       title: t("pages.poll.admin.edit.errorAlert"),
       type: "error",
@@ -77,6 +82,7 @@ async function submitEditForm(data: UpdatePollFormData) {
     v-if="poll && defaultFormData"
     :admin-email="poll.adminEmail"
     :default-form-data="defaultFormData"
+    :is-loading="isLoading"
     @submit="submitEditForm"
   />
 </template>

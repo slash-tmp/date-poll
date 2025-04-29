@@ -8,6 +8,7 @@ import type { UpdatePollFormData } from "~/types/poll";
 const props = defineProps<{
   adminEmail: string;
   defaultFormData: UpdatePollFormData;
+  isLoading?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -143,7 +144,9 @@ async function deleteEndDate() {
       />
     </fieldset>
 
-    <Button type="submit">{{ $t("pages.poll.admin.edit.submit") }}</Button>
+    <Button type="submit" :is-loading="isLoading">{{
+      $t("pages.poll.admin.edit.submit")
+    }}</Button>
   </form>
 </template>
 

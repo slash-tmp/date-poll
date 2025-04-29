@@ -6,6 +6,7 @@ const props = defineProps<{
   type?: "button" | "submit";
   to?: RouteLocationRaw;
   badge?: string;
+  isLoading?: boolean;
 }>();
 
 defineExpose({
@@ -29,12 +30,16 @@ function focusRoot() {
     :class="{
       'button-secondary': variant === 'secondary',
       'button-tertiary': variant === 'tertiary',
+      'is-loading': isLoading,
     }"
     :to="to ?? undefined"
     :type="type"
   >
-    <slot />
-    <p v-if="badge" class="button-badge">{{ badge }}</p>
+    <span v-if="isLoading" class="button-spinner" />
+    <span>
+      <slot />
+      <p v-if="badge" class="button-badge">{{ badge }}</p>
+    </span>
   </component>
 </template>
 
@@ -93,6 +98,15 @@ function focusRoot() {
       color: var(--color-primary-darker);
     }
   }
+
+  &.is-loading {
+    background-color: var(--color-grey-2);
+    border-color: var(--color-grey-2);
+
+    *:not(.button-spinner) {
+      opacity: 0;
+    }
+  }
 }
 
 .button-badge {
@@ -106,5 +120,28 @@ function focusRoot() {
   font-size: var(--font-size-0);
   padding: 0.125rem 0.25rem;
   z-index: 1;
+}
+
+/* TODO: design disabled button */
+.button-spinner {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0.25rem solid var(--color-primary-lighter);
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
