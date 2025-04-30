@@ -36,7 +36,10 @@ const confirmationRef = ref<HTMLParagraphElement>();
 
 const { setToast } = useToast();
 
+const isLoading = ref(false);
 async function submitVote(payload: VotePollFormData) {
+  isLoading.value = true;
+
   try {
     if (poll.value) {
       await votePoll(poll.value.publicUid, payload);
@@ -51,6 +54,8 @@ async function submitVote(payload: VotePollFormData) {
       isClosable: true,
     });
     console.error(e);
+  } finally {
+    isLoading.value = false;
   }
 }
 </script>
@@ -103,6 +108,7 @@ async function submitVote(payload: VotePollFormData) {
         v-if="!showConfirmation"
         :choices="poll.choices"
         :respondents="poll.respondents"
+        :is-loading="isLoading"
         @submit="submitVote"
       />
     </template>

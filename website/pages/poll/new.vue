@@ -47,16 +47,21 @@ function submitStep(data: StepPayload) {
   step.value++;
 }
 
+const isLoading = ref(false);
+
 async function submitLastStep(data: StepPayload) {
   formData.value = {
     ...formData.value,
     ...data,
   };
 
+  isLoading.value = true;
+
   try {
     const data = await createPoll(formData.value);
     router.push({ name: "poll-admin-id", params: { id: data.adminUid } });
   } catch (e) {
+    isLoading.value = false;
     setToast({
       title: t("pages.poll.new.errorAlert"),
       type: "error",
@@ -115,6 +120,7 @@ watch(step, () => {
   <AdminInfos
     v-if="step === 3"
     :default-form-data="formData"
+    :is-loading="isLoading"
     @submit="submitLastStep"
     @previous="goToPreviousStep"
   />

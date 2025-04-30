@@ -4,7 +4,7 @@ describe("Poll creation page /poll/new", () => {
     cy.contains("Créer un sondage").click();
   });
 
-  it.only("creates a new poll and redirect to the admin page", () => {
+  it("creates a new poll and redirect to the admin page", () => {
     // Step 1
     cy.getByLabel("Nom").type("Mon sondage");
     cy.getByLabel("Description (optionnel)").type(
@@ -60,19 +60,13 @@ describe("Poll creation page /poll/new", () => {
     cy.location("pathname").should("match", /^\/poll\/admin\/[A-Za-z0-9_-]+$/);
 
     // Check dates order
-    cy.get(".dates .date-title").then(
-      (els) => {
-        expect(els).to.have.length(3);
-        const expectedDates = [
-          "7 mai 2024",
-          "13 mai 2024",
-          "24 juillet 2024",
-        ];
-        expectedDates.forEach((date, i) => {
-          cy.wrap(els[i]).should("have.text", date);
-        });
-      }
-    );
+    cy.get(".dates .date-title").then((els) => {
+      expect(els).to.have.length(3);
+      const expectedDates = ["7 mai 2024", "13 mai 2024", "24 juillet 2024"];
+      expectedDates.forEach((date, i) => {
+        cy.wrap(els[i]).should("have.text", date);
+      });
+    });
   });
 
   it("shows an error message when trying to submit step 2 with no date", () => {

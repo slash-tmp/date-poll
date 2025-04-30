@@ -17,6 +17,7 @@ const responseIcon = {
 const props = defineProps<{
   choices: { id: number; date: string }[];
   respondents?: Respondent[];
+  isLoading?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -153,7 +154,7 @@ function submitVote() {
       </li>
     </ul>
 
-    <Button type="submit" class="submit-button">
+    <Button type="submit" class="submit-button" :is-loading="isLoading">
       {{ $t("pages.poll.id.form.submit") }}
     </Button>
   </form>
@@ -266,7 +267,7 @@ fieldset {
 }
 
 .submit-button {
-  display: block;
+  display: flex;
   margin-inline-start: auto;
 }
 </style>

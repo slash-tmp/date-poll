@@ -9,7 +9,11 @@ const { t } = useI18n();
 const email = ref("");
 const recipientEmail = ref("");
 
+const isLoading = ref(false);
+
 async function submit() {
+  isLoading.value = true;
+
   try {
     await findPoll(email.value);
     recipientEmail.value = email.value;
@@ -24,6 +28,8 @@ async function submit() {
       isClosable: true,
     });
     console.error(e);
+  } finally {
+    isLoading.value = false;
   }
 }
 
@@ -70,7 +76,7 @@ async function closeAlert() {
       :label="$t('pages.poll.find.form.label')"
     />
 
-    <Button class="submit" type="submit">
+    <Button class="submit" type="submit" :is-loading="isLoading">
       {{ $t("pages.poll.find.form.submit") }}
     </Button>
   </form>
