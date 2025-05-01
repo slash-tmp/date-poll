@@ -113,6 +113,10 @@ function focusRoot() {
       opacity: 0;
     }
   }
+
+  > span {
+    display: flex;
+  }
 }
 
 .button-badge {
