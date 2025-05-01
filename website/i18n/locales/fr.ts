@@ -12,6 +12,7 @@ export default {
     header: {
       logo: "📆 @:name",
       about: "À propos",
+      lang: "Change language to English",
     },
   },
 
