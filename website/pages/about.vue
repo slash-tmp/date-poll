@@ -39,7 +39,10 @@
           <strong>{{ $t("pages.about.intro.list.accessible.title") }}</strong>
         </template>
         <template #rgaa>
-          <abbr :title="$t('pages.about.intro.list.accessible.rgaaDef')">
+          <abbr
+            lang="fr"
+            :title="$t('pages.about.intro.list.accessible.rgaaDef')"
+          >
             {{ $t("pages.about.intro.list.accessible.rgaa") }}
           </abbr>
         </template>

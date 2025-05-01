@@ -40,24 +40,24 @@ export default {
           ethics: {
             title: "Ethical",
             content:
-              "{title}? You'll never find any ads here. There are already plenty of them elsewhere on the web. Moreover, the little personal data collected is securely stored forever.",
+              "{title}? You’ll never find any ads here. There are already plenty of them elsewhere on the web. Moreover, the little personal data collected is securely stored forever.",
           },
           easy: {
             title: "Easy",
             content:
-              "{title}? There are far too many products that diverge from their original purpose to become a complete convoluted system. @:name is a slot booking tool, and that's it. No frills, no accounts, no Google Calendar sync, no Teams integration, and even less {ia}.",
+              "{title}? There are far too many products that diverge from their original purpose to become a complete convoluted system. @:name is a slot booking tool, and that’s it. No frills, no accounts, no Google Calendar sync, no Teams integration, and even less {ia}.",
             ia: "AI",
             iaDef: "Artificial intelligence",
           },
           accessible: {
             title: "Accessible",
             content:
-              "{title}? It's no surprise: the web is, for the most part, not accessible to everyone. @:name is a service that complies with {rgaa} criteria and Opquast best practices. It can be used by everyone and under all conditions (well, you at least need an internet connection).",
+              "{title}? It’s no surprise: the web is, for the most part, not accessible to everyone. @:name is a service that complies with {rgaa} criteria and Opquast best practices. It can be used by everyone and under all conditions (well, you at least need an internet connection).",
             rgaa: "RGAA",
             rgaaDef: "Référentiel Général d’Amélioration de l’Accessibilité",
           },
         },
-        2: "It's then a {webProject}. Adrien on the back-end (the foundations), Quentin on the front-end (the painting), we appreciate doing things well: a high-performance, tested, simple, accessible product that brings value.",
+        2: "It’s then a {webProject}. Adrien on the back-end (the foundations), Quentin on the front-end (the painting), we appreciate doing things well: a high-performance, tested, simple, accessible product that brings value.",
         webProject:
           "web development project carried out according to best practices",
         3: "If these are things that speak to you, we are {slashTmp} and we might want to work together.",
@@ -65,7 +65,7 @@ export default {
       },
       privacy: {
         title: "Personal data",
-        1: "The personal data collected (namely your email address when you create a survey and sometimes your name) is used solely for the operation of the tool. All data is hosted by {o2switch} located at Chemin des Pardiaux, 63000 Clermont-Ferrand. And we don’t share anything with anyone.",
+        1: "The personal data collected (namely your email address when you create a poll and sometimes your name) is used solely for the operation of the tool. All data is hosted by {o2switch} located at Chemin des Pardiaux, 63000 Clermont-Ferrand. And we don’t share anything with anyone.",
         o2switch: "o2switch",
         2: "If you have a specific request regarding your data, you can contact us at the following address: {contactEmail}.",
       },
@@ -79,109 +79,108 @@ export default {
     },
     index: {
       meta: {
-        title: "Trouvez facilement une date pour votre prochain événement",
+        title: "Easily find a date for your next event, the easy way",
       },
-      title: "Trouvez {highlight} une date pour votre prochain événement.",
-      easily: "facilement",
+      title: "Find a date for your next event, {highlight}.",
+      easily: "the easy way",
       tagLine:
-        "Créez un sondage, partagez-le à vos invité·es et trouvez la date optimale.",
-      arguments: "Pas de publicité. Pas de compte. Pas de fioritures.",
+        "Create a poll, share it with your guests, and find the perfect date.",
+      arguments: "No ads. No account. No frills.",
       deletedPollAlert: {
-        description: 'Le sondage "{title}" a bien été supprimé',
-        close: "Fermer",
+        description: 'The poll "{title}" has been successfully deleted',
+        close: "Close",
       },
-      newPoll: "Créer un sondage",
-      findPoll: "Rechercher un sondage",
+      newPoll: "Create a poll",
+      findPoll: "Find a poll",
+      time: "It takes 3 minutes",
     },
     poll: {
       find: {
         meta: {
-          title: "Rechercher un sondage",
+          title: "Find a poll",
         },
-        title: "Rechercher un sondage",
+        title: "Find a poll",
         description:
-          "Pour retrouver des sondages existants, entrez l’adresse email que vous avez utilisée pour les créer. Si l’adresse existe, un email avec la liste de vos sondages vous sera envoyé.",
+          "To find existing polls, enter the email address you used to create them. If the address exists, an email with a list of your polls will be sent to you.",
         alert: {
           description:
-            "Un email a été envoyé à l’adresse {emailAddress} avec la liste de vos sondages.",
-          close: "Fermer",
+            "An email has been sent to {emailAddress} with a list of your polls.",
+          close: "Close",
         },
         form: {
-          label: "Adresse email",
-          submit: "Rechercher",
+          label: "Email address",
+          submit: "Find",
         },
         errorAlert:
-          "Un problème empêche la recherche de sondages. Contactez-nous à l’adresse @:email si le problème persiste.",
+          "There is a problem with finding your polls. Contact us at @:email if the problem persists.",
       },
       new: {
         meta: {
-          title:
-            'Créer un sondage, étape {currentStep} sur {count} "{stepName}"',
+          title: 'Create a poll, step {currentStep} on {count} "{stepName}"',
         },
-        title: "Créer un sondage",
-        stepper: "Étape {current} sur {count}",
+        title: "Create a poll",
+        stepper: "Step {current} on {count}",
         navigation: {
-          back: "Retour",
-          previous: "Précédent",
-          next: "Suivant",
-          submit: "Valider",
+          back: "Back",
+          previous: "Previous",
+          next: "Next",
+          submit: "Submit",
         },
         titleAndDescription: {
-          stepTitle: "Nom et description",
+          stepTitle: "Name and description",
           intro:
-            "Commencez par présenter votre sondage à vos invité·es. Donnez-lui d’abord un nom sympa puis une brève description si vous le souhaitez.",
+            "Start by introducing your poll to your guests. Give it a fun name and then a brief description if you like.",
           title: {
-            label: "Nom du sondage",
+            label: "Poll name",
           },
           description: {
-            label: "Description (optionnel)",
-            help: "Vous pouvez par exemple indiquer un lieu, détailler les activités prévues ou ajouter des liens utiles.",
+            label: "Description (optional)",
+            help: "For example, you can indicate a location, detail planned activities or add useful links.",
           },
         },
         choices: {
-          stepTitle: "Dates et horaires",
+          stepTitle: "Dates and times",
           intro:
-            "Maintenant, faites votre sélection de dates : chaque date doit avoir au moins un horaire associé et votre sondage doit au moins proposer une date (ça va de soi non ?).",
-          noChoiceError:
-            "Vous devez ajouter au moins une date à votre sondage.",
-          previous: "Mois précédent",
-          next: "Mois suivant",
+            "Now, make your date selection: each date must have at least one associated time and your poll must at least have one date (that goes without saying, right?).",
+          noChoiceError: "You must add at least one date to your poll.",
+          previous: "Previous month",
+          next: "Next month",
           choice: {
-            timeLabel: "Horaire n°{index}",
-            deleteChoice: "Supprimer",
-            addTime: "Ajouter un horaire",
-            forTheDate: "pour le {date}",
+            timeLabel: "Time n°{index}",
+            deleteChoice: "Delete",
+            addTime: "Add a time",
+            forTheDate: "for the {date}",
           },
         },
         settings: {
-          stepTitle: "Paramètres",
+          stepTitle: "Settings",
           intro:
-            "Personnalisez maintenant votre sondage en sélectionnant les options souhaitées. Pas de panique, vous pourrez toujours les modifier une fois le sondage créé.",
+            "Now customize your poll by selecting the desired options. Don’t worry, you can always modify them once the poll is created.",
           hideVotes: {
-            label: "Masquer la liste des participant·es",
-            help: "Les noms des participant·es seront cachés aux autres (mais pas à vous, évidemment).",
+            label: "Hide the list of participants",
+            help: "The names of the participants will be hidden from others (but not from you, obviously).",
           },
           endDate: {
-            label: "Date de fin (optionnel)",
-            help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date.",
-            delete: "Supprimer",
+            label: "End date (optional)",
+            help: "The poll will no longer accept new responses after this date.",
+            delete: "Delete",
           },
           notifyOnResponse: {
-            label: "Recevoir un email pour chaque participation",
-            help: "On vous envoie un email dès qu’une personne répond à votre sondage, pratique.",
+            label: "Receive an email for each participation",
+            help: "We send you an email when someone responds to your poll, which is convenient.",
           },
         },
         adminInfos: {
-          stepTitle: "Administrateur·ice",
+          stepTitle: "Administrator",
           intro:
-            "Dernière étape : il est temps d’indiquer aux invité·es qui vous êtes (mais vous pouvez aussi rester anonyme 🥷). Vous serez ensuite redirigé·e vers la page d’administration de votre sondage et vous n’aurez plus qu’à le partager !",
+            "Last step: it’s time to tell the guests who you are (but you can also stay anonymous 🥷). You’ll then be redirected to your survey’s administration page and all you have to do is share it!",
           name: {
-            label: "Nom (optionnel)",
-            hint: "Le nom est utilisé pour indiquer aux invité·es qui est l’auteur·ice du sondage",
+            label: "Name (optional)",
+            hint: "The name is used to indicate to guests who the author of the poll is.",
           },
           email: {
-            label: "Adresse email",
-            hint: "L’adresse email est utilisée pour vous envoyer un email avec les informations de votre sondage (dont le lien d’administration)",
+            label: "Email address",
+            hint: "The email address is used to send you an email with your poll information (including the administration link)",
           },
         },
         errorAlert:
@@ -190,150 +189,141 @@ export default {
       admin: {
         id: {
           meta: {
-            title: 'Administration du sondage "{pollName}"',
+            title: 'Administration of the poll "{pollName}"',
           },
           actions: {
-            edit: "Modifier le sondage",
-            delete: "Supprimer le sondage",
+            edit: "Edit poll",
+            delete: "Delete poll",
             deleteModal: {
-              title: "Supprimer le sondage",
+              title: "Delete poll",
               description:
-                'Vous êtes sur le point de supprimer le sondage "{title}". Vous n’y aurez plus accès et plus personne ne pourra y participer.',
-              cancel: "Annuler",
-              confirm: "Supprimer",
+                'You are about to delete the poll "{title}". You will no longer have access to it, and no one will be able to participate.',
+              cancel: "Cancel",
+              confirm: "Delete",
               errorAlert:
-                "Un problème empêche la suppression de votre sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
+                "There is a problem with deleting your poll. Contact us at @:email if the problem persists.",
             },
           },
           intro: {
-            createdBy: "Créé par",
-            createdAt: "Créé le",
+            createdBy: "Created by",
+            createdAt: "Created on",
           },
           share: {
-            title: "Partagez votre sondage",
+            title: "Share your poll",
             description:
-              "Partagez ce lien avec vos invité·es pour leur permettre de participer au sondage.",
-            label: "Lien de participation",
-            button: "Copier",
+              "Share this link with your guests to allow them to participate in the poll.",
+            label: "Participation link",
+            button: "Copy",
             successAlert:
-              "Le lien de participation a bien été copié dans le presse-papier, à vous de jouer !",
+              "The participation link has been copied to the clipboard, It’s your turn!",
             errorAlert:
-              "Un problème empêche la copie du lien de participation. Contactez-nous à l’adresse @:email si le problème persiste.",
+              "There is a problem with copying the participation link. Contact us at @:email if the problem persists.",
           },
           responses: {
-            title: "Réponses et participations",
-            at: "à",
+            title: "Responses and participations",
             vote: "vote | votes",
-            maybe: "(peut-être)",
-            bestChoice: "Meilleur choix",
+            maybe: "(maybe)",
+            bestChoice: "Best choice",
           },
           error: {
             404: {
-              title: "Sondage introuvable",
+              title: "Poll not found",
               description:
-                "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
+                "The poll you are looking for does not exist or has been deleted.",
             },
           },
         },
         edit: {
           meta: {
-            title: 'Édition du sondage "{pollName}"',
+            title: 'Editing poll "{pollName}"',
           },
-          title: "Modifier le sondage",
-          back: "Retour au sondage",
+          title: "Edit poll",
+          back: "Back to poll",
           updatedPollAlert: {
-            description: 'Le sondage "{title}" a bien été mis à jour',
-            close: "Fermer",
+            description: 'The poll "{title}" has been successfully updated',
+            close: "Close",
           },
           titleAndDescription: {
-            stepTitle: "Nom et description",
+            stepTitle: "Name and description",
             title: {
-              label: "Nom",
+              label: "Name",
             },
             description: {
-              label: "Description (optionnel)",
+              label: "Description (optional)",
             },
           },
           choices: {
-            stepTitle: "Dates et horaires",
+            stepTitle: "Dates and times",
             stepSubtitle:
-              "Vous ne pouvez pas modifier les dates et horaires existants mais seulement en ajouter ou en supprimer. Attention : si vous supprimez une date, cela supprimera tous les horaires associés à cette date.",
+              "You cannot edit existing dates and times, only add or delete them. Warning: Deleting a date will delete all times associated with that date.",
             choice: {
               dateLabel: "Date n°{index}",
-              timeLabel: "Horaire n°{index}",
+              timeLabel: "Time n°{index}",
             },
-            addNewChoice: "Ajouter une date",
+            addNewChoice: "Add a date",
           },
           settings: {
-            stepTitle: "Paramètres",
+            stepTitle: "Settings",
             hideVotes: {
-              label: "Masquer les votes",
-              help: "Les noms des participant·es seront cachés aux autres (mais pas à vous, évidemment).",
+              label: "Hide votes",
+              help: "The names of the participants will be hidden from others (but not from you, obviously).",
             },
             endDate: {
-              label: "Date de fin",
-              help: "Le sondage n’acceptera plus de nouvelles réponses à partir de cette date.",
-              delete: "Supprimer",
+              label: "End date",
+              help: "The poll will no longer accept new responses after this date.",
+              delete: "Delete",
             },
             notifyOnResponse: {
-              label: "Recevoir un email pour chaque participation",
-              help: "On vous envoie un email dès qu’une personne répond à votre sondage, pratique.",
+              label: "Receive an email for each participation",
+              help: "We send you an email when someone responds to your poll, which is convenient.",
             },
           },
           adminInfos: {
-            stepTitle: "Administrateur·ice",
+            stepTitle: "Administrator",
             name: {
-              label: "Nom",
-              hint: "Le nom est utilisé pour indiquer aux participants qui est l’auteur·ice du sondage",
+              label: "Name",
+              hint: "The name is used to indicate to guests who the author of the poll is.",
             },
             email: {
-              label: "Adresse email",
+              label: "Email address",
             },
           },
-          submit: "Mettre à jour",
+          submit: "Update",
           errorAlert:
-            "Un problème empêche la mise à jour de votre sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
+            "There is a problem with updating your poll. Contact us at @:email if the problem persists.",
         },
       },
       id: {
         meta: {
-          title: 'Participer au sondage "{pollName}"',
+          title: 'Take the poll "{pollName}"',
         },
-        invited: "Vous avez été invité·e à participer à ce sondage.",
+        invited: "You have been invited to participate in this poll.",
         invitedBy:
-          "Vous avez été invité·e par {adminName} à participer à ce sondage.",
-        expireOn: " Vous avez jusqu’au {endDate} pour y participer.",
+          "You have been invited by {adminName} to participate in this survey.",
+        expireOn: " You have until {endDate} to participate.",
         isExpired:
-          "La date limite de participation de ce sondage est dépassée. Il n’est plus possible d’y répondre.",
+          "The deadline for this poll has passed. It is no longer possible to respond.",
         form: {
           choices: {
-            yes: "Oui",
-            maybe: "Peut-être",
-            no: "Non",
+            yes: "Yes",
+            maybe: "Maybe",
+            no: "No",
           },
-          name: "Votre nom",
-          at: "à",
-          maybe: "(peut-être)",
+          name: "Your name",
+          maybe: "(maybe)",
           withName: {
-            yes: "{name} (vous)",
-            maybe: "{name} (vous, peut-être)",
+            yes: "{name} (you)",
+            maybe: "{name} (you, maybe)",
           },
           withoutName: {
-            yes: "Vous",
-            maybe: "Vous (peut-être)",
+            yes: "You",
+            maybe: "You (maybe)",
           },
-          submit: "Voter",
+          submit: "Vote",
         },
-        confirmation: "Votre vote a bien été pris en compte !",
-        error: {
-          404: {
-            title: "Sondage introuvable",
-            description:
-              "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
-          },
-        },
+        confirmation: "Your vote has been taken into account!",
         errorAlert:
-          "Un problème empêche la soumission du sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
+          "There is a problem submitting the poll. Contact us at @:email if the problem persists.",
       },
     },
   },
