@@ -4,7 +4,9 @@
  * @example "15 mai 2024"
  */
 export function formatDate(date: Date | string) {
-  return Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(
+  const { locale } = useI18n();
+
+  return Intl.DateTimeFormat(locale.value, { dateStyle: "long" }).format(
     new Date(date),
   );
 }

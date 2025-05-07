@@ -12,6 +12,7 @@ export default {
     header: {
       logo: "📆 @:name",
       about: "À propos",
+      lang: "Change language to English",
     },
   },
 
@@ -91,6 +92,7 @@ export default {
       },
       newPoll: "Créer un sondage",
       findPoll: "Rechercher un sondage",
+      time: "Ça prend 3 minutes",
     },
     poll: {
       find: {
@@ -221,7 +223,6 @@ export default {
           },
           responses: {
             title: "Réponses et participations",
-            at: "à",
             vote: "vote | votes",
             maybe: "(peut-être)",
             bestChoice: "Meilleur choix",
@@ -311,7 +312,6 @@ export default {
             no: "Non",
           },
           name: "Votre nom",
-          at: "à",
           maybe: "(peut-être)",
           withName: {
             yes: "{name} (vous)",
@@ -324,13 +324,6 @@ export default {
           submit: "Voter",
         },
         confirmation: "Votre vote a bien été pris en compte !",
-        error: {
-          404: {
-            title: "Sondage introuvable",
-            description:
-              "Le sondage que vous cherchez n’existe pas ou a été supprimé.",
-          },
-        },
         errorAlert:
           "Un problème empêche la soumission du sondage. Contactez-nous à l’adresse @:email si le problème persiste.",
       },

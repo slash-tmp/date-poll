@@ -14,7 +14,12 @@ export default defineNuxtConfig({
   modules: ["@nuxtjs/i18n"],
 
   i18n: {
-    vueI18n: "./i18n.config.ts",
+    locales: [
+      { code: "fr", language: "fr-FR", file: "fr.ts" },
+      { code: "en", language: "en-US", file: "en.ts" },
+    ],
+    defaultLocale: "fr",
+    strategy: "no_prefix",
   },
 
   app: {
