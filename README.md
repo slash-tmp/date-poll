@@ -39,7 +39,7 @@ See each project's documentation:
 
 1. Connect with SSH to o2switch (`ssh <user_id>@seconde.o2switch.net`).
 2. Go to project folder and `git pull` to get the latest code version.
-3. Build `website` and/or `api` projects with `pnpm run build`.
+3. Build `website` and/or `api` projects with `pnpm run build` (⚠️ include environment variables for the `website` project like: `VARIABLE_1="VALUE_1" VARIABLE_2="VALUE_2" pnpm run build`).
 4. Restart `website` and/or `api` projects on o2switch cPanel interface.
 
 ## Tests
