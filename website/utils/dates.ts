@@ -4,9 +4,12 @@
  * @example "15 mai 2024"
  */
 export function formatDate(date: Date | string) {
-  return Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(
-    new Date(date),
-  );
+  return Intl.DateTimeFormat("fr-FR", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
 }
 
 /**

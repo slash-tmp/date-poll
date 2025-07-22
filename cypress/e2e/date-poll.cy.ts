@@ -62,7 +62,11 @@ describe("Poll creation page /poll/new", () => {
     // Check dates order
     cy.get(".dates .date-title").then((els) => {
       expect(els).to.have.length(3);
-      const expectedDates = ["7 mai 2024", "13 mai 2024", "24 juillet 2024"];
+      const expectedDates = [
+        "mardi 7 mai 2024",
+        "lundi 13 mai 2024",
+        "mercredi 24 juillet 2024",
+      ];
       expectedDates.forEach((date, i) => {
         cy.wrap(els[i]).should("have.text", date);
       });
