@@ -59,7 +59,9 @@ definePageMeta({
       <Button :to="{ name: 'poll-new' }" aria-describedby="threeMinutes">
         {{ $t("pages.index.newPoll") }}
       </Button>
-      <p id="threeMinutes" class="time-promise">👆 Ça prend 3 minutes</p>
+      <p id="threeMinutes" class="time-promise">
+        👆 {{ $t("pages.index.time") }}
+      </p>
     </div>
 
     <Button variant="secondary" :to="{ name: 'poll-find' }">
